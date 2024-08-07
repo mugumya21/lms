@@ -1,6 +1,6 @@
 <?php include('db_connect.php');
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+if(isset($_POST['addcategorybtn'])){
 
     $name = $_POST['name'];
     $price = $_POST['price'];
@@ -13,21 +13,21 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     if(!empty($results)){
 
         $successmessage = "Category inserted succcessfully";
-        header('location:index.php?page=categories');
     }
 
 
 }
-if($_GET['id']){
-    $id = $_GET['id'];
-    $name = $_POST['name'];
-    $price = $_POST['price'];
-    $deletesql = "UPDATE TABLE  laundry_categories SET 'name'= $name, 'price'= $price where id = $id";
-    $result = $conn->query($deletesql);
+if(isset($_POST['updatecategorybtn'])){
+    $id = $_POST['categoryid'];
+    $name = $_POST['categoryname'];
+    $price = $_POST['categoryprice'];
 
-  
+    $sql = "UPDATE  laundry_categories SET `name` = '$name', `price` = '$price' where id= $id";
+
+    $results = $conn->query($sql);
 
 }
+
 
 ?>
 
@@ -35,6 +35,7 @@ if($_GET['id']){
 
     <div class="col-lg-12">
         <div class="row">
+
             <!-- FORM Panel -->
             <div class="col-md-4">
                 <form action="" id="manage-categorytttt" , method="POST">
@@ -57,7 +58,8 @@ if($_GET['id']){
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-sm btn-primary col-sm-3 offset-md-3">
+                                    <button type="submit" name="addcategorybtn"
+                                        class="btn btn-sm btn-primary col-sm-3 offset-md-3">
                                         Submit</button>
                                     <button class="btn btn-sm btn-default col-sm-3" type="button"
                                         onclick="$('#manage-categorytt').get(0).reset()"> Cancel</button>
@@ -94,8 +96,9 @@ if($_GET['id']){
                                         <p>Price : <b>UGX<?php echo number_format($row['price']) ?></b></p>
                                     </td>
                                     <td class="text-center">
-                                        <a href="categories?id=<?php echo $row['id']?>">Edit</a>
-                                        <!-- <a href="categories?id=<?php echo $row['id']?>">Delete</a> -->
+                                        <button type="submit" name="editcategory"
+                                            onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['price'] ?>')"
+                                            class="btn btn-primary">Edit</button>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>
@@ -105,8 +108,45 @@ if($_GET['id']){
                 </div>
             </div>
             <!-- Table Panel -->
+            <!-- edit modal -->
+
+            <div class="modal" id="mymodal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Category</h5>
+
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <input type="hidden" id="categoryid" value="" name="categoryid">
+                                <label class="form-label">Name</label>
+                                <div class="form-group">
+                                    <input type="text" name="categoryname" id="categoryname" class="form-control"
+                                        value="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Price per kg.</label>
+                                    <input type="number" class="form-control text-right" id="categoryprice" min="1"
+                                        step="any" name="categoryprice">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary"
+                                        name="updatecategorybtn">Update</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
+        <!-- end edit modal-->
     </div>
+</div>
 
 </div>
 <style>
@@ -118,64 +158,13 @@ td p {
     margin: unset
 }
 </style>
-<script>
-$('#manage-categoryytt').submit(function(e) {
-    e.preventDefault()
-    start_load()
-    $.ajax({
-        url: 'ajax.php?action=save_category',
-        data: new FormData($(this)[0]),
-        cache: false,
-        contentType: false,
-        processData: false,
-        method: 'POST',
-        type: 'POST',
-        success: function(resp) {
-            if (resp == 1) {
-                alert_toast("Data successfully added", 'success')
-                setTimeout(function() {
-                    location.reload()
-                }, 1500)
-
-            } else if (resp == 2) {
-                alert_toast("Data successfully updated", 'success')
-                setTimeout(function() {
-                    location.reload()
-                }, 1500)
-
-            }
-        }
-    })
-})
-$('.edit_cat').click(function() {
-    start_load()
-    var cat = $('#manage-categoryt')
-    cat.get(0).reset()
-    cat.find("[name='id']").val($(this).attr('data-id'))
-    cat.find("[name='name']").val($(this).attr('data-name'))
-    end_load()
-})
-$('.delete_cat').click(function() {
-    _conf("Are you sure to delete this category?", "delete_cat", [$(this).attr('data-id')])
-})
-
-function delete_cat($id) {
-    start_load()
-    $.ajax({
-        url: 'ajax.php?action=delete_category',
-        method: 'POST',
-        data: {
-            id: $id
-        },
-        success: function(resp) {
-            if (resp == 1) {
-                alert_toast("Data successfully deleted", 'success')
-                setTimeout(function() {
-                    location.reload()
-                }, 1500)
-
-            }
-        }
-    })
-}
+<script src="assets/js/jquery-te-1.4.0.min.js"></script>
+<script type="text/javascript">
+const openeditmodal = (id, name, price) => {
+    $('#mymodal').modal('show');
+    document.getElementById('categoryid').value = id;
+    document.getElementById('categoryname').value = name;
+    document.getElementById('categoryprice').value = price;
+    console.log(id, name, price);
+};
 </script>

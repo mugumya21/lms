@@ -101,7 +101,7 @@ main#main {
                             </h4>
                             <br>
                             <br>
-                            <center> <img src="assets/img/logo2.png" alt="..." width="30%">
+                            <center> <img src="assets/img/logo3.png" alt="..." width="30%">
                             </center>
                             <div class="card ">
                                 <div class="card-body">
