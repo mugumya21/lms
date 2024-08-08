@@ -68,18 +68,21 @@ CREATE TABLE `laundry_list` (
 
 
 CREATE TABLE `users` (
-  `id` int(30) NOT NULL,
+  `id` int(30) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `phone` varchar(15) NOT NULL,
     `address` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
+    `email` varchar(100) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `type` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=admin , 2 = staff'
+  `type` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=admin , 2 = staff',
+    PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `password`, `type`) VALUES
-(1, 'Administrator', '0783021733', 'Entebbe', 'admin', 'admin123', 1);
+
+INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `type`) VALUES
+(1, 'Administrator', '0783021733', 'Entebbe', 'admin', 'admin@example.com' ,'admin21', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

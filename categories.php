@@ -99,6 +99,9 @@ if(isset($_POST['updatecategorybtn'])){
                                         <button type="submit" name="editcategory"
                                             onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['price'] ?>')"
                                             class="btn btn-primary">Edit</button>
+                                        <a type="submit" name="editcategory"
+                                            href="delete_category.php?id=<?php echo $row['id'] ?>"
+                                            class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>

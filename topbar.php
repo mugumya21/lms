@@ -18,8 +18,8 @@
             <div class="col-md-4 float-left text-white mt-3">
                 <large><b>Laundry Management System</b></large>
             </div>
-            <div class="col-md-2 float-right text-white mt-3">
-                <a href="ajax.php?action=logout" class="text-white"><?php echo $_SESSION['login_name'] ?> <i
+            <div class="col-md-1 float-right text-white mt-3">
+                <a href="logout.php?id=<?=$_SESSION['login_id']?>" class="text-white"> <i
                         class="fa fa-power-off"></i></a>
             </div>
         </div>
