@@ -10,16 +10,34 @@ $successmessage = '';
 if(isset($_POST['adduser'])){
 
     $name = $_POST['name'];
-    $username = $_POST['username'];
     $phone = $_POST['phone'];
-    $phone = $_POST['email'];
     $address = $_POST['address'];
-    $type = $_POST['type'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
+    $type = $_POST['type'];
+
 
 
     
-$sql = "INSERT INTO users(`name`, `username`, `phone`, `email`, `address`, `type`, `password`) VALUES ('$name', '$username', '$phone', '$email', '$address', '$type', '$password')";
+$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `type`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$type')";
+
+$results = $conn->query($sql);
+}
+
+if(isset($_POST['edituser'])){
+
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $type = $_POST['type'];
+
+
+$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `type`='$type' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -48,7 +66,6 @@ $conn->close();
                     </div>
                     <div class="modal-body">
                         <form method="POST">
-                            <input type="hidden" id="id" value="" name="id">
                             <label class="form-label">Name</label>
                             <div class="form-group">
                                 <input type="text" name="name" id="name" class="form-control" value="">
@@ -74,11 +91,11 @@ $conn->close();
                             </div>
                             <label class="form-label">Email</label>
                             <div class="form-group">
-                                <input type="text" name="email" id="password" class="form-control" value="">
+                                <input type="email" name="email" id="email" class="form-control" value="">
                             </div>
                             <label class="form-label">Password</label>
                             <div class="form-group">
-                                <input type="text" name="password" id="password" class="form-control" value="">
+                                <input type="password" name="password" id="password" class="form-control" value="">
                             </div>
 
                             <div class="modal-footer">
@@ -143,11 +160,11 @@ $conn->close();
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item edit_user" href="javascript:void(0)"
-                                            data-id='<?php echo $row['id'] ?>'>Edit</a>
+                                        <button type="submit" name="edituser"
+                                            onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['username'] ?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>', '<?=$row['type'] ?>', '<?=$row['email'] ?>', '<?=$row['password'] ?>')"
+                                            class="btn btn-primary">Edit</button>
                                         <div class="dropdown-divider"></div>
-                                        <a type="submit" name="editcategory"
-                                            href="delete_user.php?id=<?php echo $row['id'] ?>"
+                                        <a type="submit" name="" href="delete_user.php?id=<?php echo $row['id'] ?>"
                                             class="btn btn-danger">Delete</a>
                                     </div>
                                 </div>
@@ -157,10 +174,83 @@ $conn->close();
                     <?php endwhile; ?>
                 </tbody>
             </table>
+
+            <!-- edit user modal -->
+
+            <div class="modal" id="myeditmodal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit User</h5>
+
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <input type="hidden" id="edit_id" value="" name="id">
+                                <label class="form-label">Name</label>
+                                <div class="form-group">
+                                    <input type="text" name="name" id="edit_name" class="form-control" value="">
+                                </div>
+                                <label class="form-label">Username</label>
+                                <div class="form-group">
+                                    <input type="text" name="username" id="edit_username" class="form-control" value="">
+                                </div>
+                                <label class="form-label">Phone Number</label>
+                                <div class="form-group">
+                                    <input type="text" name="phone" id="edit_phone" class="form-control" value="">
+                                </div>
+                                <label class="form-label">Address</label>
+                                <div class="form-group">
+                                    <input type="text" name="address" id="edit_address" class="form-control" value="">
+                                </div>
+                                <label class="form-label">Role</label>
+                                <div class="form-group">
+                                    <select name="type" id="edit_type" class="form-control">
+                                        <option value="1">Admin</option>
+                                        <option value="2">Staff</option>
+                                    </select>
+                                </div>
+                                <label class="form-label">Email</label>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="edit_email" class="form-control" value="">
+                                </div>
+                                <label class="form-label">Password</label>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="edit_password" class="form-control"
+                                        value="">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" name="edituser">Update</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
+        <!-- end edit modal-->
     </div>
+</div>
 </div>
 
 </div>
-<script>
+<script src="assets/js/jquery-te-1.4.0.min.js"></script>
+<script type="text/javascript">
+const openeditmodal = (id, name, username, phone, address, type, email, password) => {
+    $('#myeditmodal').modal('show');
+    document.getElementById('edit_id').value = id;
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_username').value = username;
+    document.getElementById('edit_phone').value = phone;
+    document.getElementById('edit_address').value = address;
+    document.getElementById('edit_type').value = type;
+    document.getElementById('edit_email').value = email;
+    document.getElementById('edit_password').value = password;
+    console.log(id, name, username, phone, address, type, email, password);
+};
 </script>
