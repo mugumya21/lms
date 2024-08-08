@@ -1,3 +1,52 @@
+<?php
+include 'db_connect.php';
+$name = '';
+$email = '';
+
+$errormessage = '';
+$successmessage = '';
+
+
+if(isset($_POST['adduser'])){
+
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $type = $_POST['type'];
+
+
+
+    
+$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `type`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$type')";
+
+$results = $conn->query($sql);
+}
+
+if(isset($_POST['edituser'])){
+
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $type = $_POST['type'];
+
+
+$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `type`='$type' where id = $id";
+
+$results = $conn->query($sql);
+}
+
+$conn->close();
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +57,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Gentelella</title>
+    <title>LMS</title>
 
     <!-- Bootstrap -->
     <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">

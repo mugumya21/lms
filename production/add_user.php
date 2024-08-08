@@ -96,8 +96,8 @@
                                                         class="required">*</span></label>
                                                 <div class="col-md-6 col-sm-6">
                                                     <input class="form-control" data-validate-length-range="6"
-                                                        data-validate-words="2" name="name"
-                                                        placeholder="ex. John f. Kennedy" required="required" />
+                                                        data-validate-words="2" name="name" placeholder=""
+                                                        required="required" />
                                                 </div>
                                             </div>
                                             <div class="field item form-group">
@@ -188,14 +188,14 @@
                                                         required='required' data-validate-length-range="8,20" />
                                                 </div>
                                             </div>
-                                            <div class="field item form-group">
+                                            <!-- <div class="field item form-group">
                                                 <label
                                                     class="col-form-label col-md-3 col-sm-3  label-align">message<span
                                                         class="required">*</span></label>
                                                 <div class="col-md-6 col-sm-6">
                                                     <textarea required="required" name='message'></textarea>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="ln_solid">
                                                 <div class="form-group">
                                                     <div class="col-md-6 offset-md-3">

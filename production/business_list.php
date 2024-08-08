@@ -1,4 +1,5 @@
 <?php
+// session_abort();
 include 'db_connect.php';
 $name = '';
 $email = '';
@@ -7,33 +8,33 @@ $errormessage = '';
 $successmessage = '';
 
 
-if(isset($_POST['addlaundrylist'])){
+if(isset($_POST['addbusinesslist'])){
 
-    $supplier = $_POST['supplier'];
-    $category = $_POST['category'];
-    $quantity = $_POST['quantity'];
-    $weight = $_POST['weight'];
-    $status = $_POST['status'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $created_by = $_SESSION['login_id'];
+    $updated_by = $_SESSION['login_id'];
 
 
 
     
-$sql = "INSERT INTO laundry_lists(`supplier`, `category`, `quantity`, `weight`, `status`) VALUES ('$supplier', '$category', '$quantity', '$weight', '$status')";
+$sql = "INSERT INTO businesses(`name`, `email`, `phone`, `address`, 'created_by', 'updated_by') VALUES ('$name', '$email', '$phone', '$address','$created_by' ,'$updated_by' )";
 
 $results = $conn->query($sql);
 }
 
-if(isset($_POST['editlaundrylist'])){
+if(isset($_POST['editbusinesslist'])){
 
     $id = $_POST['id'];
-    $supplier = $_POST['supplier'];
-    $category = $_POST['category'];
-    $quantity = $_POST['quantity'];
-    $weight = $_POST['weight'];
-    $status = $_POST['status'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $updated_by = $_SESSION['login_id'];
 
-
-$sql = "UPDATE laundry_lists SET `supplier` = '$supplier',`category` = '$category', `quantity` = '$quantity', `weight`  = '$weight', `status` = '$status' where id = $id";
+$sql = "UPDATE businesses SET `name` = '$name',`email` = '$email', `phone` = '$phone', `address`  = '$address',`updated_by`  = '$updated_by',  where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -254,13 +255,15 @@ $conn->close();
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Users List</h2>
+                                <h2>Businesses List</h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </li>
                                     <li class="dropdown">
-                                        <a href="#" class="btn btn-primary" role="button"><i class="fa fa-plus"></i>Add
-                                            User</a>
+                                        <button class="btn btn-primary float-right btn-sm" data-toggle="modal"
+                                            data-target="#myaddmodal"><i class="fa fa-plus"></i>
+                                            Add
+                                            Business</button>
 
                                     </li>
                                     <li><a class="close-link"><i class="fa fa-close"></i></a>
@@ -322,7 +325,7 @@ $conn->close();
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Add User</h5>
+                                    <h5 class="modal-title">Add Business</h5>
 
                                 </div>
                                 <div class="modal-body">
@@ -331,12 +334,12 @@ $conn->close();
                                         <div class="form-group">
                                             <input type="text" name="name" id="name" class="form-control" value="">
                                         </div>
-                                        <label class="form-label">Username</label>
+
+                                        <label class="form-label">Email</label>
                                         <div class="form-group">
-                                            <input type="text" name="username" id="username" class="form-control"
-                                                value="">
+                                            <input type="email" name="email" id="email" class="form-control" value="">
                                         </div>
-                                        <label class="form-label">Phone Number</label>
+                                        <label class="form-label">Contact</label>
                                         <div class="form-group">
                                             <input type="text" name="phone" id="phone" class="form-control" value="">
                                         </div>
@@ -345,22 +348,7 @@ $conn->close();
                                             <input type="text" name="address" id="address" class="form-control"
                                                 value="">
                                         </div>
-                                        <label class="form-label">Role</label>
-                                        <div class="form-group">
-                                            <select name="type" id="type" class="form-control">
-                                                <option value="1">Admin</option>
-                                                <option value="2">Staff</option>
-                                            </select>
-                                        </div>
-                                        <label class="form-label">Email</label>
-                                        <div class="form-group">
-                                            <input type="email" name="email" id="email" class="form-control" value="">
-                                        </div>
-                                        <label class="form-label">Password</label>
-                                        <div class="form-group">
-                                            <input type="password" name="password" id="password" class="form-control"
-                                                value="">
-                                        </div>
+
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary" name="adduser">Submit</button>
