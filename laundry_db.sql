@@ -84,6 +84,23 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `type`) VALUES
 (1, 'Administrator', '0783021733', 'Entebbe', 'admin', 'admin@example.com' ,'admin21', 1);
 
+
+
+CREATE TABLE `suppliers` (
+  `id` int(30) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `email` varchar(100) NULL,
+  `phone` varchar(15) NOT NULL,
+  `address` varchar(100) NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `suppliers` (`id`, `name`, `email`, `phone`, `address`) VALUES
+(1, 'vicent', 'vicent@example.com' , '0783021733', 'Entebbe');
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
