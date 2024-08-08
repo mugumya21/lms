@@ -92,21 +92,24 @@ $conn->close();
                                     <form method="POST">
                                         <label class="form-label">Name<span class="required">*</span></label>
                                         <div class="form-group">
-                                            <input type="text" name="name" id="name" class="form-control" value="">
+                                            <input type="text" name="name" id="name" class="form-control" value=""
+                                                required>
                                         </div>
 
                                         <label class="form-label">Email<span class="required">*</span></label>
                                         <div class="form-group">
-                                            <input type="email" name="email" id="email" class="form-control" value="">
+                                            <input type="email" name="email" id="email" class="form-control" value=""
+                                                required>
                                         </div>
                                         <label class="form-label">Phone Number<span class="required">*</span></label>
                                         <div class="form-group">
-                                            <input type="phone" name="phone" id="phone" class="form-control" value="">
+                                            <input type="phone" name="phone" id="phone" class="form-control" value=""
+                                                required>
                                         </div>
                                         <label class="form-label">Address<span class="required">*</span></label>
                                         <div class="form-group">
-                                            <input type="text" name="address" id="address" class="form-control"
-                                                value="">
+                                            <input type="text" name="address" id="address" class="form-control" value=""
+                                                required>
                                         </div>
 
                                         <div class="modal-footer">
@@ -194,9 +197,9 @@ $conn->close();
                                                                 onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>',  '<?=$row['email'] ?>')"
                                                                 class="btn btn-primary">Edit</button>
 
-                                                            <a type="submit" name=""
-                                                                href="delete_user.php?id=<?php echo $row['id'] ?>"
-                                                                class="btn btn-danger">Delete</a>
+                                                            <button type="button" name=""
+                                                                onclick="alertme(<?=$row['id']?>)"
+                                                                class="btn btn-danger">Delete</button>
                                                         </center>
 
                                                     </td>
@@ -223,25 +226,28 @@ $conn->close();
                             </div>
                             <div class="modal-body">
                                 <form method="POST">
-                                    <input type="hidden" name="id" id="edit_id" class="form-control" value="">
+                                    <input type="hidden" name="id" id="edit_id" class="form-control" value="" required>
 
                                     <label class="form-label">Name<span class="required">*</span></label>
                                     <div class="form-group">
-                                        <input type="text" name="name" id="edit_name" class="form-control" value="">
+                                        <input type="text" name="name" id="edit_name" class="form-control" value=""
+                                            required>
                                     </div>
 
                                     <label class="form-label">Email<span class="required">*</span></label>
                                     <div class="form-group">
-                                        <input type="email" name="email" id="edit_email" class="form-control" value="">
+                                        <input type="email" name="email" id="edit_email" class="form-control" value=""
+                                            required>
                                     </div>
                                     <label class="form-label">Phone Number<span class="required">*</span></label>
                                     <div class="form-group">
-                                        <input type="text" name="phone" id="edit_phone" class="form-control" value="">
+                                        <input type="text" name="phone" id="edit_phone" class="form-control" value=""
+                                            required>
                                     </div>
                                     <label class="form-label">Address<span class="required">*</span></label>
                                     <div class="form-group">
                                         <input type="text" name="address" id="edit_address" class="form-control"
-                                            value="">
+                                            value="" required>
                                     </div>
 
 
@@ -278,6 +284,7 @@ $conn->close();
     </div>
 
     <?php include('scripts.php')?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
@@ -290,6 +297,27 @@ $conn->close();
         document.getElementById('edit_email').value = email;
         console.log(id, name, phone, address, email);
     };
+
+
+    const alertme = (businessid) => {
+        var businessid = businessid;
+        Swal.fire({
+            title: "Do you want to Delete this Business?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't Delete`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = "delete_business.php?id=" + businessid;
+
+                Swal.fire("Deleted!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Business is not deleted", "", "info");
+            }
+        });
+    }
     </script>
 
 
