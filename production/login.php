@@ -14,13 +14,14 @@
       if( $row=  $result->fetch_assoc()) {
 	  
         $_SESSION['login_id'] = $row['id'];
-        $_SESSION['login_role']  = $row['login_role'];
-        $_SESSION['login_name']  = $row['username'];
+        $_SESSION['login_role']  = $row['role_id'];
+        $_SESSION['login_username']  = $row['username'];
+        $_SESSION['login_name']  = $row['name'];
 
         $_SESSION['business_name']  = $row['business_name'];
         $_SESSION['business_id']  = $row['business_id'];
         
-         header("location:index.php");
+         header("location:business_list.php");
       } else {
          $error = "Your Login Name or Password is invalid";
       }
