@@ -11,7 +11,6 @@
 
 
             <?php include('topcontent.php');?>
-            <?php include('topnavbar.php');?>
 
             <!-- page content -->
             <div class="right_col" role="main">

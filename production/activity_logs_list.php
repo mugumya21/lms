@@ -24,117 +24,91 @@ $successmessage = '';
 
             <?php include('topcontent.php');?>
 
-            <!-- top navigation -->
-            <?php include('topnavbar.php');?>
 
-            <!-- /top navigation -->
 
             <!-- page content -->
-            <div class="right_col" role="main">
-                <div class="">
-                    <div class="page-title">
-                        <div class="title_left">
-                            <h3> <small></small></h3>
+            <?php include('globalsearch.php');?>
+
+
+            <!-- add user modal -->
+
+            <div class="modal" id="myaddmodal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Business</h5>
+
                         </div>
-
-                        <div class="title_right">
-                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-secondary" type="button">Go!</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <!-- add user modal -->
-
-                    <div class="modal" id="myaddmodal">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Add Business</h5>
-
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST">
-                                        <label class="form-label">Name<span class="required">*</span></label>
-                                        <div class="form-group">
-                                            <input type="text" name="name" id="name" class="form-control" value=""
-                                                required>
-                                        </div>
-
-                                        <label class="form-label">Email<span class="required">*</span></label>
-                                        <div class="form-group">
-                                            <input type="email" name="email" id="email" class="form-control" value=""
-                                                required>
-                                        </div>
-                                        <label class="form-label">Phone Number<span class="required">*</span></label>
-                                        <div class="form-group">
-                                            <input type="phone" name="phone" id="phone" class="form-control" value=""
-                                                required>
-                                        </div>
-                                        <label class="form-label">Address<span class="required">*</span></label>
-                                        <div class="form-group">
-                                            <input type="text" name="address" id="address" class="form-control" value=""
-                                                required>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary"
-                                                name="addbusiness">Save</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-
-                                        </div>
-                                    </form>
-
+                        <div class="modal-body">
+                            <form method="POST">
+                                <label class="form-label">Name<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="name" id="name" class="form-control" value="" required>
                                 </div>
 
-                            </div>
+                                <label class="form-label">Email<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control" value="" required>
+                                </div>
+                                <label class="form-label">Phone Number<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="phone" name="phone" id="phone" class="form-control" value="" required>
+                                </div>
+                                <label class="form-label">Address<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="address" id="address" class="form-control" value=""
+                                        required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" name="addbusiness">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </form>
+
                         </div>
+
                     </div>
                 </div>
-                <!-- end add modal-->
+            </div>
+        </div>
+        <!-- end add modal-->
 
 
-                <div class="col-md-12 col-sm-12 ">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Activity Logs List</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Activity Logs List</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
 
-                        <div class="x_content">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card-box table-responsive">
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-box table-responsive">
 
-                                        <table id="datatable-buttons" class="table table-striped table-bordered"
-                                            style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Done By</th>
-                                                    <th>URL</th>
-                                                    <th>Activity</th>
-                                                </tr>
-                                            </thead>
+                                <table id="datatable-buttons" class="table table-striped table-bordered"
+                                    style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Done By</th>
+                                            <th>URL</th>
+                                            <th>Activity</th>
+                                        </tr>
+                                    </thead>
 
 
-                                            <tbody>
-                                                <?php
+                                    <tbody>
+                                        <?php
 
                     $activity_logs = "SELECT A.*, U.username, U.name FROM activity_logs A  INNER JOIN users U
                     ON A.user_id = U.id   order by id desc";
@@ -142,90 +116,85 @@ $successmessage = '';
  					$i = 1;
  					while($row= $results->fetch_assoc()):
 				 ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $i++ ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['username'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['url'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['action'] ?>
-                                                    </td>
+                                        <tr>
+                                            <td>
+                                                <?php echo $i++ ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['username'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['url'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['action'] ?>
+                                            </td>
 
 
-                                                </tr>
-                                                <?php endwhile?>
+                                        </tr>
+                                        <?php endwhile?>
 
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end of my data table-->
-                <!-- edit user modal -->
-
-                <div class="modal" id="myeditmodal">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Edit Business</h5>
-
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST">
-                                    <input type="hidden" name="id" id="edit_id" class="form-control" value="" required>
-
-                                    <label class="form-label">Name<span class="required">*</span></label>
-                                    <div class="form-group">
-                                        <input type="text" name="name" id="edit_name" class="form-control" value=""
-                                            required>
-                                    </div>
-
-                                    <label class="form-label">Email<span class="required">*</span></label>
-                                    <div class="form-group">
-                                        <input type="email" name="email" id="edit_email" class="form-control" value=""
-                                            required>
-                                    </div>
-                                    <label class="form-label">Phone Number<span class="required">*</span></label>
-                                    <div class="form-group">
-                                        <input type="text" name="phone" id="edit_phone" class="form-control" value=""
-                                            required>
-                                    </div>
-                                    <label class="form-label">Address<span class="required">*</span></label>
-                                    <div class="form-group">
-                                        <input type="text" name="address" id="edit_address" class="form-control"
-                                            value="" required>
-                                    </div>
-
-
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary"
-                                            name="editbusiness">Update</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-
-                                    </div>
-                                </form>
-
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- end add modal-->
-
-
-
-
         </div>
+        <!-- end of my data table-->
+        <!-- edit user modal -->
+
+        <div class="modal" id="myeditmodal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Business</h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                            <input type="hidden" name="id" id="edit_id" class="form-control" value="" required>
+
+                            <label class="form-label">Name<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="name" id="edit_name" class="form-control" value="" required>
+                            </div>
+
+                            <label class="form-label">Email<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="email" name="email" id="edit_email" class="form-control" value="" required>
+                            </div>
+                            <label class="form-label">Phone Number<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="phone" id="edit_phone" class="form-control" value="" required>
+                            </div>
+                            <label class="form-label">Address<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="address" id="edit_address" class="form-control" value=""
+                                    required>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" name="editbusiness">Update</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end add modal-->
+
+
+
+
+    </div>
     </div>
     </div>
     <!-- /page content -->
