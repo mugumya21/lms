@@ -68,18 +68,31 @@ INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `weight`, `laundry_id`
 
 
 
-CREATE TABLE `laundry_list`  (
+CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `id` int(30) NOT NULL,
-  `customer_id` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=Pending, 1 = ongoing,2= ready,3= claimed',
-  `queue` int(30) NOT NULL,
-  `total_amount` double NOT NULL,
-  `pay_status` tinyint(1) DEFAULT 0,
-  `amount_tendered` double NOT NULL,
-  `amount_change` double NOT NULL,
-  `remarks` text NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT current_timestamp()
+  `supplier_id` int NOT NULL,
+  `category_id` int NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0= incoming, 2 = ongoing, 3 = ready, 4= picked' ,
+  `amount` double NOT NULL,
+  `payment_type` tinyint(1) DEFAULT 0 COMMENT '0= unpaid, 1 = mobilemoney, 2 = cash',
+  `paid` double  NULL,
+  `balance` double  NULL,
+  `comments` text  NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `business_id`int(100)  NOT NULL,
+ 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
+ 	FOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`),
+ 	FOREIGN KEY(`category_id`) REFERENCES `laundry_categories`(`id`),
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
+  FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `laundry_lists` (`id`, `supplier_id`, `category_id`, `status`, `amount`, `payment_type`, `paid`,`balance`, `comments`, `created_by`,`business_id`) VALUES
+(1, 1, 1,1,10000, 1, 10000, 0, 'amount paid',1,1);
 
 
 CREATE TABLE `users` (
@@ -144,8 +157,8 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `url`, `action`) VALUES
 CREATE TABLE `roles` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
-  `created_by` int(100) NOT NULL,
-  `updated_by` int(100) NOT NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
@@ -157,19 +170,27 @@ INSERT INTO `roles` (`id`, `name`,`created_by`, `updated_by`) VALUES
 (1, 'super_admin',  1, 1);
 
 
-CREATE TABLE `suppliers` (
-  `id` int(30) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS`suppliers`(
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `email` varchar(100) NULL,
   `phone` varchar(15) NOT NULL,
-  `address` varchar(100) NOT NULL,
-    PRIMARY KEY(id)
+  `address` varchar(100)  NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `business_id` int(100)  NULL,
+	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),	
+  FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+    
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
-INSERT INTO `suppliers` (`id`, `name`, `email`, `phone`, `address`) VALUES
-(1, 'vicent', 'vicent@example.com' , '0783021733', 'Entebbe');
+INSERT INTO `suppliers` (`id`, `name`, `email`, `phone`, `address`, `created_by`,  `business_id`) VALUES
+(1, 'vicent', 'vicent@example.com' , '0783021733', 'Entebbe', 1, 1);
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

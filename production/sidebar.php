@@ -35,12 +35,25 @@
                             <a href="category_list.php">Category</a>
                         </li>
                         <li>
+                            <a href="laundry_add.php">Add</a>
+                        </li>
+                        <li>
                             <a href="laundry_list.php">List</a>
                         </li>
                     </ul>
                 </li>
 
                 <!-- end of the laundry-->
+
+                <li>
+                    <a><i class="fa fa-edit"></i> Suppliers | Customers
+                        <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>
+                            <a href="supplier_list.php">List</a>
+                        </li>
+                    </ul>
+                </li>
 
                 <!-- for the Users -->
 

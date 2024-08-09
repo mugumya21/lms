@@ -61,7 +61,8 @@
                                <span>Settings</span>
                            </a>
                            <a class="dropdown-item" href="javascript:;">Help</a> -->
-                        <a class="dropdown-item" href=""><i class="fa fa-sign-out pull-right"></i>
+                        <a class="dropdown-item" href="logout.php?id=<?=$_SESSION['login_id']?>"><i
+                                class="fa fa-sign-out pull-right"></i>
                             Log Out</a>
                     </div>
                 </li>

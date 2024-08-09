@@ -1,751 +1,438 @@
-    <?php include('head.php')?>
+<?php
+include 'db_connect.php';
+$name = '';
+$email = '';
 
-    <body class="nav-md">
-        <div class="container body">
-            <div class="main_container">
-                <div class="col-md-3 left_col">
-                    <div class="left_col scroll-view">
-                        <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
-                                    Alela!</span></a>
+$errormessage = '';
+$successmessage = '';
+
+
+if(isset($_POST['addsupplier'])){
+
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+
+
+    
+$sql = "INSERT INTO suppliers(`name`, `email`, `phone`, `address`) VALUES ('$name', '$email', '$phone', '$address')";
+
+$results = $conn->query($sql);
+}
+
+if(isset($_POST['editsupplier'])){
+
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+
+$sql = "UPDATE suppliers SET `name` = '$name',`email` = '$email', `phone` = '$phone', `address` = '$address' where id = $id";
+
+$results = $conn->query($sql);
+}
+
+$conn->close();
+
+
+?>
+
+
+<?php
+include 'db_connect.php';
+session_start();
+$name = '';
+$email = '';
+
+$errormessage = '';
+$successmessage = '';
+
+
+if(isset($_POST['addsupplier'])){
+
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $email = $_POST['email'];
+    $business = $_POST['business'];
+    $created_by = $_SESSION['login_id'];
+
+
+
+
+$sql = "INSERT INTO suppliers(`name`, `phone`, `address`, `email`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$email', '$business', '$created_by')";
+
+$results = $conn->query($sql);
+}
+
+if(isset($_POST['editsupplier'])){
+
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $email = $_POST['email'];
+    $business = $_POST['business'];
+    $updated_by = $_SESSION['login_id'];
+
+$sql = "UPDATE suppliers SET `name` = '$name',`phone` = '$phone', `address` = '$address', `email` = '$email', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
+
+$results = $conn->query($sql);
+}
+
+$conn->close();
+
+
+?>
+
+<?php include('head.php');?>
+
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+
+            <?php include('topcontent.php');?>
+
+
+            <!-- page content -->
+            <?php include('globalsearch.php');?>
+
+            <!-- add user modal -->
+
+            <div class="modal" id="myaddmodal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Supplier</h5>
+
                         </div>
-
-                        <div class="clearfix"></div>
-
-                        <!-- menu profile quick info -->
-                        <div class="profile clearfix">
-                            <div class="profile_pic">
-                                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-                            </div>
-                            <div class="profile_info">
-                                <span>Welcome,</span>
-                                <h2>John Doe</h2>
-                            </div>
-                        </div>
-                        <!-- /menu profile quick info -->
-
-                        <br />
-
-                        <!-- sidebar menu -->
-                        <?php include('sidebar.php')?>
-                        <!-- /sidebar menu -->
-
-                        <!-- /menu footer buttons -->
-                        <div class="sidebar-footer hidden-small">
-                            <a data-toggle="tooltip" data-placement="top" title="Settings">
-                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Lock">
-                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                        <!-- /menu footer buttons -->
-                    </div>
-                </div>
-
-                <!-- top navigation -->
-                <div class="top_nav">
-                    <div class="nav_menu">
-                        <div class="nav toggle">
-                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                        </div>
-                        <nav class="nav navbar-nav">
-                            <ul class=" navbar-right">
-                                <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                    <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true"
-                                        id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/img.jpg" alt="">John Doe
-                                    </a>
-                                    <div class="dropdown-menu dropdown-usermenu pull-right"
-                                        aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="javascript:;"> Profile</a>
-                                        <a class="dropdown-item" href="javascript:;">
-                                            <span class="badge bg-red pull-right">50%</span>
-                                            <span>Settings</span>
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:;">Help</a>
-                                        <a class="dropdown-item" href="login.html"><i
-                                                class="fa fa-sign-out pull-right"></i>
-                                            Log Out</a>
-                                    </div>
-                                </li>
-
-                                <li role="presentation" class="nav-item dropdown open">
-                                    <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1"
-                                        data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
-                                    </a>
-                                    <ul class="dropdown-menu list-unstyled msg_list" role="menu"
-                                        aria-labelledby="navbarDropdown1">
-                                        <li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg"
-                                                        alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They
-                                                    were
-                                                    where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg"
-                                                        alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They
-                                                    were
-                                                    where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg"
-                                                        alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They
-                                                    were
-                                                    where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg"
-                                                        alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They
-                                                    were
-                                                    where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <div class="text-center">
-                                                <a class="dropdown-item">
-                                                    <strong>See All Alerts</strong>
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- /top navigation -->
-
-                <!-- page content -->
-                <div class="right_col" role="main">
-                    <div class="">
-                        <div class="page-title">
-                            <div class="title_left">
-                                <h3>Users <small>Some examples to get you started</small></h3>
-                            </div>
-
-                            <div class="title_right">
-                                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search for...">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-secondary" type="button">Go!</button>
-                                        </span>
-                                    </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <label class="form-label">Name<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="name" id="name" class="form-control" value="" required>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="clearfix"></div>
-
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 ">
-                                <div class="x_panel">
-                                    <div class="x_title">
-                                        <h2>Button Example <small>Users</small></h2>
-                                        <ul class="nav navbar-right panel_toolbox">
-                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                    aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                                </div>
-                                            </li>
-                                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                            </li>
-                                        </ul>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="x_content">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="card-box table-responsive">
-                                                    <p class="text-muted font-13 m-b-30">
-                                                        The Buttons extension for DataTables provides a common set of
-                                                        options, API methods and styling to display buttons on a page
-                                                        that
-                                                        will interact with a DataTable. The core library provides the
-                                                        based
-                                                        framework upon which plug-ins can built.
-                                                    </p>
-                                                    <table id="datatable-buttons"
-                                                        class="table table-striped table-bordered" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Position</th>
-                                                                <th>Office</th>
-                                                                <th>Age</th>
-                                                                <th>Start date</th>
-                                                                <th>Salary</th>
-                                                            </tr>
-                                                        </thead>
-
-
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Tiger Nixon</td>
-                                                                <td>System Architect</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>61</td>
-                                                                <td>2011/04/25</td>
-                                                                <td>$320,800</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Garrett Winters</td>
-                                                                <td>Accountant</td>
-                                                                <td>Tokyo</td>
-                                                                <td>63</td>
-                                                                <td>2011/07/25</td>
-                                                                <td>$170,750</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Ashton Cox</td>
-                                                                <td>Junior Technical Author</td>
-                                                                <td>San Francisco</td>
-                                                                <td>66</td>
-                                                                <td>2009/01/12</td>
-                                                                <td>$86,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Cedric Kelly</td>
-                                                                <td>Senior Javascript Developer</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>22</td>
-                                                                <td>2012/03/29</td>
-                                                                <td>$433,060</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Airi Satou</td>
-                                                                <td>Accountant</td>
-                                                                <td>Tokyo</td>
-                                                                <td>33</td>
-                                                                <td>2008/11/28</td>
-                                                                <td>$162,700</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Brielle Williamson</td>
-                                                                <td>Integration Specialist</td>
-                                                                <td>New York</td>
-                                                                <td>61</td>
-                                                                <td>2012/12/02</td>
-                                                                <td>$372,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Herrod Chandler</td>
-                                                                <td>Sales Assistant</td>
-                                                                <td>San Francisco</td>
-                                                                <td>59</td>
-                                                                <td>2012/08/06</td>
-                                                                <td>$137,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Rhona Davidson</td>
-                                                                <td>Integration Specialist</td>
-                                                                <td>Tokyo</td>
-                                                                <td>55</td>
-                                                                <td>2010/10/14</td>
-                                                                <td>$327,900</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Colleen Hurst</td>
-                                                                <td>Javascript Developer</td>
-                                                                <td>San Francisco</td>
-                                                                <td>39</td>
-                                                                <td>2009/09/15</td>
-                                                                <td>$205,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Sonya Frost</td>
-                                                                <td>Software Engineer</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>23</td>
-                                                                <td>2008/12/13</td>
-                                                                <td>$103,600</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jena Gaines</td>
-                                                                <td>Office Manager</td>
-                                                                <td>London</td>
-                                                                <td>30</td>
-                                                                <td>2008/12/19</td>
-                                                                <td>$90,560</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Quinn Flynn</td>
-                                                                <td>Support Lead</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>22</td>
-                                                                <td>2013/03/03</td>
-                                                                <td>$342,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Charde Marshall</td>
-                                                                <td>Regional Director</td>
-                                                                <td>San Francisco</td>
-                                                                <td>36</td>
-                                                                <td>2008/10/16</td>
-                                                                <td>$470,600</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Haley Kennedy</td>
-                                                                <td>Senior Marketing Designer</td>
-                                                                <td>London</td>
-                                                                <td>43</td>
-                                                                <td>2012/12/18</td>
-                                                                <td>$313,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Tatyana Fitzpatrick</td>
-                                                                <td>Regional Director</td>
-                                                                <td>London</td>
-                                                                <td>19</td>
-                                                                <td>2010/03/17</td>
-                                                                <td>$385,750</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Michael Silva</td>
-                                                                <td>Marketing Designer</td>
-                                                                <td>London</td>
-                                                                <td>66</td>
-                                                                <td>2012/11/27</td>
-                                                                <td>$198,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Paul Byrd</td>
-                                                                <td>Chief Financial Officer (CFO)</td>
-                                                                <td>New York</td>
-                                                                <td>64</td>
-                                                                <td>2010/06/09</td>
-                                                                <td>$725,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Gloria Little</td>
-                                                                <td>Systems Administrator</td>
-                                                                <td>New York</td>
-                                                                <td>59</td>
-                                                                <td>2009/04/10</td>
-                                                                <td>$237,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Bradley Greer</td>
-                                                                <td>Software Engineer</td>
-                                                                <td>London</td>
-                                                                <td>41</td>
-                                                                <td>2012/10/13</td>
-                                                                <td>$132,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Dai Rios</td>
-                                                                <td>Personnel Lead</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>35</td>
-                                                                <td>2012/09/26</td>
-                                                                <td>$217,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jenette Caldwell</td>
-                                                                <td>Development Lead</td>
-                                                                <td>New York</td>
-                                                                <td>30</td>
-                                                                <td>2011/09/03</td>
-                                                                <td>$345,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Yuri Berry</td>
-                                                                <td>Chief Marketing Officer (CMO)</td>
-                                                                <td>New York</td>
-                                                                <td>40</td>
-                                                                <td>2009/06/25</td>
-                                                                <td>$675,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Caesar Vance</td>
-                                                                <td>Pre-Sales Support</td>
-                                                                <td>New York</td>
-                                                                <td>21</td>
-                                                                <td>2011/12/12</td>
-                                                                <td>$106,450</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Doris Wilder</td>
-                                                                <td>Sales Assistant</td>
-                                                                <td>Sidney</td>
-                                                                <td>23</td>
-                                                                <td>2010/09/20</td>
-                                                                <td>$85,600</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Angelica Ramos</td>
-                                                                <td>Chief Executive Officer (CEO)</td>
-                                                                <td>London</td>
-                                                                <td>47</td>
-                                                                <td>2009/10/09</td>
-                                                                <td>$1,200,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Gavin Joyce</td>
-                                                                <td>Developer</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>42</td>
-                                                                <td>2010/12/22</td>
-                                                                <td>$92,575</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jennifer Chang</td>
-                                                                <td>Regional Director</td>
-                                                                <td>Singapore</td>
-                                                                <td>28</td>
-                                                                <td>2010/11/14</td>
-                                                                <td>$357,650</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Brenden Wagner</td>
-                                                                <td>Software Engineer</td>
-                                                                <td>San Francisco</td>
-                                                                <td>28</td>
-                                                                <td>2011/06/07</td>
-                                                                <td>$206,850</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Fiona Green</td>
-                                                                <td>Chief Operating Officer (COO)</td>
-                                                                <td>San Francisco</td>
-                                                                <td>48</td>
-                                                                <td>2010/03/11</td>
-                                                                <td>$850,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Shou Itou</td>
-                                                                <td>Regional Marketing</td>
-                                                                <td>Tokyo</td>
-                                                                <td>20</td>
-                                                                <td>2011/08/14</td>
-                                                                <td>$163,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Michelle House</td>
-                                                                <td>Integration Specialist</td>
-                                                                <td>Sidney</td>
-                                                                <td>37</td>
-                                                                <td>2011/06/02</td>
-                                                                <td>$95,400</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Suki Burks</td>
-                                                                <td>Developer</td>
-                                                                <td>London</td>
-                                                                <td>53</td>
-                                                                <td>2009/10/22</td>
-                                                                <td>$114,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Prescott Bartlett</td>
-                                                                <td>Technical Author</td>
-                                                                <td>London</td>
-                                                                <td>27</td>
-                                                                <td>2011/05/07</td>
-                                                                <td>$145,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Gavin Cortez</td>
-                                                                <td>Team Leader</td>
-                                                                <td>San Francisco</td>
-                                                                <td>22</td>
-                                                                <td>2008/10/26</td>
-                                                                <td>$235,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Martena Mccray</td>
-                                                                <td>Post-Sales support</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>46</td>
-                                                                <td>2011/03/09</td>
-                                                                <td>$324,050</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Unity Butler</td>
-                                                                <td>Marketing Designer</td>
-                                                                <td>San Francisco</td>
-                                                                <td>47</td>
-                                                                <td>2009/12/09</td>
-                                                                <td>$85,675</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Howard Hatfield</td>
-                                                                <td>Office Manager</td>
-                                                                <td>San Francisco</td>
-                                                                <td>51</td>
-                                                                <td>2008/12/16</td>
-                                                                <td>$164,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Hope Fuentes</td>
-                                                                <td>Secretary</td>
-                                                                <td>San Francisco</td>
-                                                                <td>41</td>
-                                                                <td>2010/02/12</td>
-                                                                <td>$109,850</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Vivian Harrell</td>
-                                                                <td>Financial Controller</td>
-                                                                <td>San Francisco</td>
-                                                                <td>62</td>
-                                                                <td>2009/02/14</td>
-                                                                <td>$452,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Timothy Mooney</td>
-                                                                <td>Office Manager</td>
-                                                                <td>London</td>
-                                                                <td>37</td>
-                                                                <td>2008/12/11</td>
-                                                                <td>$136,200</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jackson Bradshaw</td>
-                                                                <td>Director</td>
-                                                                <td>New York</td>
-                                                                <td>65</td>
-                                                                <td>2008/09/26</td>
-                                                                <td>$645,750</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Olivia Liang</td>
-                                                                <td>Support Engineer</td>
-                                                                <td>Singapore</td>
-                                                                <td>64</td>
-                                                                <td>2011/02/03</td>
-                                                                <td>$234,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Bruno Nash</td>
-                                                                <td>Software Engineer</td>
-                                                                <td>London</td>
-                                                                <td>38</td>
-                                                                <td>2011/05/03</td>
-                                                                <td>$163,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Sakura Yamamoto</td>
-                                                                <td>Support Engineer</td>
-                                                                <td>Tokyo</td>
-                                                                <td>37</td>
-                                                                <td>2009/08/19</td>
-                                                                <td>$139,575</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Thor Walton</td>
-                                                                <td>Developer</td>
-                                                                <td>New York</td>
-                                                                <td>61</td>
-                                                                <td>2013/08/11</td>
-                                                                <td>$98,540</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Finn Camacho</td>
-                                                                <td>Support Engineer</td>
-                                                                <td>San Francisco</td>
-                                                                <td>47</td>
-                                                                <td>2009/07/07</td>
-                                                                <td>$87,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Serge Baldwin</td>
-                                                                <td>Data Coordinator</td>
-                                                                <td>Singapore</td>
-                                                                <td>64</td>
-                                                                <td>2012/04/09</td>
-                                                                <td>$138,575</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Zenaida Frank</td>
-                                                                <td>Software Engineer</td>
-                                                                <td>New York</td>
-                                                                <td>63</td>
-                                                                <td>2010/01/04</td>
-                                                                <td>$125,250</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Zorita Serrano</td>
-                                                                <td>Software Engineer</td>
-                                                                <td>San Francisco</td>
-                                                                <td>56</td>
-                                                                <td>2012/06/01</td>
-                                                                <td>$115,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jennifer Acosta</td>
-                                                                <td>Junior Javascript Developer</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>43</td>
-                                                                <td>2013/02/01</td>
-                                                                <td>$75,650</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Cara Stevens</td>
-                                                                <td>Sales Assistant</td>
-                                                                <td>New York</td>
-                                                                <td>46</td>
-                                                                <td>2011/12/06</td>
-                                                                <td>$145,600</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Hermione Butler</td>
-                                                                <td>Regional Director</td>
-                                                                <td>London</td>
-                                                                <td>47</td>
-                                                                <td>2011/03/21</td>
-                                                                <td>$356,250</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Lael Greer</td>
-                                                                <td>Systems Administrator</td>
-                                                                <td>London</td>
-                                                                <td>21</td>
-                                                                <td>2009/02/27</td>
-                                                                <td>$103,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jonas Alexander</td>
-                                                                <td>Developer</td>
-                                                                <td>San Francisco</td>
-                                                                <td>30</td>
-                                                                <td>2010/07/14</td>
-                                                                <td>$86,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Shad Decker</td>
-                                                                <td>Regional Director</td>
-                                                                <td>Edinburgh</td>
-                                                                <td>51</td>
-                                                                <td>2008/11/13</td>
-                                                                <td>$183,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Michael Bruce</td>
-                                                                <td>Javascript Developer</td>
-                                                                <td>Singapore</td>
-                                                                <td>29</td>
-                                                                <td>2011/06/27</td>
-                                                                <td>$183,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Donna Snider</td>
-                                                                <td>Customer Support</td>
-                                                                <td>New York</td>
-                                                                <td>27</td>
-                                                                <td>2011/01/25</td>
-                                                                <td>$112,000</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <label class="form-label">Username<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="username" id="username" class="form-control" value=""
+                                        required>
                                 </div>
-                            </div>
 
+                                <label class="form-label">Email<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control" value="" required>
+                                </div>
+                                <label class="form-label">Phone Number<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="phone" name="phone" id="phone" class="form-control" value="" required>
+                                </div>
+                                <label class="form-label">Address<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="address" id="address" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Password<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="password" id="password" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Role<span class="required">*</span></label>
+                                <select class="form-control custom-select" name="role" id="role"
+                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                    <?php 
+                                            include 'db_connect.php';
 
+                                                $sql = "SELECT * FROM roles";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                                </select>
+                                <label class="form-label">Business<span class="required">*</span></label>
+                                <select class="form-control custom-select" name="business" id="business"
+                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                    <?php 
+                                            include 'db_connect.php';
 
+                                                $sql = "SELECT * FROM businesses";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                                </select>
 
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" name="adduser">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
+                                </div>
+                            </form>
 
                         </div>
+
                     </div>
                 </div>
-                <!-- /page content -->
-
-                <!-- footer content -->
-                <footer>
-                    <div class="pull-right">
-                        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </footer>
-                <!-- /footer content -->
             </div>
         </div>
+        <!-- end add modal-->
 
-        <!-- jQuery -->
-        <script src="../assets/vendors/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="../assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- FastClick -->
-        <script src="../assets/vendors/fastclick/lib/fastclick.js"></script>
-        <!-- NProgress -->
-        <script src="../assets/vendors/nprogress/nprogress.js"></script>
-        <!-- iCheck -->
-        <script src="../assets/vendors/iCheck/icheck.min.js"></script>
-        <!-- Datatables -->
-        <script src="../assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-        <script src="../assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="../assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-        <script src="../assets/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="../assets/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="../assets/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="../assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-        <script src="../assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-        <script src="../assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-        <script src="../assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-        <script src="../assets/vendors/jszip/dist/jszip.min.js"></script>
-        <script src="../assets/vendors/pdfmake/build/pdfmake.min.js"></script>
-        <script src="../assets/vendors/pdfmake/build/vfs_fonts.js"></script>
 
-        <!-- Custom Theme Scripts -->
-        <script src="../assets/build/js/custom.min.js"></script>
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Suppliers List</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <button class="btn btn-primary float-right btn-sm" data-toggle="modal"
+                                data-target="#myaddmodal"><i class="fa fa-plus"></i>
+                                Add
+                                Supplier</button>
 
-    </body>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
 
-    </html>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+
+                                <table id="datatable-buttons" class="table table-striped table-bordered"
+                                    style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                        <?php
+                                                    include 'db_connect.php';
+                
+                                            $suppliers = "SELECT * FROM suppliers order by id desc";
+                                            $results= $conn->query($suppliers);
+                                            $i = 1;
+                                            while($row= $results->fetch_assoc()):
+                                            ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $i++ ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['name'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['email'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['phone'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['address'] ?>
+                                            </td>
+
+                                            <td>
+                                                <center> <button type="submit" name="edituser"
+                                                        onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>')"
+                                                        class="btn btn-primary">Edit</button>
+
+                                                    <button type="button" name="" onclick="alertme(<?=$row['id']?>)"
+                                                        class="btn btn-danger">Delete</button>
+                                                </center>
+
+                                            </td>
+                                        </tr>
+                                        <?php endwhile?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of my data table-->
+        <!-- edit user modal -->
+
+        <div class="modal" id="myeditmodal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit User</h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                            <input type="hidden" name="id" id="edit_id" class="form-control" value="" required>
+
+                            <label class="form-label">Name<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="name" id="edit_name" class="form-control" value="" required>
+                            </div>
+
+                            <label class="form-label">Username<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="username" id="edit_username" class="form-control" value=""
+                                    required>
+                            </div>
+
+                            <label class="form-label">Email<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="email" name="email" id="edit_email" class="form-control" value="" required>
+                            </div>
+                            <label class="form-label">Phone Number<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="phone" id="edit_phone" class="form-control" value="" required>
+                            </div>
+                            <label class="form-label">Address<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="text" name="address" id="edit_address" class="form-control" value=""
+                                    required>
+                            </div>
+                            <label class="form-label">Password<span class="required">*</span></label>
+                            <div class="form-group">
+                                <input type="password" name="password" id="edit_password" class="form-control" value=""
+                                    required>
+                            </div>
+                            <label class="form-label">Role<span class="required">*</span></label>
+                            <select class="form-control custom-select" name="role" id="role"
+                                style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                <?php 
+                                            include 'db_connect.php';
+
+                                                $sql = "SELECT * FROM roles";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                            </select>
+                            <label class="form-label">Business<span class="required">*</span></label>
+                            <select class="form-control custom-select" name="business" id="business"
+                                style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                <?php 
+                                            include 'db_connect.php';
+
+                                                $sql = "SELECT * FROM businesses";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                            </select>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" name="edituser">Update</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end add modal-->
+
+
+
+
+    <!-- /page content -->
+
+    <!-- footer content -->
+    <?php include('footer.php')?>
+
+    <!-- /footer content -->
+    </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../assets/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FastClick -->
+    <script src="../assets/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="../assets/vendors/nprogress/nprogress.js"></script>
+    <!-- iCheck -->
+    <script src="../assets/vendors/iCheck/icheck.min.js"></script>
+    <!-- Datatables -->
+    <script src="../assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../assets/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../assets/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../assets/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../assets/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../assets/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../assets/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="../assets/build/js/custom.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript">
+    const openeditmodal = (id, name, username, phone, address, email, password) => {
+        $('#myeditmodal').modal('show');
+        document.getElementById('edit_id').value = id;
+        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_username').value = username;
+        document.getElementById('edit_email').value = email;
+
+        document.getElementById('edit_phone').value = phone;
+        document.getElementById('edit_address').value = address;
+        document.getElementById('edit_password').value = password;
+        console.log(id, name, phone, address, email, password);
+    };
+
+
+    const alertme = (businessid) => {
+        var businessid = businessid;
+        Swal.fire({
+            title: "Do you want to Delete this Business?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't Delete`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "delete_business.php?id=" + businessid;
+
+                Swal.fire("Deleted!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Business is not deleted", "", "info");
+            }
+        });
+    }
+    </script>
+
+
+</body>
+
+</html>
