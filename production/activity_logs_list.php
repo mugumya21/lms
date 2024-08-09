@@ -14,64 +14,6 @@ $email = '';
 $errormessage = '';
 $successmessage = '';
 
-
-if(isset($_POST['addbusiness'])){
-
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $created_by = $_SESSION['login_id'];
-    $updated_by = $_SESSION['login_id'];
-
-
-
-    
-$sql = "INSERT INTO businesses(`name`, `email`, `phone`, `address`, `created_by`, `updated_by`) VALUES ('$name', '$email', '$phone', '$address','$created_by' ,'$updated_by' )";
-
-$results = $conn->query($sql);
-if($results ){
-
-    $done_by = $_SESSION['login_id'];
-
-    $logsql = "INSERT INTO `activity_logs` (`user_id`, `url`, `action`) VALUES
-( $done_by 'http://localhost/lms/production/business_list.php', 'added business successfully')";
-
-$logresults = $conn->query($logsql);
-
-}
-
-
-}
-
-if(isset($_POST['editbusiness'])){
-
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $updated_by = $_SESSION['login_id'];
-
-$sql = "UPDATE businesses SET `name` = '$name',`email` = '$email', `phone` = '$phone', `address`  = '$address',`updated_by`  = '$updated_by'  where id = $id";
-
-$results = $conn->query($sql);
-
-if($results ){
-
-    $done_by = $_SESSION['login_id'];
-
-    $logsql = "INSERT INTO `activity_logs` (`user_id`, `url`, `action`) VALUES
-( $done_by, 'http://localhost/lms/production/business_list.php', 'edited business successfully')";
-
-$logresults = $conn->query($logsql);
-
-}
-}
-
-$conn->close();
-
-
 ?>
 <?php include('head.php');?>
 
@@ -163,17 +105,11 @@ $conn->close();
                 <div class="col-md-12 col-sm-12 ">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Businesses List</h2>
+                            <h2>Activity Logs List</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li class="dropdown">
-                                    <button class="btn btn-primary float-right btn-sm" data-toggle="modal"
-                                        data-target="#myaddmodal"><i class="fa fa-plus"></i>
-                                        Add
-                                        Business</button>
 
-                                </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
                             </ul>
@@ -190,49 +126,37 @@ $conn->close();
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Contact</th>
-                                                    <th>Address</th>
-                                                    <th>Actions</th>
+                                                    <th>Done By</th>
+                                                    <th>URL</th>
+                                                    <th>Activity</th>
                                                 </tr>
                                             </thead>
 
 
                                             <tbody>
                                                 <?php
- 					include 'db_connect.php';
- 					$businesses = $conn->query("SELECT * FROM businesses order by name asc");
+
+                    $activity_logs = "SELECT A.*, U.username, U.name FROM activity_logs A  INNER JOIN users U
+                    ON A.user_id = U.id   order by id desc";
+                    $results= $conn->query($activity_logs);
  					$i = 1;
- 					while($row= $businesses->fetch_assoc()):
+ 					while($row= $results->fetch_assoc()):
 				 ?>
                                                 <tr>
                                                     <td>
                                                         <?php echo $i++ ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['name'] ?>
+                                                        <?php echo $row['username'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['email'] ?>
+                                                        <?php echo $row['url'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['phone'] ?>
+                                                        <?php echo $row['action'] ?>
                                                     </td>
-                                                    <td>
-                                                        <?php echo $row['address'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <center> <button type="submit" name="editbusiness"
-                                                                onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>',  '<?=$row['email'] ?>')"
-                                                                class="btn btn-primary">Edit</button>
 
-                                                            <button type="button" name=""
-                                                                onclick="alertme(<?=$row['id']?>)"
-                                                                class="btn btn-danger">Delete</button>
-                                                        </center>
 
-                                                    </td>
                                                 </tr>
                                                 <?php endwhile?>
 
@@ -316,37 +240,6 @@ $conn->close();
     <?php include('scripts.php')?>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Custom Theme Scripts -->
-    <script type="text/javascript">
-    const openeditmodal = (id, name, phone, address, email) => {
-        $('#myeditmodal').modal('show');
-        document.getElementById('edit_id').value = id;
-        document.getElementById('edit_name').value = name;
-        document.getElementById('edit_phone').value = phone;
-        document.getElementById('edit_address').value = address;
-        document.getElementById('edit_email').value = email;
-        console.log(id, name, phone, address, email);
-    };
-
-
-    const alertme = (businessid) => {
-        var businessid = businessid;
-        Swal.fire({
-            title: "Do you want to Delete this Business?",
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: "Delete",
-            denyButtonText: `Don't Delete`
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "delete_business.php?id=" + businessid;
-
-                Swal.fire("Deleted!", "", "success");
-            } else if (result.isDenied) {
-                Swal.fire("Business is not deleted", "", "info");
-            }
-        });
-    }
     </script>
 
 

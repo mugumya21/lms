@@ -53,7 +53,18 @@
 
                 <!-- end of the laundry-->
 
+                <!-- for the logs -->
 
+                <li>
+                    <a><i class="fa fa-edit"></i> Activity Logs
+                        <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="activity_logs_list.php">List</a></li>
+
+                    </ul>
+                </li>
+
+                <!-- end of the logs-->
             </ul>
         </div>
     </div>

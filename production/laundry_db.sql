@@ -110,7 +110,19 @@ INSERT INTO `businesses` (`id`, `name`, `email`,`phone`, `address`,`created_by`,
 (1, 'Business1', 'business1@gmail.com','0783021733', 'Entebbe', 1, 1);
 
 
+CREATE TABLE `activity_logs` (
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `user_id` bigint(30) NOT NULL,
+  `url` text NOT NULL,
+  `action` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `business_id` int NULL,
+	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+INSERT INTO `activity_logs` (`id`, `user_id`, `url`, `action`) VALUES
+(1, 1, 'http://localhost/lms/production/login.php', 'successfully logged-in')
 
 CREATE TABLE `roles` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,

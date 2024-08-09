@@ -18,13 +18,13 @@
         $_SESSION['login_username']  = $row['username'];
         $_SESSION['login_name']  = $row['name'];
 
-        $_SESSION['business_name']  = $row['business_name'];
-        $_SESSION['business_id']  = $row['business_id'];
-        
+        $_SESSION['business_id']  = $row['business_id']; 
          header("location:business_list.php");
       } else {
          $error = "Your Login Name or Password is invalid";
       }
+
+
    }
 
 
