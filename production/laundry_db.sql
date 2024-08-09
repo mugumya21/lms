@@ -116,7 +116,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `role_id`, `business_id`, `created_by`, `updated_by`) VALUES
-(1, 'Admin', '0783021733', 'Entebbe', 'admin', 'admin@example.com' ,'admin21', 0, 1, 1, 1);
+(1, 'Admin', '0783021733', 'Entebbe', 'admin', 'admin@example.com' ,'admin21', 1, 1, 1, 1);
 
 
 CREATE TABLE `businesses` (
@@ -167,7 +167,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `roles` (`id`, `name`,`created_by`, `updated_by`) VALUES
-(1, 'super_admin',  1, 1);
+(1, 'admin',  1, 1);
 
 
 CREATE TABLE IF NOT EXISTS`suppliers`(

@@ -4,26 +4,12 @@
             <h3>General</h3>
             <ul class="nav side-menu">
                 <li>
-                    <a><i class="fa fa-home"></i> Home
-                        <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="index.php">Dashboard</a></li>
-                    </ul>
+                    <a href="index.php"><i class="fa fa-home"></i> Dashboard
+                        </span></a>
+
                 </li>
 
                 <!-- for the business -->
-
-                <li>
-                    <a><i class="fa fa-edit"></i> Manage Businesses
-                        <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li>
-                            <a href="business_list.php">List</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- end of the business-->
 
                 <!-- for the laundry -->
 
@@ -35,7 +21,7 @@
                             <a href="category_list.php">Category</a>
                         </li>
                         <li>
-                            <a href="laundry_add.php">Add</a>
+                            <a href="laundry_add.php">Add Laundry</a>
                         </li>
                         <li>
                             <a href="laundry_list.php">List</a>
@@ -46,38 +32,23 @@
                 <!-- end of the laundry-->
 
                 <li>
-                    <a><i class="fa fa-edit"></i> Suppliers | Customers
-                        <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li>
-                            <a href="supplier_list.php">List</a>
-                        </li>
-                    </ul>
+                    <a href="supplier_list.php"><i class="fa fa-edit"></i> Customers
+                        </span></a>
                 </li>
 
                 <!-- for the Users -->
 
                 <li>
-                    <a><i class="fa fa-edit"></i> Users
-                        <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="users.php">List</a></li>
+                    <a href="users_list.php"><i class="fa fa-edit"></i> Users
+                    </a>
 
-                    </ul>
                 </li>
 
                 <!-- end of the laundry-->
 
                 <!-- for the logs -->
 
-                <li>
-                    <a><i class="fa fa-edit"></i> Activity Logs
-                        <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="activity_logs_list.php">List</a></li>
 
-                    </ul>
-                </li>
 
                 <!-- end of the logs-->
             </ul>

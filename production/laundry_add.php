@@ -87,25 +87,16 @@ $conn->close();
                         </div>
                         <div class="x_content">
                             <form class="" action="" method="POST" novalidate>
-
                                 <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Name<span
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Customer<span
                                             class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" data-validate-length-range="6"
-                                            data-validate-words="2" name="name" placeholder="" required="required" />
-                                    </div>
-                                </div>
-                                <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Supplier<span
-                                            class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control" class='optional' name="occupation"
+                                        <input class="form-control" class='optional' name="customer"
                                             data-validate-length-range="5,15" type="text" />
                                     </div>
                                 </div>
                                 <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">category<span
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Category<span
                                             class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6">
                                         <input class="form-control" data-validate-length-range="6"
@@ -120,55 +111,54 @@ $conn->close();
                                         <input class="form-control" type="number" class='number' name="number"
                                             data-validate-minmax="10,100" required='required'>
                                     </div>
-                                    <div class="field item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3  label-align">Status<span
-                                                class="required">*</span></label>
-                                        <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" data-validate-length-range="6"
-                                                data-validate-words="2" name="name" placeholder=""
-                                                required="required" />
+                                </div>
+                                <div class="field item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Status<span
+                                            class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control" data-validate-length-range="6"
+                                            data-validate-words="2" name="name" placeholder="" required="required" />
+                                    </div>
+                                </div>
+                                <div class="field item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Amount
+                                        <span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control" type="number" class='number' name="number"
+                                            data-validate-minmax="10,100" required='required'>
+                                    </div>
+                                </div>
+                                <div class="field item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Payment Method<span
+                                            class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control" data-validate-length-range="6"
+                                            data-validate-words="2" name="name" placeholder="" required="required" />
+                                    </div>
+                                </div>
+                                <div class="field item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Paid
+                                        <span class=""></span></label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control" type="number" class='number' name="number"
+                                            data-validate-minmax="10,100">
+                                    </div>
+                                </div>
+                                <div class="field item form-group">
+                                    <label
+                                        class="col-form-label col-md-3 col-sm-3  label-align">Comment<span></span></label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea required="required" name='comment'></textarea>
+                                    </div>
+                                </div>
+                                <div class="ln_solid">
+                                    <div class="form-group">
+                                        <div class="col-md-6 offset-md-3">
+                                            <button type='submit' class="btn btn-primary">Submit</button>
+                                            <button type='reset' class="btn btn-success">Reset</button>
                                         </div>
                                     </div>
-                                    <div class="field item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3  label-align">Amount
-                                            <span class="required">*</span></label>
-                                        <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" type="number" class='number' name="number"
-                                                data-validate-minmax="10,100" required='required'>
-                                        </div>
-                                    </div>
-                                    <div class="field item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3  label-align">Payment Method<span
-                                                class="required">*</span></label>
-                                        <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" data-validate-length-range="6"
-                                                data-validate-words="2" name="name" placeholder=""
-                                                required="required" />
-                                        </div>
-                                    </div>
-                                    <div class="field item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3  label-align">Paid
-                                            <span class=""></span></label>
-                                        <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" type="number" class='number' name="number"
-                                                data-validate-minmax="10,100">
-                                        </div>
-                                    </div>
-                                    <div class="field item form-group">
-                                        <label
-                                            class="col-form-label col-md-3 col-sm-3  label-align">Comment<span></span></label>
-                                        <div class="col-md-6 col-sm-6">
-                                            <textarea required="required" name='comment'></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="ln_solid">
-                                        <div class="form-group">
-                                            <div class="col-md-6 offset-md-3">
-                                                <button type='submit' class="btn btn-primary">Submit</button>
-                                                <button type='reset' class="btn btn-success">Reset</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>

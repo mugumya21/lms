@@ -1,49 +1,5 @@
 <?php
 include 'db_connect.php';
-$name = '';
-$email = '';
-
-$errormessage = '';
-$successmessage = '';
-
-
-if(isset($_POST['addsupplier'])){
-
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-
-
-
-    
-$sql = "INSERT INTO suppliers(`name`, `email`, `phone`, `address`) VALUES ('$name', '$email', '$phone', '$address')";
-
-$results = $conn->query($sql);
-}
-
-if(isset($_POST['editsupplier'])){
-
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-
-
-$sql = "UPDATE suppliers SET `name` = '$name',`email` = '$email', `phone` = '$phone', `address` = '$address' where id = $id";
-
-$results = $conn->query($sql);
-}
-
-$conn->close();
-
-
-?>
-
-
-<?php
-include 'db_connect.php';
 session_start();
 $name = '';
 $email = '';
@@ -52,34 +8,40 @@ $errormessage = '';
 $successmessage = '';
 
 
-if(isset($_POST['editsupplier'])){
+if(isset($_POST['adduser'])){
 
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
-    $business = $_POST['business'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
+    $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
 
 
 
-
-$sql = "INSERT INTO suppliers(`name`, `phone`, `address`, `email`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$email', '$business', '$created_by')";
+    
+$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$role', '$business', '$created_by')";
 
 $results = $conn->query($sql);
 }
 
-if(isset($_POST['editsupplier'])){
+if(isset($_POST['edituser'])){
 
     $id = $_POST['id'];
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
-    $business = $_POST['business'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
+    $business = $_SESSION['business_id'];
     $updated_by = $_SESSION['login_id'];
 
-$sql = "UPDATE suppliers SET `name` = '$name',`phone` = '$phone', `address` = '$address', `email` = '$email', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
+$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `role_id`='$role', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -108,7 +70,7 @@ $conn->close();
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Customer</h5>
+                            <h5 class="modal-title">Add User</h5>
 
                         </div>
                         <div class="modal-body">
@@ -117,23 +79,46 @@ $conn->close();
                                 <div class="form-group">
                                     <input type="text" name="name" id="name" class="form-control" value="" required>
                                 </div>
-
-
-                                <label class="form-label">Email<span class=""></span></label>
+                                <label class="form-label">Username<span class="required">*</span></label>
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" class="form-control" value="">
+                                    <input type="text" name="username" id="username" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Role<span class="required">*</span></label>
+                                <select class="form-control custom-select" name="role" id="role"
+                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                    <?php 
+                                            include 'db_connect.php';
+
+                                                $sql = "SELECT * FROM roles";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                                </select>
+
+                                <label class="form-label">Email<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control" value="" required>
                                 </div>
                                 <label class="form-label">Phone Number<span class="required">*</span></label>
                                 <div class="form-group">
                                     <input type="phone" name="phone" id="phone" class="form-control" value="" required>
                                 </div>
-                                <label class="form-label">Address<span class=""></span></label>
+                                <label class="form-label">Address<span class="required">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" name="address" id="address" class="form-control" value="">
+                                    <input type="text" name="address" id="address" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Password<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control" value=""
+                                        required>
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" name="addsupplier">Save</button>
+                                    <button type="submit" class="btn btn-primary" name="adduser">Save</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                                 </div>
@@ -151,7 +136,7 @@ $conn->close();
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Customers List</h2>
+                    <h2>Users List</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -159,7 +144,7 @@ $conn->close();
                             <button class="btn btn-primary float-right btn-sm" data-toggle="modal"
                                 data-target="#myaddmodal"><i class="fa fa-plus"></i>
                                 Add
-                                Customer</button>
+                                User</button>
 
                         </li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a>
@@ -180,7 +165,7 @@ $conn->close();
                                             <th>#</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Phone</th>
+                                            <th>Contact</th>
                                             <th>Address</th>
                                             <th>Actions</th>
                                         </tr>
@@ -189,10 +174,11 @@ $conn->close();
 
                                     <tbody>
                                         <?php
-                                                    include 'db_connect.php';
+                                        include 'db_connect.php';
+                                            $users = "SELECT U.*,  R.name as rname, R.id as rid FROM users U INNER JOIN roles R 
+                                            ON U.role_id = R.id order by U.id desc";
                 
-                                            $suppliers = "SELECT * FROM suppliers order by id desc";
-                                            $results= $conn->query($suppliers);
+                                            $results= $conn->query($users);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
                                             ?>
@@ -206,13 +192,14 @@ $conn->close();
                                             <td>
                                                 <?php echo $row['email'] ?>
                                             </td>
+
+
                                             <td>
                                                 <?php echo $row['phone'] ?>
                                             </td>
                                             <td>
                                                 <?php echo $row['address'] ?>
                                             </td>
-
                                             <td>
                                                 <center> <button type="submit" name="edituser"
                                                         onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>')"
@@ -237,11 +224,11 @@ $conn->close();
         <!-- end of my data table-->
         <!-- edit user modal -->
 
-        <div class="modal" id="">
+        <div class="modal" id="myeditmodal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Customer</h5>
+                        <h5 class="modal-title">Edit User</h5>
 
                     </div>
                     <div class="modal-body">
@@ -290,19 +277,7 @@ $conn->close();
                                                         }
                                                     ?>
                             </select>
-                            <label class="form-label">Business<span class="required">*</span></label>
-                            <select class="form-control custom-select" name="business" id="business"
-                                style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                <?php 
-                                            include 'db_connect.php';
 
-                                                $sql = "SELECT * FROM businesses";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                            </select>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" name="edituser">Update</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

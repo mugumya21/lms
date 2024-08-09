@@ -99,7 +99,6 @@ $conn->close();
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Role</th>
-                                                <th>Business</th>
                                                 <th>Contact</th>
                                                 <th>Address</th>
                                                 <th>Actions</th>
@@ -130,9 +129,7 @@ $conn->close();
                                                 <td>
                                                     <?php echo $row['rname'] ?>
                                                 </td>
-                                                <td>
-                                                    <?php echo $row['bname'] ?>
-                                                </td>
+
                                                 <td>
                                                     <?php echo $row['phone'] ?>
                                                 </td>
