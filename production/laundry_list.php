@@ -8,7 +8,7 @@ $errormessage = '';
 $successmessage = '';
 
 
-if(isset($_POST['addlaundrylist'])){
+if(isset($_POST['adduser'])){
 
     $name = $_POST['name'];
     $phone = $_POST['phone'];
@@ -23,12 +23,12 @@ if(isset($_POST['addlaundrylist'])){
 
 
     
-$sql = "INSERT INTO laundry_lists(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$role', '$business', '$created_by')";
+$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$role', '$business', '$created_by')";
 
 $results = $conn->query($sql);
 }
 
-if(isset($_POST['editlaundrylist'])){
+if(isset($_POST['edituser'])){
 
     $id = $_POST['id'];
     $name = $_POST['name'];
@@ -41,7 +41,7 @@ if(isset($_POST['editlaundrylist'])){
     $business = $_POST['business'];
     $updated_by = $_SESSION['login_id'];
 
-$sql = "UPDATE laundry_lists SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `role_id`='$role', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
+$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `role_id`='$role', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -64,7 +64,7 @@ $conn->close();
             <!-- page content -->
             <?php include('globalsearch.php');?>
 
-
+            <!-- add user modal -->
 
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
@@ -158,18 +158,20 @@ $conn->close();
                     </div>
                 </div>
             </div>
-            <!-- end of my data table-->
-
-
-
-
-            <!-- /page content -->
-
-            <!-- footer content -->
-            <?php include('footer.php')?>
-
-            <!-- /footer content -->
         </div>
+    </div>
+    <!-- end add modal-->
+
+
+
+
+    <!-- /page content -->
+
+    <!-- footer content -->
+    <?php include('footer.php')?>
+
+    <!-- /footer content -->
+    </div>
     </div>
 
     <!-- jQuery -->
