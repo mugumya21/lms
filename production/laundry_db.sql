@@ -30,9 +30,26 @@ CREATE TABLE `laundry_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-INSERT INTO `laundry_categories` (`id`, `name`, `price`) VALUES
-(1, 'Bed Sheets', 30),
-(3, 'Clothes', 25);
+CREATE TABLE `laundry_categories` (
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `name` varchar(200) NOT NULL,
+  `price_per_kg` double NOT NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `business_id`int(100)  NOT NULL,
+ 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
+  FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `laundry_categories` (`id`, `name`, `price_per_kg`, `business_id`, `created_by`) VALUES
+(1, 'Bed Sheets', 30000, 1, 1),
+(2, 'Clothes', 25000, 1, 1);
 
 
 CREATE TABLE `laundry_items` (
@@ -46,14 +63,14 @@ CREATE TABLE `laundry_items` (
 
 
 
-INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `weight`, `laundry_id`, `unit_price`, `amount`) VALUES
+INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `weight`, `laundry_id`, `unit_price`, `amount`, `status`) VALUES
 (4, 3, 10, 4, 25, 250);
 
 
 
-CREATE TABLE `laundry_list` (
+CREATE TABLE `laundry_list`  (
   `id` int(30) NOT NULL,
-  `customer_name` text NOT NULL,
+  `customer_id` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=Pending, 1 = ongoing,2= ready,3= claimed',
   `queue` int(30) NOT NULL,
   `total_amount` double NOT NULL,

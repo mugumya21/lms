@@ -1,5 +1,6 @@
 <?php
 include 'db_connect.php';
+session_start();
 $name = '';
 $email = '';
 
@@ -7,33 +8,30 @@ $errormessage = '';
 $successmessage = '';
 
 
-if(isset($_POST['addlaundrylist'])){
+if(isset($_POST['addcategory'])){
 
-    $supplier = $_POST['supplier'];
-    $category = $_POST['category'];
-    $quantity = $_POST['quantity'];
-    $weight = $_POST['weight'];
-    $status = $_POST['status'];
+    $name = $_POST['name'];
+    $price_per_kg = $_POST['price_per_kg'];
+    $business = $_SESSION['business_id'];
+    $created_by = $_SESSION['login_id'];
 
 
 
     
-$sql = "INSERT INTO laundry_lists(`supplier`, `category`, `quantity`, `weight`, `status`) VALUES ('$supplier', '$category', '$quantity', '$weight', '$status')";
+$sql = "INSERT INTO laundry_categories(`name`, `price_per_kg`, `business_id`, `created_by`) VALUES ('$name', '$price_per_kg', '$business', '$created_by')";
 
 $results = $conn->query($sql);
 }
 
-if(isset($_POST['editlaundrylist'])){
+if(isset($_POST['editcategory'])){
 
     $id = $_POST['id'];
-    $supplier = $_POST['supplier'];
-    $category = $_POST['category'];
-    $quantity = $_POST['quantity'];
-    $weight = $_POST['weight'];
-    $status = $_POST['status'];
+    $name = $_POST['name'];
+    $price_per_kg = $_POST['price_per_kg'];
+    $business = $_SESSION['business_id'];
+    $updated_by = $_SESSION['login_id'];
 
-
-$sql = "UPDATE laundry_lists SET `supplier` = '$supplier',`category` = '$category', `quantity` = '$quantity', `weight`  = '$weight', `status` = '$status' where id = $id";
+$sql = "UPDATE laundry_categories SET `name` = '$name', `price_per_kg` = '$price_per_kg', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -42,232 +40,84 @@ $conn->close();
 
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php include('head.php');?>
 
-    <title>DataTables | Gentelella</title>
-
-    <!-- Bootstrap -->
-    <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link href="../assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../assets/vendors//font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../assets/vendors//nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="../assets/vendors//iCheck/skins/flat/green.css" rel="stylesheet">
-    <!-- Datatables -->
-
-    <link href="../assets/vendors//datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/vendors//datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/vendors//datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/vendors//datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/vendors//datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="../assets/build/css/custom.min.css" rel="stylesheet">
-</head>
 
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
-                                Alela!</span></a>
-                    </div>
 
-                    <div class="clearfix"></div>
+            <?php include('topcontent.php');?>
 
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
-                    <br />
-
-                    <!-- sidebar menu -->
-                    <?php include('sidebar.php');?>
-                    <!-- /sidebar menu -->
-
-                    <!-- /menu footer buttons -->
-                    <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                    <!-- /menu footer buttons -->
-                </div>
-            </div>
-
-            <!-- top navigation -->
-            <div class="top_nav">
-                <div class="nav_menu">
-                    <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                    </div>
-                    <nav class="nav navbar-nav">
-                        <ul class=" navbar-right">
-                            <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true"
-                                    id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
-                                </a>
-                                <div class="dropdown-menu dropdown-usermenu pull-right"
-                                    aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="javascript:;"> Profile</a>
-                                    <a class="dropdown-item" href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                    <a class="dropdown-item" href="javascript:;">Help</a>
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i>
-                                        Log Out</a>
-                                </div>
-                            </li>
-
-                            <li role="presentation" class="nav-item dropdown open">
-                                <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1"
-                                    data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
-                                </a>
-                                <ul class="dropdown-menu list-unstyled msg_list" role="menu"
-                                    aria-labelledby="navbarDropdown1">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="text-center">
-                                            <a class="dropdown-item">
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <!-- /top navigation -->
 
             <!-- page content -->
-            <div class="right_col" role="main">
-                <div class="">
-                    <div class="page-title">
-                        <div class="title_left">
-                            <h3> <small></small></h3>
-                        </div>
-
-                        <div class="title_right">
-                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-secondary" type="button">Go!</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
+            <?php include('globalsearch.php');?>
 
 
+            <!-- my category form -->
 
-
+            <div class="row">
+                <div class="col-6">
                     <div class="col-md-12 col-sm-12 ">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Users List</h2>
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="btn btn-primary" role="button"><i class="fa fa-plus"></i>Add
-                                            User</a>
+                                <h2>
+                                    <center>Category Form</center>
+                                </h2>
 
-                                    </li>
-                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                    </li>
-                                </ul>
                                 <div class="clearfix"></div>
                             </div>
+
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box">
+
+                                            <form method="POST">
+                                                <input type="hidden" name="id" id="edit_id" class="form-control"
+                                                    value="" required>
+
+                                                <label class="form-label">Category Name<span
+                                                        class="required">*</span></label>
+                                                <div class="form-group">
+                                                    <input type="text" name="name" id="categoryname"
+                                                        class="form-control" value="" required>
+                                                </div>
+
+                                                <label class="form-label">Price Per Kg<span
+                                                        class="required">*</span></label>
+                                                <div class="form-group">
+                                                    <input type="number" name="price_per_kg" id="price_per_kg" min="1"
+                                                        step="any" class="form-control" value="">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        name="addcategory">Submit</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- my category table-->
+                <div class="col-6">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Categories List</h2>
+
+                                <div class="clearfix"></div>
+                            </div>
+
                             <div class="x_content">
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -277,35 +127,47 @@ $conn->close();
                                                 style="width:100%">
                                                 <thead>
                                                     <tr>
+                                                        <th>#</th>
                                                         <th>Name</th>
-                                                        <th>Position</th>
-                                                        <th>Office</th>
-                                                        <th>Age</th>
-                                                        <th>Start date</th>
-                                                        <th>Salary</th>
+                                                        <th>Price Per Kg</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
 
 
                                                 <tbody>
+                                                    <?php
+ 					include 'db_connect.php';
+ 					$businessid = $_SESSION['business_id'];
+                    $laundry_categories = "SELECT * FROM laundry_categories where business_id = 	$businessid ";
+                    $results= $conn->query($laundry_categories);
+ 					$i = 1;
+ 					while($row= $results->fetch_assoc()):
+				 ?>
                                                     <tr>
-                                                        <td>Tiger Nixon</td>
-                                                        <td>System Architect</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>61</td>
-                                                        <td>2011/04/25</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
+                                                        <td>
+                                                            <?php echo $i++ ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $row['name'] ?>
+                                                        </td>
 
-                                                    <tr>
-                                                        <td>Sonya Frost</td>
-                                                        <td>Software Engineer</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>23</td>
-                                                        <td>2008/12/13</td>
-                                                        <td>$103,600</td>
-                                                    </tr>
+                                                        <td>
+                                                            <?=number_format( $row['price_per_kg'] )?>
+                                                        </td>
+                                                        <td>
+                                                            <center> <button type="submit" name="editcategory"
+                                                                    onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['price_per_kg']?>')"
+                                                                    class="btn btn-primary">Edit</button>
 
+                                                                <button type="button" name=""
+                                                                    onclick="alertme(<?=$row['id']?>)"
+                                                                    class="btn btn-danger">Delete</button>
+                                                            </center>
+
+                                                        </td>
+                                                    </tr>
+                                                    <?php endwhile?>
 
                                                 </tbody>
                                             </table>
@@ -315,74 +177,100 @@ $conn->close();
                             </div>
                         </div>
                     </div>
-                    <!-- end of my data table-->
-                    <!-- add user modal -->
+                </div>
+            </div>
+            <!-- end of my data table-->
+            <!-- edit user modal -->
 
-                    <div class="modal" id="myaddmodal">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Add User</h5>
+            <div class="modal" id="myeditmodal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Category</h5>
 
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST">
-                                        <label class="form-label">Name</label>
-                                        <div class="form-group">
-                                            <input type="text" name="name" id="name" class="form-control" value="">
-                                        </div>
-                                        <label class="form-label">Username</label>
-                                        <div class="form-group">
-                                            <input type="text" name="username" id="username" class="form-control"
-                                                value="">
-                                        </div>
-                                        <label class="form-label">Phone Number</label>
-                                        <div class="form-group">
-                                            <input type="text" name="phone" id="phone" class="form-control" value="">
-                                        </div>
-                                        <label class="form-label">Address</label>
-                                        <div class="form-group">
-                                            <input type="text" name="address" id="address" class="form-control"
-                                                value="">
-                                        </div>
-                                        <label class="form-label">Role</label>
-                                        <div class="form-group">
-                                            <select name="type" id="type" class="form-control">
-                                                <option value="1">Admin</option>
-                                                <option value="2">Staff</option>
-                                            </select>
-                                        </div>
-                                        <label class="form-label">Email</label>
-                                        <div class="form-group">
-                                            <input type="email" name="email" id="email" class="form-control" value="">
-                                        </div>
-                                        <label class="form-label">Password</label>
-                                        <div class="form-group">
-                                            <input type="password" name="password" id="password" class="form-control"
-                                                value="">
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary" name="adduser">Submit</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-
-                                        </div>
-                                    </form>
-
-                                </div>
-
-                            </div>
                         </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <input type="hidden" name="id" id="edit_id" class="form-control" value="" required>
+
+                                <label class="form-label">Name<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="name" id="edit_name" class="form-control" value=""
+                                        required>
+                                </div>
+
+                                <label class="form-label">Username<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="username" id="edit_username" class="form-control" value=""
+                                        required>
+                                </div>
+
+                                <label class="form-label">Email<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="edit_email" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Phone Number<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="phone" id="edit_phone" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Address<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" name="address" id="edit_address" class="form-control" value=""
+                                        required>
+                                </div>
+                                <label class="form-label">Password<span class="required">*</span></label>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="edit_password" class="form-control"
+                                        value="" required>
+                                </div>
+                                <label class="form-label">Role<span class="required">*</span></label>
+                                <select class="form-control custom-select" name="role" id="role"
+                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                    <?php 
+                                            include 'db_connect.php';
+
+                                                $sql = "SELECT * FROM roles";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                                </select>
+                                <label class="form-label">Business<span class="required">*</span></label>
+                                <select class="form-control custom-select" name="business" id="business"
+                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                    <?php 
+                                            include 'db_connect.php';
+
+                                                $sql = "SELECT * FROM businesses";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                                </select>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" name="edituser">Update</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </form>
+
+                        </div>
+
                     </div>
                 </div>
-                <!-- end add modal-->
-
-
-
-
             </div>
         </div>
+        <!-- end add modal-->
+
+
+
+
+    </div>
+    </div>
     </div>
     <!-- /page content -->
 
@@ -393,35 +281,41 @@ $conn->close();
     </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="../assets/vendors//jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../assets/vendors//bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="../assets/vendors//fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../assets/vendors//nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="../assets/vendors//iCheck/icheck.min.js"></script>
-    <!-- Datatables -->
-    <script src="../assets/vendors//datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/vendors//datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../assets/vendors//datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../assets/vendors//datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../assets/vendors//datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../assets/vendors//datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../assets/vendors//datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../assets/vendors//datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../assets/vendors//datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../assets/vendors//datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/vendors//datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../assets/vendors//datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../assets/vendors//jszip/dist/jszip.min.js"></script>
-    <script src="../assets/vendors//pdfmake/build/pdfmake.min.js"></script>
-    <script src="../assets/vendors//pdfmake/build/vfs_fonts.js"></script>
+    <?php include('scripts.php')?>
+
 
     <!-- Custom Theme Scripts -->
-    <script src="../assets/build/js/custom.min.js"></script>
+    <script type="text/javascript">
+    const openeditmodal = (id, name, price_per_kg) => {
+        $('#myeditmodal').modal('show');
+        document.getElementById('edit_id').value = id;
+        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_price_per_kg').value = price_per_kg;
+
+
+        console.log(id, name, price_per_kg);
+    };
+
+
+    const alertme = (categoryid) => {
+        var categoryid = categoryid;
+        Swal.fire({
+            title: "Do you want to Delete this Business?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't Delete`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "delete_category.php?id=" + categoryid;
+                Swal.fire("Deleted!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Business is not deleted", "", "info");
+            }
+        });
+    }
+    </script>
+
 
 </body>
 

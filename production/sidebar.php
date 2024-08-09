@@ -14,7 +14,7 @@
                 <!-- for the business -->
 
                 <li>
-                    <a><i class="fa fa-edit"></i> Businesses
+                    <a><i class="fa fa-edit"></i> Manage Businesses
                         <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>
@@ -32,7 +32,10 @@
                         <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>
-                            <a href="category_list.php">List</a>
+                            <a href="category_list.php">Category</a>
+                        </li>
+                        <li>
+                            <a href="laundry_list.php">List</a>
                         </li>
                     </ul>
                 </li>
@@ -46,7 +49,6 @@
                         <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="users.php">List</a></li>
-                        <li><a href="add_user.php">Add</a></li>
 
                     </ul>
                 </li>
