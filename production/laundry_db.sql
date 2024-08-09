@@ -72,9 +72,10 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `id` int(30) NOT NULL,
   `supplier_id` int NOT NULL,
   `category_id` int NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0= incoming, 2 = ongoing, 3 = ready, 4= picked' ,
+  `status` int NOT NULL,
+  `quantity` int NOT NULL,
   `amount` double NOT NULL,
-  `payment_type` tinyint(1) DEFAULT 0 COMMENT '0= unpaid, 1 = mobilemoney, 2 = cash',
+  `payment_type` int NOT NULL,
   `paid` double  NULL,
   `balance` double  NULL,
   `comments` text  NULL,
@@ -83,6 +84,9 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `business_id`int(100)  NOT NULL,
+
+ 	FOREIGN KEY(`payment_type`) REFERENCES `payment_types`(`id`),
+ 	FOREIGN KEY(`status`) REFERENCES `laundry_statuses`(`id`),
  	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
  	FOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`),
  	FOREIGN KEY(`category_id`) REFERENCES `laundry_categories`(`id`),
@@ -91,8 +95,8 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `laundry_lists` (`id`, `supplier_id`, `category_id`, `status`, `amount`, `payment_type`, `paid`,`balance`, `comments`, `created_by`,`business_id`) VALUES
-(1, 1, 1,1,10000, 1, 10000, 0, 'amount paid',1,1);
+INSERT INTO `laundry_lists` (`id`, `supplier_id`, `category_id`, `status`, `quantity`,  `amount`, `payment_type`, `paid`,`balance`, `comments`, `created_by`,`business_id`) VALUES
+(1, 1, 1,1, 3, 10000, 1, 10000, 0, 'amount paid',1,1);
 
 
 CREATE TABLE `users` (
@@ -168,6 +172,53 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`,`created_by`, `updated_by`) VALUES
 (1, 'admin',  1, 1);
+
+
+
+
+CREATE TABLE `laundry_statuses` (
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `name` varchar(200) NOT NULL,
+  `code` varchar(200) NOT NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `laundry_statuses` (`id`, `name`, `code`, `created_by`) VALUES
+(1, 'incoming', 'INCOMING',  1),
+(2, 'ongoing', 'ONGOING',  1),
+(3, 'ready', 'READY',  1),
+(4, 'picked', 'PICKED',  1) ;
+
+
+CREATE TABLE `payment_types` (
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `name` varchar(200) NOT NULL,
+  `code` varchar(200) NOT NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `payment_types` (`id`, `name`, `code`, `created_by`) VALUES
+(1, 'unpaid', 'UNPAID',  1),
+(2, 'cash', 'ONGOING',  1),
+(3, 'mobile money', 'MOBILE_MONEY',  1);
+
+
+
+
+
+
 
 
 CREATE TABLE IF NOT EXISTS`suppliers`(

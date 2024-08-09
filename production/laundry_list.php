@@ -96,11 +96,12 @@ $conn->close();
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                <th>Contact</th>
-                                                <th>Address</th>
+                                                <th>Customer</th>
+                                                <th>category</th>
+                                                <th>Quantity</th>
+                                                <th>Status</th>
+                                                <th>Paid</th>
+                                                <th>Balance</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -110,8 +111,7 @@ $conn->close();
                                             <?php
                                                     include 'db_connect.php';
                 
-                                            $users = "SELECT U.*, B.name as bname, B.id as bid,  R.name as rname, R.id as rid FROM users U INNER JOIN roles R 
-                                            ON U.role_id = R.id INNER JOIN businesses B ON U.business_id = B.id order by id desc";
+                                            $users = "SELECT S.*, S.name as sname, C.*, C.name as cname, St.*, St.name as stname,  L.paid , L.balance , L.quantity FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id INNER JOIN laundry_categories C ON L.category_id = C.id INNER JOIN laundry_statuses St ON L.status = St.id" ;
                                             $results= $conn->query($users);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
@@ -121,27 +121,28 @@ $conn->close();
                                                     <?php echo $i++ ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['name'] ?>
+                                                    <?php echo $row['sname'] ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['email'] ?>
+                                                    <?php echo $row['cname'] ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['rname'] ?>
-                                                </td>
-
-                                                <td>
-                                                    <?php echo $row['phone'] ?>
+                                                    <?php echo $row['quantity'] ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['address'] ?>
+                                                    <?php echo $row['stname'] ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row['paid'] ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row['balance'] ?>
                                                 </td>
                                                 <td>
                                                     <center> <button type="submit" name="edituser"
-                                                            onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>',  '<?=$row['password'] ?>','<?=$row['rid'] ?>', '<?=$row['bid'] ?>')"
                                                             class="btn btn-primary">Edit</button>
 
-                                                        <button type="button" name="" onclick="alertme(<?=$row['id']?>)"
+                                                        <button type="button" name=""
                                                             class="btn btn-danger">Delete</button>
                                                     </center>
 
