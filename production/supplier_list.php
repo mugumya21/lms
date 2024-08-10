@@ -84,7 +84,6 @@ $sql = "UPDATE suppliers SET `name` = '$name',`phone` = '$phone', `address` = '$
 $results = $conn->query($sql);
 }
 
-$conn->close();
 
 
 ?>
@@ -189,7 +188,6 @@ $conn->close();
 
                                     <tbody>
                                         <?php
-                                                    include 'db_connect.php';
                 
                                             $suppliers = "SELECT * FROM suppliers order by id desc";
                                             $results= $conn->query($suppliers);
@@ -281,7 +279,6 @@ $conn->close();
                             <select class="form-control custom-select" name="role" id="role"
                                 style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
                                 <?php 
-                                            include 'db_connect.php';
 
                                                 $sql = "SELECT * FROM roles";
                                                 $results = $conn->query($sql);
@@ -294,7 +291,6 @@ $conn->close();
                             <select class="form-control custom-select" name="business" id="business"
                                 style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
                                 <?php 
-                                            include 'db_connect.php';
 
                                                 $sql = "SELECT * FROM businesses";
                                                 $results = $conn->query($sql);

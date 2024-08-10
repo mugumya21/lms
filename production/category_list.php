@@ -36,7 +36,6 @@ $sql = "UPDATE laundry_categories SET `name` = '$name', `price_per_kg` = '$price
 $results = $conn->query($sql);
 }
 
-$conn->close();
 
 
 ?>
@@ -137,13 +136,12 @@ $conn->close();
 
                                                 <tbody>
                                                     <?php
- 					include 'db_connect.php';
- 					$businessid = $_SESSION['business_id'];
-                    $laundry_categories = "SELECT * FROM laundry_categories where business_id = 	$businessid ";
-                    $results= $conn->query($laundry_categories);
- 					$i = 1;
- 					while($row= $results->fetch_assoc()):
-				 ?>
+                                                            $businessid = $_SESSION['business_id'];
+                                                            $laundry_categories = "SELECT * FROM laundry_categories where business_id = 	$businessid ";
+                                                            $results= $conn->query($laundry_categories);
+                                                            $i = 1;
+                                                            while($row= $results->fetch_assoc()):
+                                                            ?>
                                                     <tr>
                                                         <td>
                                                             <?php echo $i++ ?>

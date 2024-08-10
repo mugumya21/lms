@@ -46,7 +46,6 @@ $sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$addr
 $results = $conn->query($sql);
 }
 
-$conn->close();
 
 
 ?>
@@ -69,7 +68,7 @@ $conn->close();
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Users List</h2>
+                        <h2>Laundry List</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -111,8 +110,8 @@ $conn->close();
                                             <?php
                                                     include 'db_connect.php';
                 
-                                            $users = "SELECT S.*, S.name as sname, C.*, C.name as cname, St.*, St.name as stname,  L.paid , L.balance , L.quantity FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id INNER JOIN laundry_categories C ON L.category_id = C.id INNER JOIN laundry_statuses St ON L.status = St.id" ;
-                                            $results= $conn->query($users);
+                                            $laundry_lists = "SELECT S.*, S.name as sname, C.*, C.name as cname, St.*, St.name as stname,  L.paid , L.balance , L.quantity FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id INNER JOIN laundry_categories C ON L.category_id = C.id INNER JOIN laundry_statuses St ON L.status = St.id" ;
+                                            $results= $conn->query($laundry_lists);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
                                             ?>
@@ -130,7 +129,26 @@ $conn->close();
                                                     <?php echo $row['quantity'] ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['stname'] ?>
+
+
+                                                    <?php  if($row['stname'] =="incoming"):
+                                                    
+                                                    echo '<h5 class="badge bg-danger text-white"> '.$row['stname'].'    </h5> '?>
+                                                    <?php elseif($row['stname'] =="ongoing"): 
+
+                                                    echo '<h5 class="badge bg-primary text-white"> '.$row['stname'].'    </h5> '?>
+
+
+                                                    <?php elseif($row['stname'] =="ready"):
+                                                    echo '<h5 class="badge bg-danger text-white"> '.$row['stname'].'    </h5> '?>
+
+                                                    <?php else:
+                                                    
+                                                    echo '<h5 class="badge bg-warning text-white"> '.$row['stname'].'    </h5> '?>
+
+
+                                                    <?php endif?>
+
                                                 </td>
                                                 <td>
                                                     <?php echo $row['paid'] ?>
@@ -139,12 +157,23 @@ $conn->close();
                                                     <?php echo $row['balance'] ?>
                                                 </td>
                                                 <td>
-                                                    <center> <button type="submit" name="edituser"
-                                                            class="btn btn-primary">Edit</button>
 
-                                                        <button type="button" name=""
-                                                            class="btn btn-danger">Delete</button>
-                                                    </center>
+                                                    <?php if($row['paid'] > 0):
+                                                    
+                                               
+                                                    echo ' <a href="generate_receipt.php" type="submit" name="" class=" href btn btn-primary">
+                                                        Receipt</a>'?>
+                                                    <?php else:
+                                                          echo ' <a  href="generate_invoice.php" type="submit" name="" class="btn btn-primary">
+                                                        Invoice</a>'  
+                                                        ?>
+
+                                                    <?php endif?>
+
+                                                    <button type="submit" name="edituser"
+                                                        class="btn btn-primary">Edit</button>
+
+                                                    <button type="button" name="" class="btn btn-danger">Delete</button>
 
                                                 </td>
                                             </tr>
