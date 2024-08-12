@@ -73,10 +73,9 @@ INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `quantity`, `laundry_i
 CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `supplier_id` int NOT NULL,
-  `category_id` int NOT NULL,
   `status` int NOT NULL,
-  `quantity` int NOT NULL,
-  `amount` double NOT NULL,
+  `total_quantity` int NOT NULL,
+  `total_amount` double NOT NULL,
   `payment_type` int NOT NULL,
   `paid` double  NULL,
   `balance` double  NULL,
@@ -91,14 +90,11 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
  	FOREIGN KEY(`status`) REFERENCES `laundry_statuses`(`id`),
  	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
  	FOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`),
- 	FOREIGN KEY(`category_id`) REFERENCES `laundry_categories`(`id`),
 	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `laundry_lists` (`id`, `supplier_id`, `category_id`, `status`, `quantity`,  `amount`, `payment_type`, `paid`,`balance`, `comments`, `created_by`,`business_id`) VALUES
-(1, 1, 1,1, 3, 10000, 1, 10000, 0, 'amount paid',1,1);
 
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -224,6 +220,20 @@ INSERT INTO `payment_types` (`id`, `name`, `code`, `created_by`) VALUES
 
 
 
+CREATE TABLE  IF NOT EXISTS `cart` (
+  `id` int(11)  NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `item` int(11) DEFAULT NULL,
+  `amount` double DEFAULT NULL,
+  `quantity` double DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `laundry_list_id` int(11) DEFAULT NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(`laundry_list_id`) REFERENCES `laundry_lists`(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `users`(`id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 

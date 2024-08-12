@@ -96,9 +96,9 @@ $results = $conn->query($sql);
                                             <tr>
                                                 <th>#</th>
                                                 <th>Customer</th>
-                                                <th>category</th>
                                                 <th>Quantity</th>
                                                 <th>Status</th>
+                                                <th>Amount</th>
                                                 <th>Paid</th>
                                                 <th>Balance</th>
                                                 <th>Actions</th>
@@ -110,7 +110,7 @@ $results = $conn->query($sql);
                                             <?php
                                                     include 'db_connect.php';
                 
-                                            $laundry_lists = "SELECT S.*, S.name as sname, C.*, C.name as cname, St.*, St.name as stname,  L.paid , L.balance , L.quantity FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id INNER JOIN laundry_categories C ON L.category_id = C.id INNER JOIN laundry_statuses St ON L.status = St.id" ;
+                                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.balance , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
                                             $results= $conn->query($laundry_lists);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
@@ -123,10 +123,7 @@ $results = $conn->query($sql);
                                                     <?php echo $row['sname'] ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['cname'] ?>
-                                                </td>
-                                                <td>
-                                                    <?php echo $row['quantity'] ?>
+                                                    <?php echo $row['total_quantity'] ?>
                                                 </td>
                                                 <td>
 
@@ -151,11 +148,17 @@ $results = $conn->query($sql);
 
                                                 </td>
                                                 <td>
+                                                    <?php echo $row['total_amount'] ?>
+                                                </td>
+
+                                                <td>
                                                     <?php echo $row['paid'] ?>
                                                 </td>
                                                 <td>
                                                     <?php echo $row['balance'] ?>
                                                 </td>
+
+
                                                 <td>
 
                                                     <?php if($row['paid'] > 0):

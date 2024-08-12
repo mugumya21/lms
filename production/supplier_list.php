@@ -1,5 +1,6 @@
 <?php
 include 'db_connect.php';
+session_start();
 $name = '';
 $email = '';
 
@@ -10,55 +11,10 @@ $successmessage = '';
 if(isset($_POST['addsupplier'])){
 
     $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-
-
-
-    
-$sql = "INSERT INTO suppliers(`name`, `email`, `phone`, `address`) VALUES ('$name', '$email', '$phone', '$address')";
-
-$results = $conn->query($sql);
-}
-
-if(isset($_POST['editsupplier'])){
-
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-
-
-$sql = "UPDATE suppliers SET `name` = '$name',`email` = '$email', `phone` = '$phone', `address` = '$address' where id = $id";
-
-$results = $conn->query($sql);
-}
-
-$conn->close();
-
-
-?>
-
-
-<?php
-include 'db_connect.php';
-session_start();
-$name = '';
-$email = '';
-
-$errormessage = '';
-$successmessage = '';
-
-
-if(isset($_POST['editsupplier'])){
-
-    $name = $_POST['name'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $email = $_POST['email'];
-    $business = $_POST['business'];
+    $business =  $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
 
 
@@ -76,7 +32,7 @@ if(isset($_POST['editsupplier'])){
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $email = $_POST['email'];
-    $business = $_POST['business'];
+    $business =  $_SESSION['business_id'];
     $updated_by = $_SESSION['login_id'];
 
 $sql = "UPDATE suppliers SET `name` = '$name',`phone` = '$phone', `address` = '$address', `email` = '$email', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
@@ -235,7 +191,7 @@ $results = $conn->query($sql);
         <!-- end of my data table-->
         <!-- edit user modal -->
 
-        <div class="modal" id="">
+        <div class="modal" id="myeditmodal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -251,11 +207,6 @@ $results = $conn->query($sql);
                                 <input type="text" name="name" id="edit_name" class="form-control" value="" required>
                             </div>
 
-                            <label class="form-label">Username<span class="required">*</span></label>
-                            <div class="form-group">
-                                <input type="text" name="username" id="edit_username" class="form-control" value=""
-                                    required>
-                            </div>
 
                             <label class="form-label">Email<span class="required">*</span></label>
                             <div class="form-group">
@@ -270,37 +221,10 @@ $results = $conn->query($sql);
                                 <input type="text" name="address" id="edit_address" class="form-control" value=""
                                     required>
                             </div>
-                            <label class="form-label">Password<span class="required">*</span></label>
-                            <div class="form-group">
-                                <input type="password" name="password" id="edit_password" class="form-control" value=""
-                                    required>
-                            </div>
-                            <label class="form-label">Role<span class="required">*</span></label>
-                            <select class="form-control custom-select" name="role" id="role"
-                                style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                <?php 
 
-                                                $sql = "SELECT * FROM roles";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                            </select>
-                            <label class="form-label">Business<span class="required">*</span></label>
-                            <select class="form-control custom-select" name="business" id="business"
-                                style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                <?php 
 
-                                                $sql = "SELECT * FROM businesses";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                            </select>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" name="edituser">Update</button>
+                                <button type="submit" class="btn btn-primary" name="editsupplier">Update</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                             </div>
@@ -358,17 +282,14 @@ $results = $conn->query($sql);
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
-    const openeditmodal = (id, name, username, phone, address, email, password) => {
+    const openeditmodal = (id, name, email, phone, address) => {
         $('#myeditmodal').modal('show');
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_name').value = name;
-        document.getElementById('edit_username').value = username;
         document.getElementById('edit_email').value = email;
-
         document.getElementById('edit_phone').value = phone;
         document.getElementById('edit_address').value = address;
-        document.getElementById('edit_password').value = password;
-        console.log(id, name, phone, address, email, password);
+        console.log(id, name, phone, address, email);
     };
 
 
