@@ -19,7 +19,7 @@
         $_SESSION['login_name']  = $row['name'];
 
         $_SESSION['business_id']  = $row['business_id']; 
-         header("location:laundry_list.php");
+         header("location:index.php");
       } else {
          $error = "Your Login Name or Password is invalid";
       }
@@ -80,8 +80,7 @@
 
 
                             <div>
-                                <p>©2016 All Rights Reserved. Mugumya Vicent. Privacy and
-                                    Terms</p>
+                                <p>©2024 All Rights Reserved. Mugumya Vicent</p>
                             </div>
                         </div>
                     </form>
@@ -116,8 +115,7 @@
                             <br />
 
                             <div>
-                                <p>©2016 All Rights Reserved. Mugumya Vicent. Privacy and
-                                    Terms</p>
+                                <p>©2016 All Rights Reserved. Mugumya Vicent</p>
                             </div>
                         </div>
                     </form>

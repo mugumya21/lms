@@ -23,17 +23,11 @@ INSERT INTO `inventory` (`id`, `supply_id`, `qty`, `stock_type`, `date_created`)
 (3, 3, 20, 1, '2020-09-23 14:09:29');
 
 
-CREATE TABLE `laundry_categories` (
-  `id` int(30) NOT NULL,
-  `name` text NOT NULL,
-  `price` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-CREATE TABLE `laundry_categories` (
+CREATE TABLE IF NOT EXISTS  `laundry_categories` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
-  `price_per_kg` double NOT NULL,
+  `unit_price` double NOT NULL,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -47,9 +41,9 @@ CREATE TABLE `laundry_categories` (
 
 
 
-INSERT INTO `laundry_categories` (`id`, `name`, `price_per_kg`, `business_id`, `created_by`) VALUES
+INSERT INTO `laundry_categories` (`id`, `name`, `unit_price`, `business_id`, `created_by`) VALUES
 (1, 'Bed Sheets', 30000, 1, 1),
-(2, 'Clothes', 25000, 1, 1);
+(2, 'Trousers', 25000, 1, 1);
 
 
 CREATE TABLE `laundry_items` (
@@ -69,7 +63,7 @@ INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `weight`, `laundry_id`
 
 
 CREATE TABLE IF NOT EXISTS `laundry_lists`  (
-  `id` int(30) NOT NULL,
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `supplier_id` int NOT NULL,
   `category_id` int NOT NULL,
   `status` int NOT NULL,
@@ -108,19 +102,22 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(200) NOT NULL,
   `role_id` int NOT NULL,
-  `business_id` int NOT NULL,
+  `business_id` int  NULL,
   `created_by` int  NULL,
   `updated_by` int  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`),
-    FOREIGN KEY (`business_id`) REFERENCES `businesses`(`id`)
+  FOREIGN KEY (`business_id`) REFERENCES `businesses`(`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `role_id`, `business_id`, `created_by`, `updated_by`) VALUES
-(1, 'Admin', '0783021733', 'Entebbe', 'admin', 'admin@example.com' ,'admin21', 1, 1, 1, 1);
+INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES
+(1, 'Super Admin', '0783021730', 'Entebbe', 'superadmin', 'superadmin@example.com' ,'superadmin21', 1, 0, 1),
+(2, 'Admin', '0783021731', 'Arua', 'admin', 'admin@example.com' ,'admin21', 1, 1, 1),
+(3, 'Staff', '0783021732', 'Gulu', 'staff', 'staff@example.com' ,'staff21', 1, 1, 1);
+
 
 
 CREATE TABLE `businesses` (
@@ -158,7 +155,7 @@ CREATE TABLE `activity_logs` (
 INSERT INTO `activity_logs` (`id`, `user_id`, `url`, `action`) VALUES
 (1, 1, 'http://localhost/lms/production/login.php', 'successfully logged-in')
 
-CREATE TABLE `roles` (
+CREATE TABLE IF NOT EXISTS `roles`(
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
   `created_by` int(100)  NULL,
@@ -170,8 +167,10 @@ CREATE TABLE `roles` (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `roles` (`id`, `name`,`created_by`, `updated_by`) VALUES
-(1, 'admin',  1, 1);
+INSERT INTO `roles` (`id`, `name`,`created_by`) VALUES
+(1, 'superadmin',  1),
+(2, 'admin',  1),
+(3, 'staff',  1);
 
 
 

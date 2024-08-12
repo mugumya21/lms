@@ -11,14 +11,14 @@ $successmessage = '';
 if(isset($_POST['addcategory'])){
 
     $name = $_POST['name'];
-    $price_per_kg = $_POST['price_per_kg'];
+    $unit_price = $_POST['unit_price'];
     $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
 
 
 
     
-$sql = "INSERT INTO laundry_categories(`name`, `price_per_kg`, `business_id`, `created_by`) VALUES ('$name', '$price_per_kg', '$business', '$created_by')";
+$sql = "INSERT INTO laundry_categories(`name`, `unit_price`, `business_id`, `created_by`) VALUES ('$name', '$unit_price', '$business', '$created_by')";
 
 $results = $conn->query($sql);
 }
@@ -27,11 +27,11 @@ if(isset($_POST['editcategory'])){
 
     $id = $_POST['id'];
     $name = $_POST['name'];
-    $price_per_kg = $_POST['price_per_kg'];
+    $unit_price = $_POST['unit_price'];
     $business = $_SESSION['business_id'];
     $updated_by = $_SESSION['login_id'];
 
-$sql = "UPDATE laundry_categories SET `name` = '$name', `price_per_kg` = '$price_per_kg', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
+$sql = "UPDATE laundry_categories SET `name` = '$name', `unit_price` = '$unit_price', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -84,10 +84,10 @@ $results = $conn->query($sql);
                                                         class="form-control" value="" required>
                                                 </div>
 
-                                                <label class="form-label">Price Per Kg<span
+                                                <label class="form-label">Unit Price<span
                                                         class="required">*</span></label>
                                                 <div class="form-group">
-                                                    <input type="number" name="price_per_kg" id="price_per_kg" min="1"
+                                                    <input type="number" name="unit_price" id="unit_price" min="1"
                                                         step="any" class="form-control" value="">
 
                                                 </div>
@@ -151,11 +151,11 @@ $results = $conn->query($sql);
                                                         </td>
 
                                                         <td>
-                                                            <?=number_format( $row['price_per_kg'] )?>
+                                                            <?=number_format( $row['unit_price'] )?>
                                                         </td>
                                                         <td>
                                                             <center> <button type="submit" name="editcategory"
-                                                                    onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['price_per_kg']?>')"
+                                                                    onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['unit_price']?>')"
                                                                     class="btn btn-primary">Edit</button>
 
                                                                 <button type="button" name=""
@@ -284,21 +284,21 @@ $results = $conn->query($sql);
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
-    const openeditmodal = (id, name, price_per_kg) => {
+    const openeditmodal = (id, name, unit_price) => {
         $('#myeditmodal').modal('show');
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_name').value = name;
-        document.getElementById('edit_price_per_kg').value = price_per_kg;
+        document.getElementById('edit_unit_price').value = unit_price;
 
 
-        console.log(id, name, price_per_kg);
+        console.log(id, name, unit_price);
     };
 
 
     const alertme = (categoryid) => {
         var categoryid = categoryid;
         Swal.fire({
-            title: "Do you want to Delete this Business?",
+            title: "Do you want to Delete this Category?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Delete",

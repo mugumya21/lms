@@ -11,6 +11,15 @@
 
                 <!-- for the business -->
 
+                <?php if($_SESSION['login_id'] == 1):
+                echo '<li>
+                    <a href="business_list.php"><i class="fa fa-edit"></i> Manage Businesses
+                    </a>
+
+                </li>';
+                ?>
+                <?php endif ?>
+
                 <!-- for the laundry -->
 
                 <li>
@@ -38,18 +47,27 @@
 
                 <!-- for the Users -->
 
-                <li>
+                <?php if($_SESSION['login_id'] == 1 || $_SESSION['login_id'] == 2 ):
+                echo '<li>
                     <a href="users_list.php"><i class="fa fa-edit"></i> Users
                     </a>
 
-                </li>
+                </li>';
+    ?>
+                <?php endif?>
 
                 <!-- end of the laundry-->
 
                 <!-- for the logs -->
 
+                <?php if($_SESSION['login_id'] == 1):
+                echo '<li>
+                    <a href="activiy_logs_list.php"><i class="fa fa-edit"></i> Activity Logs
+                    </a>
 
-
+                </li>';
+    ?>
+                <?php endif?>
                 <!-- end of the logs-->
             </ul>
         </div>
