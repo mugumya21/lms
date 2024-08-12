@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS  `laundry_categories` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
   `unit_price` double NOT NULL,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -41,23 +42,30 @@ CREATE TABLE IF NOT EXISTS  `laundry_categories` (
 
 
 
-INSERT INTO `laundry_categories` (`id`, `name`, `unit_price`, `business_id`, `created_by`) VALUES
-(1, 'Bed Sheets', 30000, 1, 1),
-(2, 'Trousers', 25000, 1, 1);
+INSERT INTO `laundry_categories` (`id`, `name`, `unit_price`, `is_active`, `business_id`, `created_by`) VALUES
+(1, 'Bed Sheets', 30000, 1,1, 1),
+(2, 'Trousers', 25000, 1, 1, 1);
 
 
-CREATE TABLE `laundry_items` (
-  `id` int(30) NOT NULL,
+CREATE TABLE  IF NOT EXISTS `laundry_items` (
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `laundry_category_id` int(30) NOT NULL,
-  `weight` double NOT NULL,
-  `laundry_id` int(30) NOT NULL,
-  `unit_price` double NOT NULL,
-  `amount` double NOT NULL
+  `quantity` double NOT NULL DEFAULT 0,
+  `laundry_list_id` int(30) NULL,
+  `amount` double NOT NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `business_id`int(100)  NOT NULL,
+ 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
+  FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
-INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `weight`, `laundry_id`, `unit_price`, `amount`, `status`) VALUES
+INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `quantity`, `laundry_id`, `unit_price`, `amount`, `status`) VALUES
 (4, 3, 10, 4, 25, 250);
 
 
@@ -93,7 +101,7 @@ INSERT INTO `laundry_lists` (`id`, `supplier_id`, `category_id`, `status`, `quan
 (1, 1, 1,1, 3, 10000, 1, 10000, 0, 'amount paid',1,1);
 
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `phone` varchar(15) NOT NULL,
@@ -120,12 +128,13 @@ INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `pass
 
 
 
-CREATE TABLE `businesses` (
+CREATE TABLE IF NOT EXISTS `businesses` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
    `email` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
-    `address` varchar(100) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -137,8 +146,8 @@ CREATE TABLE `businesses` (
 
 
 
-INSERT INTO `businesses` (`id`, `name`, `email`,`phone`, `address`,`created_by`, `updated_by`) VALUES
-(1, 'Business1', 'business1@gmail.com','0783021733', 'Entebbe', 1, 1);
+INSERT INTO `businesses` (`id`, `name`, `email`,`phone`, `address`, `is_active`, `created_by`) VALUES
+(1, 'Cam cam shop', 'business1@gmail.com','0783021733', 'Entebbe', 1, 1);
 
 
 CREATE TABLE `activity_logs` (

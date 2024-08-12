@@ -102,19 +102,7 @@ $results = $conn->query($sql);
                             <div class="row">
                                 <div class="col-6">
                                     <form method="POST">
-                                        <label class="form-label">Customer <span class="required">*</span></label>
 
-                                        <select class="form-control custom-select" name="supplier" id="supplier"
-                                            style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                            <?php 
-
-                                                $sql = "SELECT * FROM suppliers where business_id = $businessid";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                                        </select>
                                         <div class="form-group">
 
                                         </div>
@@ -149,18 +137,50 @@ $results = $conn->query($sql);
                                                 value="">
 
                                         </div>
-
-
-                                        <label class="form-label">Amount<span class="required">*</span></label>
                                         <div class="form-group">
-                                            <input type="number" name="amount" id="amount" class="form-control"
-                                                value="">
+                                            <button type="button" name="additemcart" id="additemcart"
+                                                class="btn btn-primary">Add
+                                                To Laundry </button>
 
                                         </div>
 
-
                                 </div>
                                 <div class="col-6">
+
+                                    <div class="card-box table-responsive">
+
+                                        <table id="cartTable" class="table table-striped table-bordered"
+                                            style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>Amount</th>
+                                                    <th>Total</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+
+
+                                            <tbody>
+                                                <!-- adding items to the table-->
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <label class="form-label">Customer <span class="required">*</span></label>
+
+                                    <select class="form-control custom-select" name="supplier" id="supplier"
+                                        style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
+                                        <?php 
+
+                                                $sql = "SELECT * FROM suppliers where business_id = $businessid";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                                    </select>
                                     <label class="form-label">Payment Method<span class="required">*</span></label>
                                     <select class="form-control custom-select" name="payment_type" id="payment_type"
                                         style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
@@ -209,30 +229,92 @@ $results = $conn->query($sql);
     </div>
     </div>
 
+    <?php include ("scripts.php") ?>
+    <script type="text/javascript">
+    $(document).ready(function() {
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="../assets/vendors/validator/multifield.js"></script>
-    <script src="../assets/vendors/validator/validator.js"></script>
+        $('#additemcart').click(function() {
+            var cartData = [];
 
-    <!-- Javascript functions	-->
+            var categoryid = $("#category").val();
+            if (categoryid) {
+                <?php 
 
-    <script>
+                $sql = "SELECT * FROM laundry_categories where id = $categoryid";
+                $results = $conn->query($sql);
+                while ($row = $results->fetch_assoc()) {
+                    $categoryprice = $row['unit_price'];
+                
+                        }
+                    ?>
+            }
+            var categoryname = $("#category option:selected").text();
+            var categoryprice = $categoryprice;
 
+            var quantity = parseInt($("#quantity").val(), 10);
+            if (quantity && categoryname != '' && quantity > 0) {
+
+                category = cartData.find(function(item) {
+                    return item.categoryid == categoryid;
+                });
+
+                if (category) {
+
+                    category.quantity += quantity;
+                    category.total = category.quantity * category.categoryprice;
+
+                } else {
+                    cartData.push({
+                        categoryid: categoryid,
+                        quantity: quantity,
+                        categoryname: categoryname
+                    });
+
+                    console.log(categoryid);
+                }
+
+                refreshCartTable();
+            } else {
+                alert(
+                    "Please select a category, enter a valid quantity"
+                );
+            }
+
+            function refreshCartTable() {
+                var cartTable = $("#cartTable tbody");
+                cartTable.empty();
+
+                var grandTotal = 0;
+
+                cartData.forEach(function(item) {
+                    cartTable.append(
+                        '<tr>' +
+                        '<td>' + item.categoryname + '</td>' +
+                        '<td contenteditable="true" class="editable-field quantity">' + item
+                        .quantity +
+                        '</td>' +
+                        '<td contenteditable="true" class="editable-field price">' + item
+                        .categoryprice + '</td>' +
+                        '<td>' + item.total + '</td>' +
+                        '<td><button class="btn btn-danger btn-mini remove-item" data-product-id="' +
+                        item.productid + '">Remove</button></td>' +
+                        '</tr>'
+                    );
+
+                    grandTotal += item.total;
+                });
+
+                $("#grand-total").text('Grand Total: Ugx ' + grandTotal);
+
+            }
+
+
+
+
+        });
+
+    });
     </script>
-
-    <!-- jQuery -->
-    <script src="../assets/vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="../assets/vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../assets/vendors/nprogress/nprogress.js"></script>
-    <!-- validator -->
-    <!-- <script src="../assets/vendors/validator/validator.js"></script> -->
-
-    <!-- Custom Theme Scripts -->
-    <script src="../assets/build/js/custom.min.js"></script>
 
 </body>
 

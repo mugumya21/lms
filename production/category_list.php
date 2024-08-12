@@ -128,7 +128,7 @@ $results = $conn->query($sql);
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Name</th>
-                                                        <th>Price Per Kg</th>
+                                                        <th>Unit Price</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -137,7 +137,7 @@ $results = $conn->query($sql);
                                                 <tbody>
                                                     <?php
                                                             $businessid = $_SESSION['business_id'];
-                                                            $laundry_categories = "SELECT * FROM laundry_categories where business_id = 	$businessid ";
+                                                            $laundry_categories = "SELECT * FROM laundry_categories where business_id = 	$businessid  and is_active = 1";
                                                             $results= $conn->query($laundry_categories);
                                                             $i = 1;
                                                             while($row= $results->fetch_assoc()):
@@ -154,8 +154,8 @@ $results = $conn->query($sql);
                                                             <?=number_format( $row['unit_price'] )?>
                                                         </td>
                                                         <td>
-                                                            <center> <button type="submit" name="editcategory"
-                                                                    onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['unit_price']?>')"
+                                                            <center> <button type="submit"
+                                                                    onclick="openeditmodal(<?=$row['id'] ?>,'<?=$row['name']?>','<?=$row['unit_price']?>')"
                                                                     class="btn btn-primary">Edit</button>
 
                                                                 <button type="button" name=""
@@ -189,68 +189,23 @@ $results = $conn->query($sql);
                         </div>
                         <div class="modal-body">
                             <form method="POST">
-                                <input type="hidden" name="id" id="edit_id" class="form-control" value="" required>
+                                <input type="hidden" name="id" id="edit_category_id" class="form-control" value=""
+                                    required>
 
-                                <label class="form-label">Name<span class="required">*</span></label>
+                                <label class="form-label">Category Name<span class="required">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" name="name" id="edit_name" class="form-control" value=""
+                                    <input type="text" name="name" id="edit_category_name" class="form-control" value=""
                                         required>
                                 </div>
 
-                                <label class="form-label">Username<span class="required">*</span></label>
+                                <label class="form-label">Unit Price<span class="required">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" name="username" id="edit_username" class="form-control" value=""
-                                        required>
-                                </div>
+                                    <input type="number" name="unit_price" id="edit_unit_price" min="1" step="any"
+                                        class="form-control" value="">
 
-                                <label class="form-label">Email<span class="required">*</span></label>
-                                <div class="form-group">
-                                    <input type="email" name="email" id="edit_email" class="form-control" value=""
-                                        required>
                                 </div>
-                                <label class="form-label">Phone Number<span class="required">*</span></label>
-                                <div class="form-group">
-                                    <input type="text" name="phone" id="edit_phone" class="form-control" value=""
-                                        required>
-                                </div>
-                                <label class="form-label">Address<span class="required">*</span></label>
-                                <div class="form-group">
-                                    <input type="text" name="address" id="edit_address" class="form-control" value=""
-                                        required>
-                                </div>
-                                <label class="form-label">Password<span class="required">*</span></label>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="edit_password" class="form-control"
-                                        value="" required>
-                                </div>
-                                <label class="form-label">Role<span class="required">*</span></label>
-                                <select class="form-control custom-select" name="role" id="role"
-                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                    <?php 
-                                            include 'db_connect.php';
-
-                                                $sql = "SELECT * FROM roles";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                                </select>
-                                <label class="form-label">Business<span class="required">*</span></label>
-                                <select class="form-control custom-select" name="business" id="business"
-                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                    <?php 
-                                            include 'db_connect.php';
-
-                                                $sql = "SELECT * FROM businesses";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                                </select>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" name="edituser">Update</button>
+                                    <button type="submit" class="btn btn-primary" name="editcategory">Update</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                                 </div>
@@ -286,8 +241,8 @@ $results = $conn->query($sql);
     <script type="text/javascript">
     const openeditmodal = (id, name, unit_price) => {
         $('#myeditmodal').modal('show');
-        document.getElementById('edit_id').value = id;
-        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_category_id').value = id;
+        document.getElementById('edit_category_name').value = name;
         document.getElementById('edit_unit_price').value = unit_price;
 
 
