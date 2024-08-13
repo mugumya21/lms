@@ -111,10 +111,11 @@ $results = $conn->query($sql);
                                             <?php
                                                     include 'db_connect.php';
                 
-                                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.balance , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
+                                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
                                             $results= $conn->query($laundry_lists);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
+                                                $balance =$row['total_amount'] - $row['paid'];
                                             ?>
                                             <tr>
                                                 <td>
@@ -149,36 +150,39 @@ $results = $conn->query($sql);
 
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['total_amount'] ?>
+                                                    <?=number_format( $row['total_amount']) ?>
                                                 </td>
 
                                                 <td>
-                                                    <?php echo $row['paid'] ?>
+                                                    <?=number_format(  $row['paid']) ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $row['balance'] ?>
+                                                    <?=number_format( $row['total_amount'] - $row['paid']) ?>
                                                 </td>
 
 
                                                 <td>
 
-                                                    <?php if($row['paid'] > 0):
+                                                    <?php if($row['paid'] == 0):
                                                     
-                                               
-                                                    echo ' <a href="generate_receipt.php" type="submit" name="" class="btn-sm  btn btn-primary">
-                                                        Receipt</a>'?>
+                                                 echo ' <a  href="generate_invoice.php" type="submit" name="" class=" btn-sm btn btn-primary">
+                                                        Invoice</a>
+                                                        <button type="submit" name="edituser"
+                                                        class="btn btn-primary btn-sm">Pay</button>' 
+                                                  ?>
+                                                    <?php elseif($row['paid'] > 0 && $balance > 0): 
+                                                           echo ' <a href="generate_receipt.php" type="submit" name="" class="btn-sm  btn btn-primary">
+                                                        Receipt</a>
+                                                        <button type="submit" name="edituser"
+                                                        class="btn btn-primary btn-sm">Pay</button>'
+                                                         ?>
                                                     <?php else:
-                                                          echo ' <a  href="generate_invoice.php" type="submit" name="" class=" btn-sm btn btn-primary">
-                                                        Invoice</a>'  
+                                                      echo ' <a href="generate_receipt.php" type="submit" name="" class="btn-sm  btn btn-primary">
+                                                        Receipt</a>'
+                                                         
                                                         ?>
 
                                                     <?php endif?>
-
-                                                    <button type="submit" name="edituser"
-                                                        class="btn btn-primary btn-sm">Edit</button>
-
-                                                    <button type="button" name=""
-                                                        class="btn btn-danger btn-sm">Delete</button>
 
                                                 </td>
                                             </tr>

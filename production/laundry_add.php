@@ -21,16 +21,15 @@ if(isset($_POST['addlaundrylist'])){
     $total_quantity = str_replace("," , '', $_POST['total_quantity']);
     $total_amount = str_replace("," , '', $_POST['total_amount']);
     $paid = str_replace("," , '', $_POST['paid']);
-
     $payment_type  = $_POST['payment_type'];
-    $balance = $total_amount - $paid;
+    
     $comments = $_POST['comments'];
     $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
 
 
 
-$sql = "INSERT INTO laundry_lists(`supplier_id`, `status`, `total_quantity`, `total_amount`, `payment_type`, `paid`, `balance`, `comments`, `business_id`, `created_by`) VALUES ('$supplier', '$status', '$total_quantity', '$total_amount', '$payment_type', '$paid','$balance', '$comments', '$business', '$created_by')";
+$sql = "INSERT INTO laundry_lists(`supplier_id`, `status`, `total_quantity`, `total_amount`, `payment_type`, `paid`, `comments`, `business_id`, `created_by`) VALUES ('$supplier', '$status', '$total_quantity', '$total_amount', '$payment_type', '$paid', '$comments', '$business', '$created_by')";
 
 $results = $conn->query($sql);
 
@@ -47,10 +46,12 @@ if($results){
         $results = $conn->query( $update_query);
     }
     
-    $cart = "";
+echo'
+<script>
+window.location.href = "laundry_list.php"
+</script>
+';
     
-    header('location:laundry_list.php');
-    exit;
 } else {
     echo "Error: " . $conn->error;
 }

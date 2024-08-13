@@ -70,7 +70,16 @@
                             <div class="x_content">
                                 <h4>
                                     <center <p><b>
-                                            <large></large>
+                                            <large>
+
+                                                <?php 
+                                            $laundry = $conn->query("SELECT COUNT(*) as `count` FROM suppliers where date(created_at) = '".date('Y-m-d')."'");
+                                            $results = $laundry->num_rows > 0 ? number_format($laundry->fetch_array()['count']) : "0.00";
+                                            echo($results);
+
+                                    
+
+                                            ?></large>
                                         </b></p>
                                     </center>
                                 </h4>
@@ -94,7 +103,15 @@
                             <div class="x_content">
                                 <h4>
                                     <center <p><b>
-                                            <large></large>
+                                            <large>
+                                                <?php 
+                                            $laundry = $conn->query("SELECT paid FROM laundry_lists where date(created_at) = '".date('Y-m-d')."'");
+                                            $results = $laundry->num_rows > 0 ? number_format($laundry->sum('paid')) : "0.00";
+                                            echo('UGX '.$results);
+
+                                    
+
+                                            ?></large>
                                         </b></p>
                                     </center>
                                 </h4>

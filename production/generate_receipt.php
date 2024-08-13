@@ -45,13 +45,13 @@ $pdf->Cell(34,5,'',0,1);
 
 $pdf->setFont('Arial', '', 12);
 
-        $laundry_lists = "SELECT S.*, S.name as sname, C.*, C.name as cname, St.*, St.name as stname,  L.paid , L.balance , L.quantity FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id INNER JOIN laundry_categories C ON L.category_id = C.id INNER JOIN laundry_statuses St ON L.status = St.id" ;
+        $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
         
         $result = $conn->query($laundry_lists);
 while ($row = $result->fetch_assoc()) {
-    $pdf->Cell(50,10, $row['sname'],1,0);
-    $pdf->Cell(50,10, $row['cname'],1,0);
-    $pdf->Cell(50,10, $row['quantity'],1,1);
+    $pdf->Cell(50,10, $row['total_quantity'],1,0);
+    $pdf->Cell(50,10, $row['total_quantity'],1,0);
+    $pdf->Cell(50,10, $row['total_quantity'],1,1);
 }
 
 $pdf->Output();

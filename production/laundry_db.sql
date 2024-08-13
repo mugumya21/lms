@@ -78,7 +78,6 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `total_amount` double NOT NULL,
   `payment_type` int NOT NULL,
   `paid` double  NULL,
-  `balance` double  NULL,
   `comments` text  NULL,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
