@@ -9,48 +9,25 @@ $email = '';
 $errormessage = '';
 $successmessage = '';
 
+if(isset($_POST['addpayment'])){
 
-if(isset($_POST['adduser'])){
+      $id = $_POST['id'];
+      $amount = str_replace("," , '', $_POST['amount']);
+      $updated_by = $_SESSION['login_id'];
 
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
-    $business = $_POST['business'];
-    $created_by = $_SESSION['login_id'];
+ $sql = ("SELECT name FROM laundry_categories where id = $id");
 
+    $results = $conn->query($sql);
+     $row = $results->fetch_assoc();
+    $totalpaid = $row['paid'] +  $amount ;
+    $sql = "UPDATE laundry_lists SET `paid` = '$totalpaid' ,`updated_by` = '$updated_by'";
 
-
-    
-$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$role', '$business', '$created_by')";
-
-$results = $conn->query($sql);
+    $updated = $conn->query($sql);
 }
-
-if(isset($_POST['edituser'])){
-
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
-    $business = $_POST['business'];
-    $updated_by = $_SESSION['login_id'];
-
-$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `role_id`='$role', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
-
-$results = $conn->query($sql);
-}
-
-
 
 ?>
+
+
 
 
 
@@ -169,16 +146,20 @@ $results = $conn->query($sql);
                                                     <button type="button" name=""
                                                         onclick="generateinvoice(<?=$row['lid']?>)"
                                                         class="btn btn-secondary btn-sm">Invoice</button>
-                                                    <button type="submit" name="makepayment"
-                                                        class="btn btn-primary btn-sm">Pay</button>
+
+                                                    <button type="button" name="makepayment"
+                                                        onclick="openpaymodal(<?=$row['id']?>,<?=$row['total_amount']?>, <?=$row['paid']?>)"
+                                                        class="btn btn-danger btn-sm">Pay</button>
                                                     <?php elseif($row['paid'] > 0 && $balance > 0): 
                                                        
                                                          ?>
                                                     <button type="button" name=""
                                                         onclick="generatereceipt(<?=$row['lid']?>)"
                                                         class="btn btn-danger btn-sm">Receipt</button>
-                                                    <button type="submit" name="makepayment"
-                                                        class="btn btn-primary btn-sm">Pay</button>
+
+                                                    <button type="button" name="makepayment"
+                                                        onclick="openpaymodal(<?=$row['id']?>,<?=$row['total_amount']?>, <?=$row['paid']?>)"
+                                                        class="btn btn-danger btn-sm">Pay</button>
                                                     <?php else:
                                                         ?>
                                                     <button type="button" name=""
@@ -202,7 +183,37 @@ $results = $conn->query($sql);
         </div>
     </div>
     <!-- end add modal-->
+    <!-- pay add modal-->
+    <div class="modal" id="mypaymodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Payment</h5>
 
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <input type="hidden" name="id" id="edit_pay_id" class="form-control" value="" required>
+
+
+                        <label class="form-label"> Amount<span class="required">*</span></label>
+                        <div class="form-group">
+                            <input type="text" name="amount" id="edit_pay_amount" class="form-control" min="0"
+                                onkeyup="this.value=addCommas(this.value);" value="">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn-sm" name="addpayment">Update</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 
@@ -219,17 +230,13 @@ $results = $conn->query($sql);
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
-    const openeditmodal = (id, name, username, phone, address, email, password) => {
-        $('#myeditmodal').modal('show');
-        document.getElementById('edit_id').value = id;
-        document.getElementById('edit_name').value = name;
-        document.getElementById('edit_username').value = username;
-        document.getElementById('edit_email').value = email;
+    const openpaymodal = (id, amount, paid) => {
+        $('#mypaymodal').modal('show');
+        var balance = amount - paid;
+        document.getElementById('edit_pay_id').value = id;
+        document.getElementById('edit_pay_amount').value = balance;
 
-        document.getElementById('edit_phone').value = phone;
-        document.getElementById('edit_address').value = address;
-        document.getElementById('edit_password').value = password;
-        console.log(id, name, phone, address, email, password);
+        console.log(id, name, balance);
     };
 
 
