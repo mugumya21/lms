@@ -6,24 +6,6 @@ SET time_zone = "+00:00";
 
 
 
-
-CREATE TABLE `inventory` (
-  `id` int(30) NOT NULL,
-  `supply_id` int(30) NOT NULL,
-  `qty` int(30) NOT NULL,
-  `stock_type` tinyint(1) NOT NULL COMMENT '1= in , 2 = used',
-  `date_created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
-INSERT INTO `inventory` (`id`, `supply_id`, `qty`, `stock_type`, `date_created`) VALUES
-(1, 1, 20, 1, '2020-09-23 14:08:04'),
-(2, 2, 10, 1, '2020-09-23 14:08:14'),
-(3, 3, 20, 1, '2020-09-23 14:09:29');
-
-
-
 CREATE TABLE IF NOT EXISTS  `laundry_categories` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
@@ -45,28 +27,6 @@ CREATE TABLE IF NOT EXISTS  `laundry_categories` (
 INSERT INTO `laundry_categories` (`id`, `name`, `unit_price`, `is_active`, `business_id`, `created_by`) VALUES
 (1, 'Bed Sheets', 30000, 1,1, 1),
 (2, 'Trousers', 25000, 1, 1, 1);
-
-
-CREATE TABLE  IF NOT EXISTS `laundry_items` (
-  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `laundry_category_id` int(30) NOT NULL,
-  `quantity` double NOT NULL DEFAULT 0,
-  `laundry_list_id` int(30) NULL,
-  `amount` double NOT NULL,
-  `created_by` int(100)  NULL,
-  `updated_by` int(100)  NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `business_id`int(100)  NOT NULL,
- 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-  FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
-INSERT INTO `laundry_items` (`id`, `laundry_category_id`, `quantity`, `laundry_id`, `unit_price`, `amount`, `status`) VALUES
-(4, 3, 10, 4, 25, 250);
 
 
 

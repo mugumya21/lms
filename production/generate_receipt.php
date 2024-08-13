@@ -1,11 +1,8 @@
 <?php include('db_connect.php');
 session_start();
-if(isset($_GET['id'])){
+$id = $_GET['id'];
 
-   return $id = $_GET['id'];
-    
-}
-  $id = $_GET['id'];
+
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -42,15 +39,22 @@ if(isset($_GET['id'])){
                         </strong></center>
                 </u>
                 <table width="100%">
+                    <?php
+                    
+                              $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id where L.id = $id";
+
+                        $result = $conn->query($laundry_lists);
+                        if ($row = $result->fetch_assoc()):?>
                     <tr>
-                        <td>Customer Name:</td>
+                        <td><strong>Customer Name: </strong><?=$row['sname']?>
+                        </td>
                         <td><span style="color:red; text-decoration:underline;"></span></td>
                     </tr>
                     <tr>
-                        <td>Date:</td>
+                        <td><strong>Date: </strong><?=  date('m/d/Y', strtotime( $row['created_at'])) ?></td>
                         <td></td>
                     </tr>
-
+                    <?php endif?>
                 </table>
                 <hr>
                 <table width="100%" border="1" style="border-collapse: collapse;width: 100%">
@@ -65,7 +69,7 @@ if(isset($_GET['id'])){
                     <tbody>
                         <?php 
                             $no = 0;
-                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id where id = $id";
+                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id where L.id = $id";
 
                         $result = $conn->query($laundry_lists);
                         while ($row = $result->fetch_assoc()):

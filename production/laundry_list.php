@@ -110,7 +110,7 @@ $results = $conn->query($sql);
                                         <tbody>
                                             <?php
                 
-                                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
+                                            $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount, L.id as lid FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
                                             $results= $conn->query($laundry_lists);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
@@ -164,22 +164,26 @@ $results = $conn->query($sql);
 
                                                     <?php if($row['paid'] == 0):
                                                     
-                                                 echo ' <a  href="generate_invoice.php" type="submit" name="" class=" btn-sm btn btn-primary">
-                                                        Invoice</a>
-                                                        <button type="submit" name="edituser"
-                                                        class="btn btn-primary btn-sm">Pay</button>' 
+                                        
                                                   ?>
+                                                    <a href="generate_invoice.php" type="submit" name=""
+                                                        class=" btn-sm btn btn-primary">
+                                                        Invoice</a>
+                                                    <button type="submit" name="makepayment"
+                                                        class="btn btn-primary btn-sm">Pay</button>
                                                     <?php elseif($row['paid'] > 0 && $balance > 0): 
-                                                           echo ' <a href="generate_receipt.php?id= '.$row['id'].'  " type="submit" name="" class="btn-sm  btn btn-primary">
-                                                        Receipt</a>
-                                                        <button type="submit" name="edituser"
-                                                        class="btn btn-primary btn-sm">Pay</button>'
+                                                       
                                                          ?>
+                                                    <a href="generate_receipt.php?id= <?=$row['paid']?>" type="submit"
+                                                        name="" class="btn-sm  btn btn-primary">
+                                                        Receipt</a>
+                                                    <button type="submit" name="makepayment"
+                                                        class="btn btn-primary btn-sm">Pay</button>
                                                     <?php else:
-                                                      echo ' <a href="generate_receipt.php?id= '.$row['id'].'  " type="submit" name="" class="btn-sm  btn btn-primary">
-                                                        Receipt</a>'
-                                                         
                                                         ?>
+                                                    <button type="button" name=""
+                                                        onclick="generatereceipt(<?=$row['lid']?>)"
+                                                        class="btn btn-danger btn-sm">Receipt</button>
 
                                                     <?php endif?>
 
@@ -210,36 +214,8 @@ $results = $conn->query($sql);
     <!-- /footer content -->
     </div>
     </div>
+    <?php include('scripts.php')?>
 
-    <!-- jQuery -->
-    <script src="../assets/vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="../assets/vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../assets/vendors/nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="../assets/vendors/iCheck/icheck.min.js"></script>
-    <!-- Datatables -->
-    <script src="../assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../assets/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../assets/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../assets/vendors/pdfmake/build/vfs_fonts.js"></script>
-
-    <!-- Custom Theme Scripts -->
-    <script src="../assets/build/js/custom.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
@@ -257,21 +233,21 @@ $results = $conn->query($sql);
     };
 
 
-    const alertme = (businessid) => {
-        var businessid = businessid;
+    const generatereceipt = (id) => {
+        var id = id;
         Swal.fire({
-            title: "Do you want to Delete this Business?",
+            title: "Do you want to Generate a Receipt?",
             showDenyButton: true,
             showCancelButton: true,
-            confirmButtonText: "Delete",
-            denyButtonText: `Don't Delete`
+            confirmButtonText: "Generate",
+            denyButtonText: `Don't Generate`
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "delete_business.php?id=" + businessid;
+                window.location.href = "generate_receipt.php?id=" + id;
 
-                Swal.fire("Deleted!", "", "success");
+                Swal.fire("Generated!", "", "success");
             } else if (result.isDenied) {
-                Swal.fire("Business is not deleted", "", "info");
+                Swal.fire("Receipt is not Generated", "", "info");
             }
         });
     }
