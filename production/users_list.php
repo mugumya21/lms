@@ -6,6 +6,7 @@ $name = '';
 $email = '';
 
 $errormessage = '';
+$usernameexists  = '';
 $successmessage = '';
 $business = $_SESSION['business_id'];
 
@@ -16,8 +17,19 @@ if(isset($_POST['adduser'])){
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $username = $_POST['username'];
+    
+      $check = mysqli_fetch_array(mysqli_query($conn,"SELECT username FROM users WHERE username = '$username'"));
+      if($check){  
+
+        $usernameexists = "user name exsists";
+
+
+      }
+
+
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
     $role = $_POST['role'];
     $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
@@ -25,7 +37,7 @@ if(isset($_POST['adduser'])){
 
 
     
-$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$password', '$role', '$business', '$created_by')";
+$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$hashedpassword', '$role', '$business', '$created_by')";
 
 $results = $conn->query($sql);
 }
@@ -39,11 +51,12 @@ if(isset($_POST['edituser'])){
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
     $role = $_POST['role'];
     $business = $_SESSION['business_id'];
     $updated_by = $_SESSION['login_id'];
 
-$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$password', `role_id`='$role', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
+$sql = "UPDATE users SET `name` = '$name',`phone` = '$phone', `address` = '$address', `username`  = '$username', `email` = '$email', `password` = '$hashedpassword', `role_id`='$role', `business_id`='$business', `updated_by`='$updated_by' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -128,11 +141,21 @@ $results = $conn->query($sql);
         </div>
         <!-- end add modal-->
 
+        <?php if($usernameexists):
+                        echo '    <div class="alert alert-dismissible alert-danger ">
+                        <strong>      '.$usernameexists.'  </strong>
+                            <button type="button" class=" btn-close float-right" data-bs-dismiss="alert"></button>
+                            
+                        </div>'
+                            
+                            ?>
 
+        <?php endif?>
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Users List</h2>
+
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -301,7 +324,8 @@ $results = $conn->query($sql);
     </div>
 
     <?php include('scripts.php')?>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+    </script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
