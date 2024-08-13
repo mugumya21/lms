@@ -52,7 +52,9 @@
             <div class="  login_form">
                 <section class="login_content">
                     <form method="POST">
-                        <h2 class="text-primary">Laundry Management System</h2>
+                        <img src="images/logo2.png" alt="..." class=" profile_img" />
+                        <h2 class="">Login</h2>
+
                         <div>
                             <input type="text" class="form-control" name="username" placeholder="Username"
                                 required="" />
