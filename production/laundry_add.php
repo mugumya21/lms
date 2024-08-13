@@ -1,7 +1,9 @@
+<?php include('head.php');?>
+
 <?php
 include 'db_connect.php';
 
-session_start();
+
 $name = '';
 $email = '';
 
@@ -80,7 +82,6 @@ $results = $conn->query($sql);
 
 ?>
 
-<?php include('head.php');?>
 
 
 <body class="nav-md">

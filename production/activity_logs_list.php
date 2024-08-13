@@ -1,13 +1,9 @@
+<?php include('head.php');?>
+
 <?php
 
 include 'db_connect.php';
-session_start();
-if(!isset($_SESSION['login_id'])){
-    header('location:login.php');
 
-    exit;
-
-}
 $name = '';
 $email = '';
 
@@ -15,7 +11,6 @@ $errormessage = '';
 $successmessage = '';
 
 ?>
-<?php include('head.php');?>
 
 
 <body class="nav-md">

@@ -1,3 +1,13 @@
+<?php
+     include("db_connect.php");
+   session_start();
+   if(!isset($_SESSION['login_id'])){
+    
+    header('location:login.php');
+
+    exit;
+   }
+   ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,13 +25,12 @@
 </head>
 <?php
     echo '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            function addCommas(x) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                //remove commas
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                retVal = x ? parseFloat(x.replace(/,/g, \'\')) : 0;
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                //apply formatting
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                return retVal.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",");
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </script>';
+<script>
+function addCommas(x) {
+//remove commas
+retVal = x ? parseFloat(x.replace(/,/g, \'\')) : 0;
+//apply formatting
+return retVal.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",");
+}
+</script>';
     ?>

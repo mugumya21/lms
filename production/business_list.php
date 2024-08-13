@@ -1,13 +1,9 @@
+<?php include('head.php');?>
+
 <?php
 
 include 'db_connect.php';
-session_start();
-if(!isset($_SESSION['login_id'])){
-    header('location:login.php');
 
-    exit;
-
-}
 $name = '';
 $email = '';
 
@@ -69,11 +65,9 @@ $logresults = $conn->query($logsql);
 }
 }
 
-$conn->close();
 
 
 ?>
-<?php include('head.php');?>
 
 
 <body class="nav-md">
@@ -174,7 +168,6 @@ $conn->close();
 
                                     <tbody>
                                         <?php
- 					include 'db_connect.php';
  					$businesses = $conn->query("SELECT * FROM businesses order by name asc");
  					$i = 1;
  					while($row= $businesses->fetch_assoc()):

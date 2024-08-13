@@ -1,6 +1,8 @@
+<?php include('head.php');?>
+
 <?php
 include 'db_connect.php';
-session_start();
+
 $name = '';
 $email = '';
 
@@ -51,7 +53,6 @@ $conn->close();
 
 ?>
 
-<?php include('head.php');?>
 
 
 <body class="nav-md">
