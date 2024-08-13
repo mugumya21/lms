@@ -177,7 +177,7 @@ if(isset($_POST['additemcart'])){
     $cat = $_POST['category'];
     $qty = $_POST['quantity'];
     $amount = str_replace(",","",$_POST['amount']);
-    $check = mysqli_query($conn,"SELECT * FROM cart WHERE user_id='$uid' and item='$cat'");
+    $check = mysqli_query($conn,"SELECT * FROM cart WHERE item='$cat' and laundry_list_id IS NULL");
     if(mysqli_num_rows($check)>0){
           echo '                          <script>
                                     alert("This item already exists");

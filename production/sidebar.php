@@ -8,7 +8,10 @@
                         </span></a>
 
                 </li>
-
+                <li>
+                    <a href="inventory_list.php"><i class="fa fa-edit"></i> Inventory
+                        </span></a>
+                </li>
                 <!-- for the business -->
 
                 <?php if($_SESSION['login_id'] == 1):
