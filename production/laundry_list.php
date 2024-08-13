@@ -165,19 +165,20 @@ $results = $conn->query($sql);
                                                     <?php if($row['paid'] > 0):
                                                     
                                                
-                                                    echo ' <a href="generate_receipt.php" type="submit" name="" class=" href btn btn-primary">
+                                                    echo ' <a href="generate_receipt.php" type="submit" name="" class="btn-sm  btn btn-primary">
                                                         Receipt</a>'?>
                                                     <?php else:
-                                                          echo ' <a  href="generate_invoice.php" type="submit" name="" class="btn btn-primary">
+                                                          echo ' <a  href="generate_invoice.php" type="submit" name="" class=" btn-sm btn btn-primary">
                                                         Invoice</a>'  
                                                         ?>
 
                                                     <?php endif?>
 
                                                     <button type="submit" name="edituser"
-                                                        class="btn btn-primary">Edit</button>
+                                                        class="btn btn-primary btn-sm">Edit</button>
 
-                                                    <button type="button" name="" class="btn btn-danger">Delete</button>
+                                                    <button type="button" name=""
+                                                        class="btn btn-danger btn-sm">Delete</button>
 
                                                 </td>
                                             </tr>

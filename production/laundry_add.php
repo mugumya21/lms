@@ -151,7 +151,7 @@ $results = $conn->query($sql);
 
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" name="additemcart" class="btn btn-primary"><i
+                                            <button type="submit" name="additemcart" class="btn btn-primary btn-sm"><i
                                                     class="fa fa-plus"></i> Add
                                                 To Laundry </button>
 
@@ -219,11 +219,11 @@ if(isset($_POST['additemcart'])){
                                                     <td>
                                                         <center> <button type="submit" name="edituser"
                                                                 onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['quantity']?>', '<?=$row['amount'] ?>')"
-                                                                class="btn btn-primary">Edit</button>
+                                                                class="btn btn-primary btn-sm">Edit</button>
 
                                                             <button type="button" name=""
                                                                 onclick="alertme(<?=$row['id']?>)"
-                                                                class="btn btn-danger">Delete</button>
+                                                                class="btn btn-danger btn-sm">Delete</button>
                                                         </center>
                                                     </td>
                                                 </tr>

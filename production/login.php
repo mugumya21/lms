@@ -49,10 +49,10 @@
 
 
         <div class="login_wrapper">
-            <div class="animate form login_form">
+            <div class="  login_form">
                 <section class="login_content">
                     <form method="POST">
-                        <h1>Login</h1>
+                        <h2 class="text-primary">Laundry Management System</h2>
                         <div>
                             <input type="text" class="form-control" name="username" placeholder="Username"
                                 required="" />
@@ -62,7 +62,7 @@
                                 required="" />
                         </div>
                         <div>
-                            <center> <button type="submit" class="btn btn-primary submit">Log in</button>
+                            <center> <button type="submit" class=" btn btn-small btn-primary submit">Log in</button>
                             </center>
                             <!-- <a class="reset_pass" href="#">Lost your password?</a> -->
 
@@ -71,16 +71,20 @@
                         <div class="clearfix"></div>
 
                         <div class="separator">
-                            <p class="change_link">New to site?
+                            <!-- <p class="change_link">New to site?
                                 <a href="#signup" class="to_register"> Create Account </a>
-                            </p>
+                            </p> -->
 
                             <div class="clearfix"></div>
                             <br />
 
 
                             <div>
-                                <p>©2024 All Rights Reserved. Mugumya Vicent</p>
+                                <?php 
+                                $year = new DateTime();
+                                $formatedyear = $year->format('Y');
+                                ?>
+                                <p>©<?=$formatedyear?> All Rights Reserved. Mugumya Vicent</p>
                             </div>
                         </div>
                     </form>

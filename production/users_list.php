@@ -113,8 +113,9 @@ $results = $conn->query($sql);
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" name="adduser">Save</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" name="adduser">Save</button>
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        data-dismiss="modal">Close</button>
 
                                 </div>
                             </form>
@@ -198,10 +199,10 @@ $results = $conn->query($sql);
                                             <td>
                                                 <center> <button type="submit" name="edituser"
                                                         onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>')"
-                                                        class="btn btn-primary">Edit</button>
+                                                        class="btn btn-primary btn-sm">Edit</button>
 
                                                     <button type="button" name="" onclick="alertme(<?=$row['id']?>)"
-                                                        class="btn btn-danger">Delete</button>
+                                                        class="btn btn-danger btn-sm">Delete</button>
                                                 </center>
 
                                             </td>
@@ -274,8 +275,9 @@ $results = $conn->query($sql);
                             </select>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" name="edituser">Update</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary btn-sm" name="edituser">Update</button>
+                                <button type="button" class="btn btn-secondary btn-sm"
+                                    data-dismiss="modal">Close</button>
 
                             </div>
                         </form>

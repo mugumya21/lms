@@ -92,10 +92,10 @@ $results = $conn->query($sql);
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary"
-                                                        name="addcategory">Submit</button>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm"
+                                                        name="addcategory"><i class="fa fa-check"></i> Submit</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm"
+                                                        data-dismiss="modal"><i class="fa fa-close"></i>Close</button>
 
                                                 </div>
                                             </form>
@@ -156,11 +156,11 @@ $results = $conn->query($sql);
                                                         <td>
                                                             <center> <button type="submit"
                                                                     onclick="openeditmodal(<?=$row['id'] ?>,'<?=$row['name']?>','<?=$row['unit_price']?>')"
-                                                                    class="btn btn-primary">Edit</button>
+                                                                    class="btn btn-primary btn-sm">Edit</button>
 
                                                                 <button type="button" name=""
                                                                     onclick="alertme(<?=$row['id']?>)"
-                                                                    class="btn btn-danger">Delete</button>
+                                                                    class="btn btn-danger btn-sm">Delete</button>
                                                             </center>
 
                                                         </td>
