@@ -346,7 +346,7 @@ if(isset($_POST['additemcart'])){
                         <input type="hidden" name="id" id="edit_item_id" class="form-control" value="" required>
 
                         <label class="form-label">Category Name<span class="required">*</span></label>
-                        <select class="form-control custom-select" name="category" id="category"
+                        <select class="form-control custom-select" name="item" id="item"
                             style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;" required>
                             <option value="" disabled selected>Select Category</option>
                             <?php 
@@ -418,7 +418,7 @@ if(isset($_POST['additemcart'])){
                 window.location.href = "delete_cart_item.php?id=" + categoryid;
                 Swal.fire("Deleted!", "", "success");
             } else if (result.isDenied) {
-                Swal.fire("Business is not deleted", "", "info");
+                Swal.fire("Item is not deleted", "", "info");
             }
         });
     }

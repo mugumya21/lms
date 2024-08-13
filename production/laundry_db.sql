@@ -244,6 +244,7 @@ CREATE TABLE IF NOT EXISTS`suppliers`(
   `email` varchar(100) NULL,
   `phone` varchar(15) NOT NULL,
   `address` varchar(100)  NULL,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

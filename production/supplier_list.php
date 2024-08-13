@@ -6,6 +6,7 @@ $email = '';
 
 $errormessage = '';
 $successmessage = '';
+$business =  $_SESSION['business_id'];
 
 
 if(isset($_POST['addsupplier'])){
@@ -146,7 +147,7 @@ $results = $conn->query($sql);
                                     <tbody>
                                         <?php
                 
-                                            $suppliers = "SELECT * FROM suppliers order by id desc";
+                                            $suppliers = "SELECT * FROM suppliers  where is_active is true  and business_id = $business order by id desc";
                                             $results= $conn->query($suppliers);
                                             $i = 1;
                                             while($row= $results->fetch_assoc()):
@@ -252,35 +253,8 @@ $results = $conn->query($sql);
     </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="../assets/vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="../assets/vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../assets/vendors/nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="../assets/vendors/iCheck/icheck.min.js"></script>
-    <!-- Datatables -->
-    <script src="../assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../assets/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../assets/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../assets/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <?php include('scripts.php')?>
 
-    <!-- Custom Theme Scripts -->
-    <script src="../assets/build/js/custom.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
@@ -295,21 +269,21 @@ $results = $conn->query($sql);
     };
 
 
-    const alertme = (businessid) => {
-        var businessid = businessid;
+    const alertme = (customerid) => {
+        var customerid = customerid;
         Swal.fire({
-            title: "Do you want to Delete this Business?",
+            title: "Do you want to Delete this Customer?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Delete",
             denyButtonText: `Don't Delete`
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "delete_business.php?id=" + businessid;
+                window.location.href = "delete_customer.php?id=" + customerid;
 
                 Swal.fire("Deleted!", "", "success");
             } else if (result.isDenied) {
-                Swal.fire("Business is not deleted", "", "info");
+                Swal.fire("Customer is not deleted", "", "info");
             }
         });
     }

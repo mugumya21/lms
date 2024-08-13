@@ -105,11 +105,10 @@
                                     <center <p><b>
                                             <large>
                                                 <?php 
-                                            $laundry = $conn->query("SELECT paid FROM laundry_lists where date(created_at) = '".date('Y-m-d')."'");
-                                            $results = $laundry->num_rows > 0 ? number_format($laundry->sum('paid')) : "0.00";
-                                            echo('UGX '.$results);
-
-                                    
+                                           
+                                    		$laundry = $conn->query("SELECT SUM(paid) as amount FROM laundry_lists where payment_type= 3 or payment_type = 2 and date(created_at)= '".date('Y-m-d')."'");
+                                            $results = $laundry->num_rows > 0 ? number_format($laundry->fetch_array()['amount']) : "0";
+					                          echo('UGX '.$results);
 
                                             ?></large>
                                         </b></p>
