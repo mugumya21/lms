@@ -166,17 +166,17 @@ $results = $conn->query($sql);
                                                     
                                         
                                                   ?>
-                                                    <a href="generate_invoice.php" type="submit" name=""
-                                                        class=" btn-sm btn btn-primary">
-                                                        Invoice</a>
+                                                    <button type="button" name=""
+                                                        onclick="generateinvoice(<?=$row['lid']?>)"
+                                                        class="btn btn-secondary btn-sm">Invoice</button>
                                                     <button type="submit" name="makepayment"
                                                         class="btn btn-primary btn-sm">Pay</button>
                                                     <?php elseif($row['paid'] > 0 && $balance > 0): 
                                                        
                                                          ?>
-                                                    <a href="generate_receipt.php?id= <?=$row['paid']?>" type="submit"
-                                                        name="" class="btn-sm  btn btn-primary">
-                                                        Receipt</a>
+                                                    <button type="button" name=""
+                                                        onclick="generatereceipt(<?=$row['lid']?>)"
+                                                        class="btn btn-danger btn-sm">Receipt</button>
                                                     <button type="submit" name="makepayment"
                                                         class="btn btn-primary btn-sm">Pay</button>
                                                     <?php else:
@@ -248,6 +248,25 @@ $results = $conn->query($sql);
                 Swal.fire("Generated!", "", "success");
             } else if (result.isDenied) {
                 Swal.fire("Receipt is not Generated", "", "info");
+            }
+        });
+    }
+
+    const generateinvoice = (id) => {
+        var id = id;
+        Swal.fire({
+            title: "Do you want to Generate a Invoice?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Generate",
+            denyButtonText: `Don't Generate`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "generate_invoice.php?id=" + id;
+
+                Swal.fire("Generated!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Invoice is not Generated", "", "info");
             }
         });
     }
