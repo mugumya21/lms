@@ -28,7 +28,7 @@ if(isset($_POST['editcategory'])){
 
     $id = $_POST['id'];
     $name = $_POST['name'];
-    $unit_price = $_POST['unit_price'];
+    $unit_price = str_replace(",", '', $_POST['unit_price']);
     $business = $_SESSION['business_id'];
     $updated_by = $_SESSION['login_id'];
 
@@ -87,8 +87,8 @@ $results = $conn->query($sql);
                                                 <label class="form-label">Unit Price<span
                                                         class="required">*</span></label>
                                                 <div class="form-group">
-                                                    <input type="number" name="unit_price" id="unit_price" min="1"
-                                                        step="any" class="form-control" value="">
+                                                    <input type="text" name="unit_price" required class="form-control"
+                                                        min="0" onkeyup="this.value=addCommas(this.value);">
 
                                                 </div>
                                                 <div class="modal-footer">
@@ -200,13 +200,15 @@ $results = $conn->query($sql);
 
                                 <label class="form-label">Unit Price<span class="required">*</span></label>
                                 <div class="form-group">
-                                    <input type="number" name="unit_price" id="edit_unit_price" min="1" step="any"
-                                        class="form-control" value="">
+                                    <input type="text" name="unit_price" id="edit_unit_price" class="form-control"
+                                        min="0" onkeyup="this.value=addCommas(this.value);">
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" name="editcategory">Update</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary btn-sm"
+                                        name="editcategory">Update</button>
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        data-dismiss="modal">Close</button>
 
                                 </div>
                             </form>

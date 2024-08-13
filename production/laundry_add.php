@@ -79,6 +79,20 @@ $results = $conn->query($sql);
 }
 
 
+if(isset($_POST['edititem'])){
+
+      $id = $_POST['id'];
+      $item = $_POST['item'];
+      $quantity = str_replace("," , '', $_POST['quantity']);
+      $amount = str_replace("," , '', $_POST['amount']);
+      $updated_by = $_SESSION['login_id'];
+
+
+
+$sql = "UPDATE cart SET `item` = '$item',`amount` = '$amount',`quantity` = '$quantity',`user_id` = '$updated_by'";
+
+$results = $conn->query($sql);
+}
 
 ?>
 
@@ -213,12 +227,12 @@ if(isset($_POST['additemcart'])){
                                                 <tr>
                                                     <td><?=$no;?></td>
                                                     <td><?=$row['name'];?></td>
-                                                    <td><?=$row['quantity'];?></td>
-                                                    <td><?=$row['amount'];?></td>
-                                                    <td><?=$row['amount']*$row['quantity'];?></td>
+                                                    <td> <?=number_format( $row['quantity'] )?></td>
+                                                    <td> <?=number_format( $row['amount'] )?></td>
+                                                    <td> <?=number_format( $row['amount']*$row['quantity'] )?></td>
                                                     <td>
                                                         <center> <button type="submit" name="edituser"
-                                                                onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['quantity']?>', '<?=$row['amount'] ?>')"
+                                                                onclick="openeditmodal(<?=$row['id']?>,'<?=$row['quantity']?>', '<?=$row['amount'] ?>')"
                                                                 class="btn btn-primary btn-sm">Edit</button>
 
                                                             <button type="button" name=""
@@ -231,11 +245,12 @@ if(isset($_POST['additemcart'])){
                                                }
                                                ?>
                                                 <tr>
-                                                    <td>Total Sum</td>
+                                                    <td class="text-danger">Total Sum</td>
                                                     <td></td>
-                                                    <td><?=$total_quantity;?></td>
+                                                    <td class="text-danger"> <?=number_format( $total_quantity)?></td>
                                                     <td></td>
-                                                    <td><?=$total_amount;?></td>
+                                                    <td class="text-danger"> <?=number_format( $total_amount)?></td>
+
                                                     <td></td>
                                                 </tr>
 
@@ -316,6 +331,59 @@ if(isset($_POST['additemcart'])){
     </div>
     <!-- /page content -->
 
+    <!-- edit user modal -->
+
+    <div class="modal" id="myeditmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Laundry Item</h5>
+
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <input type="hidden" name="id" id="edit_item_id" class="form-control" value="" required>
+
+                        <label class="form-label">Category Name<span class="required">*</span></label>
+                        <select class="form-control custom-select" name="category" id="category"
+                            style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <?php 
+
+                                                $sql = "SELECT * FROM laundry_categories where business_id = $businessid";
+                                                $results = $conn->query($sql);
+                                                while ($rolerow = $results->fetch_assoc()) {
+                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
+                                                        }
+                                                    ?>
+                        </select>
+                        <label class="form-label">Unit Amount<span class="required">*</span></label>
+                        <div class="form-group">
+                            <input type="text" name="amount" id="edit_item_amount" class="form-control" min="0"
+                                onkeyup="this.value=addCommas(this.value);" value="">
+
+                        </div>
+                        <label class="form-label">Quantity<span class="required">*</span></label>
+                        <div class="form-group">
+                            <input type="text" name="quantity" id="edit_item_quantity" class="form-control" min="0"
+                                onkeyup="this.value=addCommas(this.value);">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn-sm" name="edititem">Update</button>
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- end add modal-->
+
     <!-- footer content -->
     <?php include('footer.php');?>
 
@@ -325,11 +393,34 @@ if(isset($_POST['additemcart'])){
 
     <?php include ("scripts.php") ?>
     <script type="text/javascript">
-    $(document).ready(function() {
+    const openeditmodal = (id, quantity, amount) => {
+        $('#myeditmodal').modal('show');
+        document.getElementById('edit_item_id').value = id;
+        document.getElementById('edit_item_quantity').value = quantity;
+        document.getElementById('edit_item_amount').value = amount;
 
-        var cartData = [];
 
-    });
+        console.log(id, name, quantity, amount);
+    };
+
+
+    const alertme = (categoryid) => {
+        var categoryid = categoryid;
+        Swal.fire({
+            title: "Do you want to Delete this Item?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't Delete`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "delete_cart_item.php?id=" + categoryid;
+                Swal.fire("Deleted!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Business is not deleted", "", "info");
+            }
+        });
+    }
     </script>
 
 </body>
