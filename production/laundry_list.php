@@ -109,7 +109,6 @@ $results = $conn->query($sql);
 
                                         <tbody>
                                             <?php
-                                                    include 'db_connect.php';
                 
                                             $laundry_lists = "SELECT S.*, S.name as sname, St.*, St.name as stname,  L.paid , L.total_quantity , L.total_amount FROM laundry_lists L INNER JOIN suppliers S ON L.supplier_id = S.id  INNER JOIN laundry_statuses St ON L.status = St.id" ;
                                             $results= $conn->query($laundry_lists);
@@ -171,13 +170,13 @@ $results = $conn->query($sql);
                                                         class="btn btn-primary btn-sm">Pay</button>' 
                                                   ?>
                                                     <?php elseif($row['paid'] > 0 && $balance > 0): 
-                                                           echo ' <a href="generate_receipt.php" type="submit" name="" class="btn-sm  btn btn-primary">
+                                                           echo ' <a href="generate_receipt.php?id= '.$row['id'].'  " type="submit" name="" class="btn-sm  btn btn-primary">
                                                         Receipt</a>
                                                         <button type="submit" name="edituser"
                                                         class="btn btn-primary btn-sm">Pay</button>'
                                                          ?>
                                                     <?php else:
-                                                      echo ' <a href="generate_receipt.php" type="submit" name="" class="btn-sm  btn btn-primary">
+                                                      echo ' <a href="generate_receipt.php?id= '.$row['id'].'  " type="submit" name="" class="btn-sm  btn btn-primary">
                                                         Receipt</a>'
                                                          
                                                         ?>
