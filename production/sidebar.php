@@ -65,7 +65,7 @@
 
                 <?php if(  $_SESSION['login_name'] == 'superadmin'):
                 echo '<li>
-                    <a href="activiy_logs_list.php"><i class="fa fa-edit"></i> Activity Logs
+                    <a href="activity_logs_list.php"><i class="fa fa-edit"></i> Activity Logs
                     </a>
 
                 </li>';

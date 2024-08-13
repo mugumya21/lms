@@ -98,6 +98,7 @@ $successmessage = '';
                                             <th>Done By</th>
                                             <th>URL</th>
                                             <th>Activity</th>
+                                            <th>Time</th>
                                         </tr>
                                     </thead>
 
@@ -124,7 +125,9 @@ $successmessage = '';
                                             <td>
                                                 <?php echo $row['action'] ?>
                                             </td>
-
+                                            <td>
+                                                <?php echo $row['created_at'] ?>
+                                            </td>
 
                                         </tr>
                                         <?php endwhile?>
