@@ -5,7 +5,6 @@
 
    ?>
 
-<?php include('head.php');?>
 
 <body class="nav-md">
     <div class="container body">
