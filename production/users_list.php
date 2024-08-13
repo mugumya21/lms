@@ -7,7 +7,7 @@ $email = '';
 
 $errormessage = '';
 $successmessage = '';
-
+$business = $_SESSION['business_id'];
 
 
 if(isset($_POST['adduser'])){
@@ -170,9 +170,8 @@ $results = $conn->query($sql);
 
                                     <tbody>
                                         <?php
-                                        include 'db_connect.php';
                                             $users = "SELECT U.*,  R.name as rname, R.id as rid FROM users U INNER JOIN roles R 
-                                            ON U.role_id = R.id order by U.id desc";
+                                             ON U.role_id = R.id where is_active is TRUE and business_id = $business order by U.id desc";
                 
                                             $results= $conn->query($users);
                                             $i = 1;
@@ -198,7 +197,7 @@ $results = $conn->query($sql);
                                             </td>
                                             <td>
                                                 <center> <button type="submit" name="edituser"
-                                                        onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>')"
+                                                        onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['username']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>')"
                                                         class="btn btn-primary btn-sm">Edit</button>
 
                                                     <button type="button" name="" onclick="alertme(<?=$row['id']?>)"
@@ -264,7 +263,6 @@ $results = $conn->query($sql);
                             <select class="form-control custom-select" name="role" id="role"
                                 style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
                                 <?php 
-                                            include 'db_connect.php';
 
                                                 $sql = "SELECT * FROM roles";
                                                 $results = $conn->query($sql);
@@ -302,39 +300,12 @@ $results = $conn->query($sql);
     </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="../assets/vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="../assets/vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../assets/vendors/nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="../assets/vendors/iCheck/icheck.min.js"></script>
-    <!-- Datatables -->
-    <script src="../assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../assets/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../assets/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../assets/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../assets/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <?php include('scripts.php')?>
 
-    <!-- Custom Theme Scripts -->
-    <script src="../assets/build/js/custom.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript">
-    const openeditmodal = (id, name, username, phone, address, email, password) => {
+    const openeditmodal = (id, name, username, email, phone, address, password) => {
         $('#myeditmodal').modal('show');
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_name').value = name;
@@ -344,25 +315,25 @@ $results = $conn->query($sql);
         document.getElementById('edit_phone').value = phone;
         document.getElementById('edit_address').value = address;
         document.getElementById('edit_password').value = password;
-        console.log(id, name, phone, address, email, password);
+        console.log(id, name, username, email, phone, address, password);
     };
 
 
     const alertme = (businessid) => {
         var businessid = businessid;
         Swal.fire({
-            title: "Do you want to Delete this Business?",
+            title: "Do you want to Delete this User?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Delete",
             denyButtonText: `Don't Delete`
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "delete_business.php?id=" + businessid;
+                window.location.href = "delete_user.php?id=" + businessid;
 
                 Swal.fire("Deleted!", "", "success");
             } else if (result.isDenied) {
-                Swal.fire("Business is not deleted", "", "info");
+                Swal.fire("User is not deleted", "", "info");
             }
         });
     }

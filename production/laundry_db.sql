@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(200) NOT NULL,
   `role_id` int NOT NULL,
   `business_id` int  NULL,
+  `is_active` BOOLEAN  NOT NULL DEFAULT TRUE,
   `created_by` int  NULL,
   `updated_by` int  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES
-(1, 'Super Admin', '0783021730', 'Entebbe', 'superadmin', 'superadmin@example.com' ,'superadmin21', 1, 0, 1),
+(1, 'superadmin', '0783021730', 'Entebbe', 'superadmin', 'superadmin@example.com' ,'superadmin21', 1, 0, 1),
 (2, 'Admin', '0783021731', 'Arua', 'admin', 'admin@example.com' ,'admin21', 1, 1, 1),
 (3, 'Staff', '0783021732', 'Gulu', 'staff', 'staff@example.com' ,'staff21', 1, 1, 1);
 
@@ -172,9 +173,9 @@ CREATE TABLE IF NOT EXISTS `roles`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `roles` (`id`, `name`,`created_by`) VALUES
-(1, 'superadmin',  1),
-(2, 'admin',  1),
-(3, 'staff',  1);
+(1, 'admin',  1),
+(2, 'staff',  1),
+
 
 
 

@@ -14,7 +14,7 @@
                 </li>
                 <!-- for the business -->
 
-                <?php if($_SESSION['login_id'] == 1):
+                <?php if($_SESSION['login_name'] == 'superadmin' ):
                 echo '<li>
                     <a href="business_list.php"><i class="fa fa-edit"></i> Manage Businesses
                     </a>
@@ -50,7 +50,7 @@
 
                 <!-- for the Users -->
 
-                <?php if($_SESSION['login_id'] == 1 || $_SESSION['login_id'] == 2 ):
+                <?php if($_SESSION['login_role'] == 1 || $_SESSION['login_name'] == 'superadmin' ):
                 echo '<li>
                     <a href="users_list.php"><i class="fa fa-edit"></i> Users
                     </a>
@@ -63,7 +63,7 @@
 
                 <!-- for the logs -->
 
-                <?php if($_SESSION['login_id'] == 1):
+                <?php if(  $_SESSION['login_name'] == 'superadmin'):
                 echo '<li>
                     <a href="activiy_logs_list.php"><i class="fa fa-edit"></i> Activity Logs
                     </a>

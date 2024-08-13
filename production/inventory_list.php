@@ -74,7 +74,7 @@ $results = $conn->query($sql);
         </div>
 
 
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-8 col-sm-8">
             <div class="x_panel">
                 <div class="x_title">
                     <h2> Total Laundry in Stock: <span class="text-danger"> <?=$total_inventory?></span>
