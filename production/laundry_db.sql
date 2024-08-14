@@ -55,6 +55,26 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+CREATE TABLE IF NOT EXISTS `laundry_claimed_chart`  (
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `month` varchar(100)  NOT NULL,
+  `quantity` int NOT NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `laundry_claimed_chart` (`id`, `month`, `quantity`) VALUES
+(1, 'Jan', '20000'),
+(2, 'Feb', '30500'),
+(3, 'Mar', '30000'),
+(4, 'Apr', '0'),
+(5, 'May', '0'),
+(6, 'Jun', '0'),
+(7, 'Jul', '0'),
+(8, 'Aug', '0'),
+(9, 'Sep', '0'),
+(10, 'Oct', '0'),
+(11, 'Nov', '0'),
+(12, 'Dec', '0');
+
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
