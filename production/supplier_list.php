@@ -13,7 +13,8 @@ if(isset($_POST['addsupplier'])){
 
     $name = $_POST['name'];
     $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    
+    $address = mysqli_real_escape_string($conn,$_POST['address']);
     $email = $_POST['email'];
     $business =  $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
@@ -31,7 +32,7 @@ if(isset($_POST['editsupplier'])){
     $id = $_POST['id'];
     $name = $_POST['name'];
     $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    $address = mysqli_real_escape_string($conn,$_POST['address']);
     $email = $_POST['email'];
     $business =  $_SESSION['business_id'];
     $updated_by = $_SESSION['login_id'];
