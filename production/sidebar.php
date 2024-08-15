@@ -9,7 +9,7 @@
 
                 </li>
                 <li>
-                    <a href="inventory_list.php"><i class="fa fa-edit"></i> Inventory
+                    <a href="inventory_list.php"><i class="fa fa-edit"></i> Pending Laundry
                         </span></a>
                 </li>
                 <!-- for the business -->

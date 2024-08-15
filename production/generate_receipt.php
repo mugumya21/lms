@@ -10,13 +10,27 @@ $id = $_GET['id'];
 <head>
     <title> Receipt</title>
     <link href="../assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+    window.onload = function() {
+        window.print();
+        var is_chrome = function() {
+            return Boolean(window.chrome);
+        }
+        if (is_chrome) {
+            setTimeout(function() {
+                document.location.href = "laundry_list.php";
+            }, 3000);
+        } else {
+            document.location.href = "laundry_list.php";
+        }
+    }
+    </script>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
+    <div>
+        <div>
+            <div>
 
                 <table width="100%">
                     <tr>

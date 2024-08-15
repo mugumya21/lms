@@ -15,12 +15,13 @@ if(isset($_POST['addpayment'])){
       $amount = str_replace("," , '', $_POST['amount']);
       $updated_by = $_SESSION['login_id'];
 
- $sql = ("SELECT name FROM laundry_categories where id = $id");
+ $sql = ("SELECT * FROM laundry_lists where id = $id");
 
     $results = $conn->query($sql);
      $row = $results->fetch_assoc();
-    $totalpaid = $row['paid'] +  $amount ;
-    $sql = "UPDATE laundry_lists SET `paid` = '$totalpaid' ,`updated_by` = '$updated_by'";
+   $totalpaid = $row['paid'] +  $amount ;
+    
+    $sql = "UPDATE laundry_lists SET `paid` = '$totalpaid' ,`updated_by` = '$updated_by' where id = $id";
 
     $updated = $conn->query($sql);
 }
@@ -148,7 +149,7 @@ if(isset($_POST['addpayment'])){
                                                         class="btn btn-secondary btn-sm">Invoice</button>
 
                                                     <button type="button" name="makepayment"
-                                                        onclick="openpaymodal(<?=$row['id']?>,<?=$row['total_amount']?>, <?=$row['paid']?>)"
+                                                        onclick="openpaymodal(<?=$row['lid']?>,<?=$row['total_amount']?>, <?=$row['paid']?>)"
                                                         class="btn btn-danger btn-sm">Pay</button>
                                                     <?php elseif($row['paid'] > 0 && $balance > 0): 
                                                        
@@ -158,7 +159,7 @@ if(isset($_POST['addpayment'])){
                                                         class="btn btn-danger btn-sm">Receipt</button>
 
                                                     <button type="button" name="makepayment"
-                                                        onclick="openpaymodal(<?=$row['id']?>,<?=$row['total_amount']?>, <?=$row['paid']?>)"
+                                                        onclick="openpaymodal(<?=$row['lid']?>,<?=$row['total_amount']?>, <?=$row['paid']?>)"
                                                         class="btn btn-danger btn-sm">Pay</button>
                                                     <?php else:
                                                         ?>
