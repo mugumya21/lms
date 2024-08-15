@@ -11,17 +11,24 @@ $successmessage = '';
 
 if(isset($_POST['addcategory'])){
 
-    $name = $_POST['name'];
-    $unit_price = $_POST['unit_price'];
+    $name = $_POST['name'] ;
+    $unit_price = str_replace("," , '', $_POST['unit_price']);
     $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
 
 
-
-    
+    $check = mysqli_query($conn, "SELECT * FROM laundry_categories where name= '$name'");
+if( mysqli_num_rows($check) > 0){
+    echo '<script>alert("This '.$name. ' exists in the database" ); history.go(-1)</script>';
+  
+}
+else{
 $sql = "INSERT INTO laundry_categories(`name`, `unit_price`, `business_id`, `created_by`) VALUES ('$name', '$unit_price', '$business', '$created_by')";
 
 $results = $conn->query($sql);
+}
+  
+
 }
 
 if(isset($_POST['editcategory'])){
