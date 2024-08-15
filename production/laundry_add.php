@@ -152,7 +152,7 @@ $results = $conn->query($sql);
                                                     ?>
                                         </select>
 
-                                        <label class="form-label">Unit Amount<span></span></label>
+                                        <label class="form-label">Unit Price<span>*</span></label>
                                         <div class="form-group">
                                             <input type="text" name="amount" class="form-control" required
                                                 placeholder="Enter Unit Amount Charged" min="0"
