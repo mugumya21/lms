@@ -175,6 +175,40 @@ $results = $conn->query($sql);
 
 
                                     <tbody>
+                                        <?php
+ 					$users = $conn->query("SELECT users.*,
+                              
+                                employees.*
+                                FROM users, employees where employees.employee_id = users.employee_id and users.business_id = $business");
+ 					$i = 1;
+ 					while($row= $users->fetch_assoc()):
+				 ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $i++ ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['full_name'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['email'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['phone'] ?>
+                                            </td>
+
+                                            <td>
+                                                <center> <button type="submit" name="editbusiness"
+                                                        onclick="openeditmodal()" class="btn btn-primary">Edit</button>
+
+                                                    <button type="button" name=""
+                                                        onclick="alertme(<?=$row['user_id']?>)"
+                                                        class="btn btn-danger">Delete</button>
+                                                </center>
+
+                                            </td>
+                                        </tr>
+                                        <?php endwhile?>
 
 
                                     </tbody>
