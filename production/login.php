@@ -7,17 +7,19 @@
       $email = $_POST['email'];
       $password = mysqli_real_escape_string($conn,$_POST['password']); 
       
-      $getuser = $conn->query("SELECT * , 
-      (SELECT name FROM businesses  where business.business_id = users.business_id) as business_name 
+      $getuser = mysqli_query($conn, "SELECT * , 
+      (SELECT name FROM businesses  where businesses.business_id = users.business_id) as business_name ,
+        (SELECT full_name FROM employees  where employees.employee_id = users.employee_id) as employee_name
        FROM users WHERE email = '$email'");
+          
       $row = $getuser->fetch_assoc();
        $hashedpassword= $row['password'];
       if(password_verify($password, $hashedpassword)){
     
         $_SESSION['login_id'] = $row['user_id'];
         $_SESSION['business_id']  = $row['business_id'];
-        die($_SESSION['business_name']  = $row['business_name'] 
-) ;
+        $_SESSION['employee_id']  = $row['employee_name'];
+        $_SESSION['employee_name']  = $row['employee_name'] ;
          header("location:index.php");
 
         }
