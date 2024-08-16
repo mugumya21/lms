@@ -250,8 +250,8 @@ CREATE TABLE `payment_types` (
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
