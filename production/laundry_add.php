@@ -95,7 +95,7 @@ if(isset($_POST['edititem'])){
 
 
 
-$sql = "UPDATE cart SET `item` = '$item',`amount` = '$amount',`quantity` = '$quantity',`user_id` = '$updated_by'";
+$sql = "UPDATE cart SET `item` = '$item',`amount` = '$amount',`quantity` = '$quantity',`user_id` = '$updated_by' where id = $id";
 
 $results = $conn->query($sql);
 }
@@ -157,9 +157,10 @@ $results = $conn->query($sql);
                                                     ?>
                                         </select>
 
-                                        <label class="form-label">Unit Price<span>*</span></label>
                                         <div class="form-group">
-                                            <input type="text" name="unitprice" id="unitprice" class="form-control"
+                                            <label class="form-label">Unit Price<span>*</span></label>
+
+                                            <input type="text" name="unitprice" class="form-control" id="unitprice"
                                                 value="" placeholder="Enter Amount Paid" min="0"
                                                 onkeyup="this.value=addCommas(this.value);">
 
@@ -352,7 +353,7 @@ if(isset($_POST['additemcart'])){
                         <input type="hidden" name="id" id="edit_item_id" class="form-control" value="" required>
 
                         <label class="form-label">Category Name<span class="required">*</span></label>
-                        <select class="form-control custom-select" name="item" id="item"
+                        <select class="form-control custom-select" name="item" id="editcategory"
                             style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;" required>
                             <option value="" disabled selected>Select Category</option>
                             <?php 
@@ -364,9 +365,11 @@ if(isset($_POST['additemcart'])){
                                                         }
                                                     ?>
                         </select>
-                        <label class="form-label">Unit Amount<span class="required">*</span></label>
                         <div class="form-group">
+                            <label class="form-label">Unit Price<span>*</span></label>
 
+                            <input type="text" name="amount" class="form-control " id="editunitprice" value=""
+                                placeholder="Enter Amount Paid" min="0" onkeyup="this.value=addCommas(this.value);">
 
                         </div>
                         <label class="form-label">Quantity<span class="required">*</span></label>
@@ -426,6 +429,24 @@ if(isset($_POST['additemcart'])){
         });
 
     });
+    $('#editcategory').on('change', function() {
+        var id = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "get_unit_price.php",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $("#editunitprice").val(data);
+                console.log(data);
+            }
+
+        });
+
+    });
+
     const openeditmodal = (id, quantity, amount) => {
         $('#myeditmodal').modal('show');
         document.getElementById('edit_item_id').value = id;
