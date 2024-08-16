@@ -11,35 +11,32 @@ $successmessage = '';
 $business = $_SESSION['business_id'];
 
 
-if(isset($_POST['adduser'])){
+if(isset($_POST['addemployee'])){
 
-    $name = $_POST['name'];
+    $name = $_POST['full_name'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    $username = $_POST['username'];
-    
-      $check = mysqli_fetch_array(mysqli_query($conn,"SELECT username FROM users WHERE username = '$username'"));
-      if($check){  
-
-        $usernameexists = "user name exsists";
-
-
-      }
-
-
     $email = $_POST['email'];
-    $password = $_POST['password'];
-    $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
-    $role = $_POST['role'];
     $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
+    $checkemail = mysqli_query($conn, "SELECT * FROM users where email = '$email'");
+    if(mysqli_num_rows($checkemail) > 0){
+       echo ' <script>
+        alert("This  ' . $email. ' exists in the database, use another email");    history.go(-1);;
+        </script>';
+    }else{
 
+    $employeesql =mysqli_query($conn, "INSERT INTO employees(`full_name`, `phone`, `address`, `created_by`) VALUES ('$name', '$phone', '$address',  '$created_by')");
+    $getemployeeid = mysqli_insert_id($conn);
 
-
+    $password = $_POST['password'];
+    $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
     
-$sql = "INSERT INTO users(`name`, `phone`, `address`, `username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES ('$name', '$phone', '$address', '$username', '$email', '$hashedpassword', '$role', '$business', '$created_by')";
+    $usersql = mysqli_query($conn,  "INSERT INTO users(`email`, `password`, `employee_id`, `business_id`) VALUES ('$email', '$hashedpassword', '$getemployeeid', '$business')");
+    }
 
-$results = $conn->query($sql);
+
+
 }
 
 if(isset($_POST['edituser'])){
@@ -48,7 +45,6 @@ if(isset($_POST['edituser'])){
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
@@ -87,24 +83,10 @@ $results = $conn->query($sql);
                             <form method="POST">
                                 <label class="form-label">Name<span class="required">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" name="name" id="name" class="form-control" value="" required>
-                                </div>
-                                <label class="form-label">Username<span class="required">*</span></label>
-                                <div class="form-group">
-                                    <input type="text" name="username" id="username" class="form-control" value=""
+                                    <input type="text" name="full_name" id="name" class="form-control" value=""
                                         required>
                                 </div>
-                                <label class="form-label">Role<span class="required">*</span></label>
-                                <select class="form-control custom-select" name="role" id="role"
-                                    style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                    <?php 
-                                                $sql = "SELECT * FROM roles";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                                </select>
+
 
                                 <label class="form-label">Email<span class="required">*</span></label>
                                 <div class="form-group">
@@ -126,7 +108,8 @@ $results = $conn->query($sql);
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn-sm" name="adduser">Save</button>
+                                    <button type="submit" class="btn btn-primary btn-sm"
+                                        name="addemployee">Save</button>
                                     <button type="button" class="btn btn-secondary btn-sm"
                                         data-dismiss="modal">Close</button>
 
@@ -192,44 +175,7 @@ $results = $conn->query($sql);
 
 
                                     <tbody>
-                                        <?php
-                                            $users = "SELECT U.*,  R.name as rname, R.id as rid FROM users U INNER JOIN roles R 
-                                             ON U.role_id = R.id where is_active is TRUE and business_id = $business order by U.id desc";
-                
-                                            $results= $conn->query($users);
-                                            $i = 1;
-                                            while($row= $results->fetch_assoc()):
-                                            ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $i++ ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['name'] ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['email'] ?>
-                                            </td>
 
-
-                                            <td>
-                                                <?php echo $row['phone'] ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['address'] ?>
-                                            </td>
-                                            <td>
-                                                <center> <button type="submit" name="edituser"
-                                                        onclick="openeditmodal(<?=$row['id']?>,'<?=$row['name']?>', '<?=$row['username']?>','<?=$row['email']?>', '<?=$row['phone'] ?>', '<?=$row['address'] ?>')"
-                                                        class="btn btn-primary btn-sm">Edit</button>
-
-                                                    <button type="button" name="" onclick="alertme(<?=$row['id']?>)"
-                                                        class="btn btn-danger btn-sm">Delete</button>
-                                                </center>
-
-                                            </td>
-                                        </tr>
-                                        <?php endwhile?>
 
                                     </tbody>
                                 </table>

@@ -64,14 +64,13 @@
                 <?php endif?>
 
 
-                <?php if($_SESSION['login_role'] == 1 ):
-                echo '<li>
+                <li>
                     <a href="users_list.php"><i class="fa fa-edit"></i> Users
                     </a>
 
-                </li>';
-    ?>
-                <?php endif?>
+                </li>
+
+
 
 
 
