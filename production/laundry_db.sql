@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `supplier_id` int NOT NULL,
   `status` int NOT NULL,
-  `total_quantity` int NOT NULL,
+  `total_quantity` int NOT NULL ,
   `total_amount` double NOT NULL,
   `payment_type` int NOT NULL,
   `paid` double  NULL,
@@ -76,36 +76,42 @@ INSERT INTO `laundry_claimed_chart` (`id`, `month`, `quantity`) VALUES
 (12, 'Dec', '0');
 
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
+CREATE TABLE IF NOT EXISTS `employees`(
+  `employee_id` int  NOT NULL  PRIMARY KEY AUTO_INCREMENT,
+  `full_name` varchar(200) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `role_id` int NOT NULL,
-  `business_id` int  NULL,
-  `is_active` BOOLEAN  NOT NULL DEFAULT TRUE,
   `created_by` int  NULL,
   `updated_by` int  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`),
-  FOREIGN KEY (`business_id`) REFERENCES `businesses`(`id`)
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `users` (`id`, `name`, `phone`, `address`,`username`, `email`, `password`, `role_id`, `business_id`, `created_by`) VALUES
-(1, 'superadmin', '0783021730', 'Entebbe', 'superadmin', 'superadmin@example.com' ,'superadmin21', 1, 0, 1),
-(2, 'Admin', '0783021731', 'Arua', 'admin', 'admin@example.com' ,'admin21', 1, 1, 1),
-(3, 'Staff', '0783021732', 'Gulu', 'staff', 'staff@example.com' ,'staff21', 1, 1, 1);
+INSERT INTO `employees` (`employee_id`, `full_name`,`phone`, `address`, `created_by`) VALUES
+(1, 'mugumya vicent', '0783021730', 'Entebbe',  1)
 
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `employee_id` int NOT NULL,
+  `business_id` int  NULL,
+  `is_active` BOOLEAN  NOT NULL DEFAULT TRUE,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`),
+  FOREIGN KEY (`business_id`) REFERENCES `businesses`(`business_id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `users` (`user_id`, `email`, `password`, `employee_id`, `business_id`) VALUES
+(1,  'admin@example.com' ,'admin21', 1, 1)
 
 
 CREATE TABLE IF NOT EXISTS `businesses` (
-  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `business_id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
    `email` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
@@ -115,14 +121,14 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
-INSERT INTO `businesses` (`id`, `name`, `email`,`phone`, `address`, `is_active`, `created_by`) VALUES
+INSERT INTO `businesses` (`business_id`, `name`, `email`,`phone`, `address`, `is_active`, `created_by`) VALUES
 (1, 'Cam cam shop', 'business1@gmail.com','0783021733', 'Entebbe', 1, 1);
 
 
@@ -141,21 +147,84 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `url`, `action`) VALUES
 (1, 1, 'http://localhost/lms/production/login.php', 'successfully logged-in')
 
 CREATE TABLE IF NOT EXISTS `roles`(
-  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `role_id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `name` varchar(200) NOT NULL,
+  `business_id` int(100)  NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+  FOREIGN KEY(`business_id`) REFERENCES `businesses`(`business_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `roles` (`role_id`, `name`, `business_id`,`created_by`) VALUES
+(1, 'admin',  1,  1),
+(2, 'staff',  1,  1)
+
+INSERT INTO `activity_logs` (`id`, `user_id`, `url`, `action`) VALUES
+(1, 1, 'http://localhost/lms/production/login.php', 'successfully logged-in')
+
+CREATE TABLE IF NOT EXISTS `system_modules`(
+  `system_module_id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `name` varchar(200) NOT NULL,
+  `business_id` int(100)  NULL,
+  `created_by` int(100)  NULL,
+  `updated_by` int(100)  NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+  FOREIGN KEY(`business_id`) REFERENCES `businesses`(`business_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `system_modules` (`system_module_id`, `name`, `business_id`,`created_by`) VALUES
+(1, 'Dashboard',  1,  1),
+(2, 'Laundry',  1,  1),
+(3, 'Users',  1,  1)
+
+CREATE TABLE IF NOT EXISTS `permissions`(
+  `permission_id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `roles` (`id`, `name`,`created_by`) VALUES
-(1, 'admin',  1),
-(2, 'staff',  1),
+INSERT INTO `permissions` (`permission_id`, `name`,`created_by`) VALUES
+(1, 'view_dashboard',  1),
+(2, 'edit_employee',  1),
+(3, 'view_activity_logs',  1)
 
+
+CREATE TABLE IF NOT EXISTS `user_has_roles`(
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `user_id` int(100)  NULL,
+  `role_id` int(100)  NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `user_has_roles` (`id`, `user_id`,`role_id`) VALUES
+(1, 1,  1),
+(2, 1,  2)
+
+CREATE TABLE IF NOT EXISTS `role_has_permissions`(
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `role_id` int(100)  NULL,
+  `permission_id` int(100)  NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `role_has_permissions` (`id`, `role_id`,`permission_id`) VALUES
+(1, 1,  1),
+(2, 1,  2)
 
 
 
