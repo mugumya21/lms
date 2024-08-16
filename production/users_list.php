@@ -196,6 +196,9 @@ $results = $conn->query($sql);
                                             <td>
                                                 <?php echo $row['phone'] ?>
                                             </td>
+                                            <td>
+                                                <?php echo $row['address'] ?>
+                                            </td>
 
                                             <td>
                                                 <center> <button type="submit" name="editbusiness"
@@ -262,18 +265,7 @@ $results = $conn->query($sql);
                                 <input type="password" name="password" id="edit_password" class="form-control" value=""
                                     required>
                             </div>
-                            <label class="form-label">Role<span class="required">*</span></label>
-                            <select class="form-control custom-select" name="role" id="role"
-                                style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
-                                <?php 
 
-                                                $sql = "SELECT * FROM roles";
-                                                $results = $conn->query($sql);
-                                                while ($rolerow = $results->fetch_assoc()) {
-                                                    echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
-                                                        }
-                                                    ?>
-                            </select>
 
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary btn-sm" name="edituser">Update</button>

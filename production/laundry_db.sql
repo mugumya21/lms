@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS  `laundry_categories` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `business_id`int(100)  NOT NULL,
- 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-  FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+ 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`business_id`),
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+  FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -43,14 +43,7 @@ CREATE TABLE IF NOT EXISTS `laundry_lists`  (
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `business_id`int(100)  NOT NULL,
-
- 	FOREIGN KEY(`payment_type`) REFERENCES `payment_types`(`id`),
- 	FOREIGN KEY(`status`) REFERENCES `laundry_statuses`(`id`),
- 	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),
- 	FOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`),
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-  FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+  `business_id`int(100)  NOT NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -280,15 +273,15 @@ CREATE TABLE  IF NOT EXISTS `cart` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	FOREIGN KEY(`laundry_list_id`) REFERENCES `laundry_lists`(`id`),
-	FOREIGN KEY(`user_id`) REFERENCES `users`(`id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+	FOREIGN KEY(`user_id`) REFERENCES `users`(`user_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
 
 
-CREATE TABLE IF NOT EXISTS`suppliers`(
+CREATE TABLE IF NOT EXISTS `suppliers`(
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `email` varchar(100) NULL,
@@ -300,9 +293,9 @@ CREATE TABLE IF NOT EXISTS`suppliers`(
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `business_id` int(100)  NULL,
-	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`id`),	
-  FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`business_id`),	
+  FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
     
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -310,7 +303,6 @@ CREATE TABLE IF NOT EXISTS`suppliers`(
 
 INSERT INTO `suppliers` (`id`, `name`, `email`, `phone`, `address`, `created_by`,  `business_id`) VALUES
 (1, 'vicent', 'vicent@example.com' , '0783021733', 'Entebbe', 1, 1);
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
