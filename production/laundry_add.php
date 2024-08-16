@@ -21,6 +21,12 @@ if(isset($_POST['addlaundrylist'])){
     $total_quantity = str_replace("," , '', $_POST['total_quantity']);
     $total_amount = str_replace("," , '', $_POST['total_amount']);
     $paid = str_replace("," , '', $_POST['paid']);
+    if($paid > $total_amount){
+        echo ' <script>
+        alert("Paid amount is greater than the total amount");    history.go(-1);;
+        </script>';
+        exit;
+    }
     $payment_type  = $_POST['payment_type'];
     
     $comments = $_POST['comments'];
