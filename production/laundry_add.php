@@ -24,12 +24,11 @@ if(isset($_POST['addlaundrylist'])){
     $payment_type  = $_POST['payment_type'];
     
     $comments = $_POST['comments'];
-    $business = $_SESSION['business_id'];
     $created_by = $_SESSION['login_id'];
 
 
 
-$sql = "INSERT INTO laundry_lists(`supplier_id`, `status`, `total_quantity`, `total_amount`, `payment_type`, `paid`, `comments`, `business_id`, `created_by`) VALUES ('$supplier', '$status', '$total_quantity', '$total_amount', '$payment_type', '$paid', '$comments', '$business', '$created_by')";
+$sql = "INSERT INTO laundry_lists(`supplier_id`, `status`, `total_quantity`, `total_amount`, `payment_type`, `paid`, `comments`, `business_id`, `created_by`) VALUES ('$supplier', '$status', '$total_quantity', '$total_amount', '$payment_type', '$paid', '$comments', '$businessid', '$created_by')";
 
 $results = $conn->query($sql);
 
@@ -144,7 +143,7 @@ $results = $conn->query($sql);
                                             <option value="" disabled selected>Select Category</option>
                                             <?php 
 
-                                                $sql = "SELECT * FROM laundry_categories where business_id = $businessid";
+                                                $sql = "SELECT * FROM laundry_categories where business_id = $businessid and is_active = 1";
                                                 $results = $conn->query($sql);
                                                 while ($rolerow = $results->fetch_assoc()) {
                                                     echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
@@ -154,9 +153,10 @@ $results = $conn->query($sql);
 
                                         <label class="form-label">Unit Price<span>*</span></label>
                                         <div class="form-group">
-                                            <input type="text" name="amount" class="form-control" required
-                                                placeholder="Enter Unit Amount Charged" min="0"
+                                            <input type="text" name="unitprice" id="unitprice" class="form-control"
+                                                value="" placeholder="Enter Amount Paid" min="0"
                                                 onkeyup="this.value=addCommas(this.value);">
+
                                         </div>
 
                                         <label class="form-label">Quantity<span class="required">*</span></label>
@@ -176,7 +176,7 @@ $results = $conn->query($sql);
 if(isset($_POST['additemcart'])){
     $cat = $_POST['category'];
     $qty = $_POST['quantity'];
-    $amount = str_replace(",","",$_POST['amount']);
+    $amount = str_replace(",","",$_POST['unitprice']);
     $check = mysqli_query($conn,"SELECT * FROM cart WHERE item='$cat' and laundry_list_id IS NULL");
     if(mysqli_num_rows($check)>0){
           echo '                          <script>
@@ -294,15 +294,15 @@ if(isset($_POST['additemcart'])){
                                             style="width: 100%; padding: 2px; font-size: 16px; border-radius: 5px;">
                                             <?php 
 
-                                                $sql = "SELECT * FROM payment_types ";
+                                                $sql = "SELECT * FROM payment_types";
                                                 $results = $conn->query($sql);
                                                 while ($rolerow = $results->fetch_assoc()) {
                                                     echo '<option value="'.$rolerow['id'].'">'.$rolerow['name'].'</option>';
                                                         }
                                                     ?>
                                         </select>
-                                        <label class="form-label">Paid<span></span></label>
-                                        <div class="form-group">
+                                        <div class="form-group d-none ishidden">
+                                            <label class="form-label">Paid<span></span></label>
                                             <input type="text" name="paid" id="paid" class="form-control" value=""
                                                 placeholder="Enter Amount Paid" min="0"
                                                 onkeyup="this.value=addCommas(this.value);">
@@ -360,8 +360,7 @@ if(isset($_POST['additemcart'])){
                         </select>
                         <label class="form-label">Unit Amount<span class="required">*</span></label>
                         <div class="form-group">
-                            <input type="text" name="amount" id="edit_item_amount" class="form-control" min="0"
-                                onkeyup="this.value=addCommas(this.value);" value="">
+
 
                         </div>
                         <label class="form-label">Quantity<span class="required">*</span></label>
@@ -394,6 +393,33 @@ if(isset($_POST['additemcart'])){
 
     <?php include ("scripts.php") ?>
     <script type="text/javascript">
+    $('#payment_type').on('change', function() {
+        var payment_type_name = $('#payment_type option:selected').text();
+        if (payment_type_name == "unpaid") {
+            $('.ishidden').addClass('d-none');
+        } else {
+            $('.ishidden').removeClass('d-none');
+
+        }
+
+    });
+    $('#category').on('change', function() {
+        var id = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "get_unit_price.php",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $("#unitprice").val(data);
+                console.log(data);
+            }
+
+        });
+
+    });
     const openeditmodal = (id, quantity, amount) => {
         $('#myeditmodal').modal('show');
         document.getElementById('edit_item_id').value = id;

@@ -230,8 +230,8 @@ CREATE TABLE `laundry_statuses` (
   `updated_by` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY(`created_by`) REFERENCES `users`(`id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`id`)
+	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -242,28 +242,28 @@ INSERT INTO `laundry_statuses` (`id`, `name`, `code`, `created_by`) VALUES
 (4, 'picked', 'PICKED',  1) ;
 
 
-CREATE TABLE `payment_types` (
+CREATE  TABLE IF NOT EXISTS  `payment_types` (
   `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   `name` varchar(200) NOT NULL,
-  `code` varchar(200) NOT NULL,
   `created_by` int(100)  NULL,
   `updated_by` int(100)  NULL,
+  `business_id` int(100)  NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(`business_id`) REFERENCES `businesses`(`business_id`),
 	FOREIGN KEY(`created_by`) REFERENCES `users`(`user_id`),
    FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `payment_types` (`id`, `name`, `code`, `created_by`) VALUES
-(1, 'unpaid', 'UNPAID',  1),
-(2, 'cash', 'ONGOING',  1),
-(3, 'mobile money', 'MOBILE_MONEY',  1);
+INSERT INTO `payment_types` (`id`, `name`, `created_by`) VALUES
+(1, 'unpaid', 1),
+(2, 'cash',  1)
 
 
 
 CREATE TABLE  IF NOT EXISTS `cart` (
-  `id` int(11)  NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  `id` int(11)  ,
   `item` int(11) DEFAULT NULL,
   `amount` double DEFAULT NULL,
   `quantity` double DEFAULT NULL,
@@ -274,7 +274,9 @@ CREATE TABLE  IF NOT EXISTS `cart` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	FOREIGN KEY(`laundry_list_id`) REFERENCES `laundry_lists`(`id`),
 	FOREIGN KEY(`user_id`) REFERENCES `users`(`user_id`),
-   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`)
+   FOREIGN KEY(`updated_by`) REFERENCES `users`(`user_id`),
+   
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
